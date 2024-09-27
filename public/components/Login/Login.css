@@ -1,0 +1,7 @@
+form {
+    z-index: 1;
+    max-width: 200;
+    max-height: 200;
+    background: blue;
+    display: table-column;
+}
