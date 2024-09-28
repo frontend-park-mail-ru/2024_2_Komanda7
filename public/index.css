@@ -2,40 +2,69 @@
 @import "components/UpperHeader/UpperHeader.css";
 
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
+  margin: 0; /* Add this to remove default margin */
 }
 
 #root {
   display: grid;
-
-  grid-template-areas:
-    "header header"
-    "menu   content" ;
-
-  grid-template-rows: 100px 1fr;
-  grid-template-columns: min-content 1fr;
+  grid-template-areas: 
+      "header"
+      "navigation"
+      "news-feed"
+      "footer";
+  
+  grid-template-rows: 100px 100px 1fr 50px;
+  grid-template-columns: 100%;
+  height: 100vh; /* Add this to make the grid container full height */
 }
 
-aside {
-  grid-area: menu;
-  font-size: 40px;
-  padding-left: 20px;
+header {
+  grid-area: header;
+  display: grid; /* Change from flex to grid */
+  grid-template-columns: 200px 1fr; /* Define two columns, one for searchbar and one for links */
+  background-color: #f0f0f0;
+  padding: 20px;
+  align-items: center;
 }
 
-main {
-  grid-area: content;
-  padding: 0 40px 40px;
+searchbar {
+  grid-column: 1; /* Place searchbar in the first column */
+}
+
+.links {
+  grid-column: 2; /* Place links in the second column */
+  display: flex; /* Make links stack on top of each other */
+  flex-direction: column;
+  align-items: flex-end; /* Align links to the right */
 }
 
 a {
-  display: block;
+  display: block; /* Make links block elements to stack on top of each other */
+  margin: 10px;
   color: #333333;
   text-decoration: none;
 }
 
-input {
-  display: block;
-  height: 60px;
-  font-size: 40px;
-  margin-bottom: 15px;
+navigation {
+  grid-area: navigation;
+  display: flex;
+  flex-direction: row;
+  background-color: #f5f5f5;
+  padding: 20px;
+  align-items: center;
+  justify-content: center; /* Add this line to center the links */
+}
+
+#news-feed {
+  grid-area: news-feed;
+  padding: 40px;
+  overflow-y: auto; /* Add this to make the news feed scrollable */
+}
+
+footer {
+  grid-area: footer;
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
 }
