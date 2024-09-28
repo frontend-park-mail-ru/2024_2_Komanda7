@@ -50,5 +50,5 @@ app.post('/api/users/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log("Сервер запущен на http://localhost:${PORT}");
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
