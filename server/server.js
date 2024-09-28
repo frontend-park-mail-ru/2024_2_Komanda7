@@ -11,6 +11,13 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(express.static(path.resolve(__dirname, '..', 'node_modules')));
 app.use(express.static(path.resolve(__dirname, 'images')));
 
+app.get('*', (req, res) => {
+    if (req.accepts('html')) {
+      res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
+    } else {
+      res.status(200).send('');
+    }
+  });
 
 app.use(bodyParser.json());
 
