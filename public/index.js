@@ -18,7 +18,11 @@ const linksContainer = document.createElement('div');
 linksContainer.className = 'links'; /* Add class to links container */
 header.appendChild(linksContainer);
 
+let userIsLoggedIn = false;
+function updateLinksContainer() {
 // Create login and signup links
+if (!userIsLoggedIn) {
+linksContainer.innerHTML = '';
 const loginLink = document.createElement('a');
 loginLink.href = '/login';
 loginLink.textContent = 'Login';
@@ -28,7 +32,41 @@ const signupLink = document.createElement('a');
 signupLink.href = '/signup';
 signupLink.textContent = 'Signup';
 linksContainer.appendChild(signupLink);
+} else {
+  linksContainer.innerHTML = '';
+  const profileLink = document.createElement('a');
+profileLink.href = '/profile';
+const avatarImage = document.createElement('img');
+avatarImage.src = 'avatar-image.png'; // replace with your avatar image path
+avatarImage.alt = 'Avatar';
+avatarImage.className = 'avatar'; // add a class to style the avatar image
+profileLink.appendChild(avatarImage);
+linksContainer.appendChild(profileLink);
 
+const logoutButton = document.createElement('button');
+logoutButton.textContent = 'Logout';
+logoutButton.onclick = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    // redirect to login page or clear the session
+  } catch (error) {
+    console.error(error);
+  }
+};
+linksContainer.appendChild(logoutButton);
+}
+}
+updateLinksContainer();
+
+//Navigation
 const navigation = {
         feed1: {
             href: '/feed',
@@ -121,6 +159,8 @@ const modalOverlay = document.createElement('div');
 modalOverlay.className = 'modal-overlay';
 root.appendChild(modalOverlay);
 
+const responseElement = document.createElement('div');
+responseElement.id = 'response';
 
 // Update the routes to render the login and signup forms in the modal window
 const routes = {
@@ -153,22 +193,28 @@ const routes = {
               },
               body: JSON.stringify({ username, password }),
           });
-
+          const clonedResponse = response.clone();
           const errorText = await response.text();
           console.log(errorText);
 
-          const data = await response.json();
+          const data = await clonedResponse.json();
           document.getElementById('response').innerText = data.message;
 
           if (!response.ok) {
               throw new Error(data.message);
           }
+          else {
+            userIsLoggedIn = true;
+            document.getElementById('response').innerText = "Вход выполнен";
+            updateLinksContainer();
+          }
       } catch (error) {
+          
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
       }
     });
+    newsFeed.appendChild(responseElement);
   },
-
 
   '/signup': () => {
     const registerForm = new RegisterForm();
@@ -195,11 +241,11 @@ const routes = {
               },
               body: JSON.stringify({ username, email, password }),
           });
-
+          const clonedResponse = response.clone();
           const errorText = await response.text();
           console.log(errorText);
 
-          const data = await response.json();
+          const data = await clonedResponse.json();
           document.getElementById('response').innerText = data.message;
 
           if (!response.ok) {
@@ -209,6 +255,7 @@ const routes = {
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
       }
     });
+    newsFeed.appendChild(responseElement);
 
     /*const loginForm = new LoginForm();
     const loginFormElement = loginForm.renderLogin();
@@ -250,6 +297,7 @@ const defaultRoute = () => {
   const newsFeedText = document.createElement('p');
   newsFeedText.textContent = 'No events!';
   newsFeed.appendChild(newsFeedText);
+  newsFeed.appendChild(responseElement);
 };
 
 window.addEventListener('popstate', () => {
