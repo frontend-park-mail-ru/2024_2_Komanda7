@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run_eslint" : "eslint ./public/index.js "
+    "run_eslint": "find ./public -type f -name '*.js' | npx eslint"
+    
   },
   "repository": {
     "type": "git",
