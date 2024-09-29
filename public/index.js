@@ -1,4 +1,5 @@
 import { LoginForm } from "./components/Login/Login.js";
+import { RegisterForm } from "./components/Register/Register.js";
 
 const root = document.getElementById('root');
 
@@ -77,27 +78,106 @@ const modalOverlay = document.createElement('div');
 modalOverlay.className = 'modal-overlay';
 root.appendChild(modalOverlay);
 
+
 // Update the routes to render the login and signup forms in the modal window
 const routes = {
   '/login': () => {
     // Render the login page in the modal window
     const loginForm = new LoginForm();
     const loginFormElement = loginForm.renderLogin();
-    modalWindow.innerHTML = ''; // Clear the modal window content
-    modalWindow.appendChild(loginFormElement);
-    modalContainer.style.display = 'block'; // Show the modal container
-    modalOverlay.style.display = 'block'; // Show the modal overlay
+    loginFormElement.id = "loginForm";
+    newsFeed.innerHTML = '';
+    //root.innerHTML = ''; // Clear the modal window content
+    newsFeed.appendChild(loginFormElement);
+    // modalContainer.style.display = 'block'; // Show the modal container
+    // modalOverlay.style.display = 'block'; // Show the modal overlay
+
+
+    const formLog = document.getElementById('loginForm');
+
+    formLog.addEventListener('submit', async function(event) {
+      event.preventDefault(); 
+
+      const username = document.getElementById('emailEntry').value;
+      const password = document.getElementById('passwordEntry').value;
+
+      try {
+      
+          const response = await fetch('http://localhost:8080/login', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username, password }),
+          });
+
+          const errorText = await response.text();
+          console.log(errorText);
+
+          const data = await response.json();
+          document.getElementById('response').innerText = data.message;
+
+          if (!response.ok) {
+              throw new Error(data.message);
+          }
+      } catch (error) {
+          document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+      }
+    });
   },
+
+
   '/signup': () => {
-    const loginForm = new LoginForm();
+    const registerForm = new RegisterForm();
+    const registerFormElement = registerForm.render('registerForm');
+    registerFormElement.id = "registerForm";
+    newsFeed.innerHTML = ''; // Clear the modal window content
+    newsFeed.appendChild(registerFormElement);
+
+    const formReg = document.getElementById('registerForm');
+
+    formReg.addEventListener('submit', async function(event) {
+      event.preventDefault(); 
+
+      const username = document.getElementById('usernameEntry').value;
+      const email = document.getElementById('registerEmailEntry').value;
+      const password = document.getElementById('registerPasswordEntry').value;
+
+      try {
+      
+          const response = await fetch('http://localhost:8080/register', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username, email, password }),
+          });
+
+          const errorText = await response.text();
+          console.log(errorText);
+
+          const data = await response.json();
+          document.getElementById('response').innerText = data.message;
+
+          if (!response.ok) {
+              throw new Error(data.message);
+          }
+      } catch (error) {
+          document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+      }
+    });
+
+    /*const loginForm = new LoginForm();
     const loginFormElement = loginForm.renderLogin();
-    modalWindow.innerHTML = ''; // Clear the modal window content
-    modalWindow.appendChild(loginFormElement);
-    modalContainer.style.display = 'block'; // Show the modal container
-    modalOverlay.style.display = 'block'; // Show the modal overlay
+    loginFormElement.id = "loginForm";
+    newsFeed.innerHTML = '';
+    //root.innerHTML = ''; // Clear the modal window content
+    newsFeed.appendChild(loginFormElement);*/
+
+    // modalContainer.style.display = 'block'; // Show the modal container
+    // modalOverlay.style.display = 'block'; // Show the modal overlay
   }
 };
-
 // Add an event listener to close the modal window when the overlay is clicked
 modalOverlay.addEventListener('click', (event) => {
   if (event.target == modalOverlay) {
@@ -106,13 +186,13 @@ modalOverlay.addEventListener('click', (event) => {
   }
 });
 
-/*
-window.onclick = function (event) {
+
+/*window.onclick = function (event) {
   if (event.target == loginForm) {
     loginForm.style.display = 'none';
   }
-};
-*/
+};*/
+
 
 // Update the default route to hide the modal window
 const defaultRoute = () => {
@@ -160,3 +240,5 @@ links.forEach((link) => {
   });
 });
 
+
+//////////////////
