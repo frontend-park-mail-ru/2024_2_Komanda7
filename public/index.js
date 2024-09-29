@@ -14,13 +14,20 @@ function logout() {
   updateLinksContainer();
 }
 
+// Update the URL when the user navigates
+const navigate = (path) => {
+  window.history.pushState({}, '', path);
+  window.dispatchEvent(new PopStateEvent('popstate'));
+};
+
+
 function updateLinksContainer() {
-  const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout);
+  const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout, navigate);
   root.replaceChild(newHeaderElement, header);
   header = newHeaderElement;
 }
 
-let header = new Header().renderHeader(userIsLoggedIn);
+let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
 root.appendChild(header);
 const nav = new Nav().renderNav()  ;
 root.appendChild(nav);
@@ -245,11 +252,6 @@ if (currentPath === '/login' || currentPath === '/signup') {
   }
 }
 
-// Update the URL when the user navigates
-const navigate = (path) => {
-  window.history.pushState({}, '', path);
-  window.dispatchEvent(new PopStateEvent('popstate'));
-};
 
 // Add an event listener to the links
 const links = document.querySelectorAll('a');
