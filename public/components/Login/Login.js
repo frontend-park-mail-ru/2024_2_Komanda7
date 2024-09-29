@@ -37,7 +37,7 @@ export class LoginForm {
           const tag = bigObj[key]['tag'];
 
           const newElement = document.createElement( tag );
-
+          newElement.id = key;
           switch(tag) {
             case 'input':  
                 newElement.placeholder = bigObj[key]['text'];
