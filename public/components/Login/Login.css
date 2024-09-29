@@ -40,4 +40,30 @@ form button{
     color: white;
 }
 
+#response {
+    position: fixed;
+    top: -100px;
+    left: 0;
+    right: 0;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: top 0.5s ease-in-out;
+  }
+  
+  #response.error{
+    background-color: #ff4d4d; 
+  }
+
+  #response.success{
+    background-color: #47bb3c; 
+  }
+
+  #response.show {
+    top: 0;
+  }
+  
 

@@ -7,14 +7,15 @@ export class LoginForm {
             tag: 'label',            
         },
     
-        emailEntry: {
-            text: 'Email',
+        usernameEntry: {
+            text: 'Имя',
             tag: 'input',
         },
     
         passwordEntry: {
             text: 'Пароль',
             tag: 'input',
+            type: 'password', 
         },
 
         submitBtn: {
@@ -26,40 +27,32 @@ export class LoginForm {
     
     renderLogin() {
         const form = document.createElement('form');
-    
 
         const bigObj = this.loginContent;
     
         for (const key in bigObj) {
-          //alert(key);
-      
-          //alert(bigObj[key]['tag']);
           const tag = bigObj[key]['tag'];
-
-          const newElement = document.createElement( tag );
+          const newElement = document.createElement(tag);
           newElement.id = key;
-          switch(tag) {
+
+          switch (tag) {
             case 'input':  
                 newElement.placeholder = bigObj[key]['text'];
-                break
+                if (bigObj[key].hasOwnProperty('type')) {
+                    newElement.type = bigObj[key]['type']; 
+                }
+                break;
             case 'label':
                 newElement.innerText = bigObj[key]['text'];
-                break
+                break;
             case 'button': 
                 newElement.innerText = bigObj[key]['text'];
-                break
-              
+                break;
           }
 
           form.appendChild(newElement);
-        
         }
 
         return form;
-        
     }
-   
 }
-
-
-

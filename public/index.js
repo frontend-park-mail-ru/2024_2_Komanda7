@@ -31,9 +31,8 @@ if (fetchFeed.ok) {
   Object.entries(feed).forEach(([key, {description, image}]) => {
     const FeedElement = document.createElement('div');
     FeedElement.className = 'feed-element';
-  
     const imageElement = document.createElement('img');
-    imageElement.src = image;
+    imageElement.src = `http://localhost:8080${image}`;;
     imageElement.onerror = function() {
       this.src = "/static/images/placeholder.png";
       this.style.objectFit = 'fill';
@@ -95,7 +94,7 @@ const routes = {
     formLog.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = document.getElementById('emailEntry').value;
+      const username = document.getElementById('usernameEntry').value;
       const password = document.getElementById('passwordEntry').value;
 
       try {
@@ -112,19 +111,26 @@ const routes = {
           console.log(errorText);
 
           const data = await clonedResponse.json();
-          document.getElementById('response').innerText = data.message;
 
           if (!response.ok) {
+            
               throw new Error(data.message);
           }
           else {
-            userIsLoggedIn = true;
+            //userIsLoggedIn = true;
             document.getElementById('response').innerText = "Вход выполнен";
+            document.getElementById('response').classList.add('success');
+
             updateLinksContainer();
           }
       } catch (error) {
           
-          document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+        document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+        document.getElementById('response').classList.add('error');
+        document.getElementById('response').classList.add('show');
+        setTimeout(() => {
+          document.getElementById('response').classList.remove('show');
+        }, 3000);
       }
     });
     newsFeed.appendChild(responseElement);
@@ -167,6 +173,11 @@ const routes = {
           }
       } catch (error) {
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+          document.getElementById('response').classList.add('error');
+          document.getElementById('response').classList.add('show');
+          setTimeout(() => {
+            document.getElementById('response').classList.remove('show');
+          }, 3000);
       }
     });
     newsFeed.appendChild(responseElement);
