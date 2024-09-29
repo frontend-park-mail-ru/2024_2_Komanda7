@@ -3,7 +3,6 @@ import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Footer } from "./components/Footer/Footer.js";
-//import { Feed } from "./components/Feed/Feed.js"; 
 
 const root = document.getElementById('root');
 
@@ -14,12 +13,11 @@ function logout() {
   updateLinksContainer();
 }
 
-// Update the URL when the user navigates
+// Updates the URL when the user navigates
 const navigate = (path) => {
   window.history.pushState({}, '', path);
   window.dispatchEvent(new PopStateEvent('popstate'));
 };
-
 
 function updateLinksContainer() {
   const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout, navigate);
@@ -32,11 +30,11 @@ root.appendChild(header);
 const nav = new Nav().renderNav()  ;
 root.appendChild(nav);
 
-
+//create a feed element
 const newsFeed = document.createElement('main');
 root.appendChild(newsFeed);
+//load events from backend
 const feedContent = document.createElement('content');
-
 const fetchFeed = await fetch(`http://localhost:8080/events`, {
   method: "GET",
   headers: {
@@ -75,39 +73,21 @@ else {
   console.log(errorText);
 }
 
+//create a footer element
 const footer = new Footer().renderFooter();
 root.appendChild(footer);
-
-const modalContainer = document.createElement('div');
-modalContainer.className = 'modal-container';
-root.appendChild(modalContainer);
-
-// Create a modal window element
-const modalWindow = document.createElement('div');
-modalWindow.className = 'modal-window';
-modalContainer.appendChild(modalWindow);
-
-// Create a modal overlay element
-const modalOverlay = document.createElement('div');
-modalOverlay.className = 'modal-overlay';
-root.appendChild(modalOverlay);
 
 const responseElement = document.createElement('div');
 responseElement.id = 'response';
 
-// Update the routes to render the login and signup forms in the modal window
+// Update the routes to render the login and signup forms
 const routes = {
   '/login': () => {
-    // Render the login page in the modal window
     const loginForm = new LoginForm();
     const loginFormElement = loginForm.renderLogin();
     loginFormElement.id = "loginForm";
     newsFeed.innerHTML = '';
-    //root.innerHTML = ''; // Clear the modal window content
     newsFeed.appendChild(loginFormElement);
-    // modalContainer.style.display = 'block'; // Show the modal container
-    // modalOverlay.style.display = 'block'; // Show the modal overlay
-
 
     const formLog = document.getElementById('loginForm');
 
@@ -118,13 +98,14 @@ const routes = {
       const password = document.getElementById('passwordEntry').value;
 
       try {
-      
+          //backend request
           const response = await fetch('http://localhost:8080/login', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
               },
               body: JSON.stringify({ username, password }),
+              credentials: 'include',
           });
           const clonedResponse = response.clone();
           const errorText = await response.text();
@@ -153,11 +134,9 @@ const routes = {
     const registerForm = new RegisterForm();
     const registerFormElement = registerForm.render('registerForm');
     registerFormElement.id = "registerForm";
-    newsFeed.innerHTML = ''; // Clear the modal window content
+    newsFeed.innerHTML = '';
     newsFeed.appendChild(registerFormElement);
-
     const formReg = document.getElementById('registerForm');
-
     formReg.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
@@ -166,7 +145,7 @@ const routes = {
       const password = document.getElementById('registerPasswordEntry').value;
 
       try {
-      
+          //backend request
           const response = await fetch('http://localhost:8080/register', {
               method: 'POST',
               headers: {
@@ -190,42 +169,17 @@ const routes = {
     });
     newsFeed.appendChild(responseElement);
 
-    /*const loginForm = new LoginForm();
-    const loginFormElement = loginForm.renderLogin();
-    loginFormElement.id = "loginForm";
-    newsFeed.innerHTML = '';
-    //root.innerHTML = ''; // Clear the modal window content
-    newsFeed.appendChild(loginFormElement);*/
-
-    // modalContainer.style.display = 'block'; // Show the modal container
-    // modalOverlay.style.display = 'block'; // Show the modal overlay
   },
+  //load the events
   '/exhibitions': () => {
     newsFeed.innerHTML = ''; // Clear the modal window content
     newsFeed.appendChild(feedContent);
   },
 };
-// Add an event listener to close the modal window when the overlay is clicked
-modalOverlay.addEventListener('click', (event) => {
-  if (event.target == modalOverlay) {
-    modalContainer.style.display = 'none'; // Hide the modal container
-    modalOverlay.style.display = 'none'; // Hide the modal overlay
-  }
-});
-
-
-/*window.onclick = function (event) {
-  if (event.target == loginForm) {
-    loginForm.style.display = 'none';
-  }
-};*/
 
 
 // Update the default route to hide the modal window
 const defaultRoute = () => {
-  modalContainer.style.display = 'none'; // Hide the modal container
-  modalOverlay.style.display = 'none'; // Hide the modal overlay
-  // Add some sample text to the news feed
   newsFeed.innerHTML = '';
   const newsFeedText = document.createElement('p');
   newsFeedText.textContent = 'No events!';
@@ -233,6 +187,7 @@ const defaultRoute = () => {
   newsFeed.appendChild(responseElement);
 };
 
+//url bar listener
 window.addEventListener('popstate', () => {
   const path = window.location.pathname;
   const route = routes[path];
@@ -251,8 +206,6 @@ if (currentPath === '/login' || currentPath === '/signup') {
     route();
   }
 }
-
-
 // Add an event listener to the links
 const links = document.querySelectorAll('a');
 links.forEach((link) => {
@@ -262,6 +215,3 @@ links.forEach((link) => {
     navigate(path); // Use your client-side routing mechanism to navigate to the new path
   });
 });
-
-
-//////////////////
