@@ -10,7 +10,7 @@ const PORT = 5500;
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(express.static(path.resolve(__dirname, '..', 'node_modules')));
-app.use(express.static(path.resolve(__dirname, 'images')));
+app.use(express.static(path.resolve(__dirname, '..', '.')));
 
 
 app.use(express.json());
