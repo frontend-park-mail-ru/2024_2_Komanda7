@@ -69,7 +69,7 @@ const fetchFeed = await fetch(`http://localhost:8080/events`, {
 });
 if (fetchFeed.ok) {
   const feed = await fetchFeed.json();
-  console.log(feed);
+  //console.log(feed);
   // Create news feed element
   feedContent.id = 'feedContent';
 
@@ -78,7 +78,7 @@ if (fetchFeed.ok) {
     FeedElement.className = 'feed-element';
   
     const image = document.createElement('img');
-    console.log(Description, ImageURL);
+    //console.log(Description, ImageURL);
     image.src = ImageURL;
     image.onerror = function() {
       this.src = "/static/images/placeholder.png";
