@@ -31,8 +31,8 @@ linksContainer.appendChild(signupLink);
 
 const navigation = {
         feed1: {
-            href: '/feed1',
-            text: 'Feed1',
+            href: '/feed',
+            text: 'Feed',
         },
         feed2: {
             href: '/feed2',
@@ -44,20 +44,63 @@ const navigation = {
         }, 
 };
 
-const navigationBar = document.createElement('navigation');
-Object.entries(navigation).forEach(([key, {href, text}]) => {
-    const navbarElement = document.createElement('a');
-    navbarElement.href = href;
-    navbarElement.textContent = text;
+const navigationBar = document.createElement('nav');
+navigationBar.className = 'navigation'; /* Add class to navigation bar */
 
-    navigationBar.appendChild(navbarElement);
+Object.entries(navigation).forEach(([key, {href, text}]) => {
+  const navbarElement = document.createElement('a');
+  navbarElement.href = href;
+  navbarElement.textContent = text;
+  navbarElement.className = 'nav-item'; /* Add class to each navigation item */
+
+  navigationBar.appendChild(navbarElement);
 });
 root.appendChild(navigationBar);
 
-// Create news feed element
 const newsFeed = document.createElement('main');
-newsFeed.id = 'news-feed';
 root.appendChild(newsFeed);
+const feedContent = document.createElement('content');
+
+const fetchFeed = await fetch(`http://localhost:8080/events`, {
+  method: "GET",
+  headers: {
+      "Content-Type": "application/json",
+  },
+});
+if (fetchFeed.ok) {
+  const feed = await fetchFeed.json();
+  console.log(feed);
+  // Create news feed element
+  feedContent.id = 'feedContent';
+
+  Object.entries(feed).forEach(([key, {Description, ImageURL}]) => {
+    const FeedElement = document.createElement('div');
+    FeedElement.className = 'feed-element';
+  
+    const image = document.createElement('img');
+    console.log(Description, ImageURL);
+    image.src = ImageURL;
+    image.onerror = function() {
+      this.src = "/static/images/placeholder.png";
+      this.style.objectFit = 'fill';
+    };
+    FeedElement.appendChild(image);
+  
+    const description = document.createElement('div');
+    description.className = 'description';
+    description.textContent = Description;
+    FeedElement.appendChild(description);
+  
+    feedContent.appendChild(FeedElement);
+  });
+newsFeed.appendChild(feedContent);
+
+
+}
+else {
+  const errorText = await fetchFeed.json();
+  console.log(errorText);
+}
 
 // Create footer element
 const footer = document.createElement('footer');
@@ -176,7 +219,11 @@ const routes = {
 
     // modalContainer.style.display = 'block'; // Show the modal container
     // modalOverlay.style.display = 'block'; // Show the modal overlay
-  }
+  },
+  '/feed': () => {
+    newsFeed.innerHTML = ''; // Clear the modal window content
+    newsFeed.appendChild(feedContent);
+  },
 };
 // Add an event listener to close the modal window when the overlay is clicked
 modalOverlay.addEventListener('click', (event) => {
@@ -201,7 +248,7 @@ const defaultRoute = () => {
   // Add some sample text to the news feed
   newsFeed.innerHTML = '';
   const newsFeedText = document.createElement('p');
-  newsFeedText.textContent = 'This is the default route!';
+  newsFeedText.textContent = 'No events!';
   newsFeed.appendChild(newsFeedText);
 };
 
