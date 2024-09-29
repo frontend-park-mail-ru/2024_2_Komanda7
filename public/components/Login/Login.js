@@ -3,22 +3,22 @@ export class LoginForm {
     loginContent = {
     
         loginLabel: {
-            text: 'Entry',
+            text: 'Вход',
             tag: 'label',            
         },
     
         emailEntry: {
-            text: 'Input your mail',
+            text: 'Email',
             tag: 'input',
         },
     
         passwordEntry: {
-            text: 'Input your password',
+            text: 'Пароль',
             tag: 'input',
         },
 
         submitBtn: {
-            text: 'Enter!',
+            text: 'Войти',
             tag: 'button',
         },
         

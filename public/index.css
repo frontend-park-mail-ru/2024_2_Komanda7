@@ -1,8 +1,11 @@
 @import "./components/Login/Login.css";
+@import "components/Header/Header.css";
+@import "components/Nav/Nav.css";
+@import "components/Footer/Footer.css";
 
 body {
   font-family: 'Times New Roman', Times, serif;
-  margin: 0; /* Add this to remove default margin */
+  margin: 0;
 }
 
 #root {
@@ -10,71 +13,12 @@ body {
   grid-template-areas: 
       "header"
       "navigation"
-      "news-feed"
+      "events-feed"
       "footer";
   
   grid-template-rows: 100px 100px 1fr 50px;
   grid-template-columns: 100%;
-  height: 100vh; /* Add this to make the grid container full height */
-}
-
-header {
-  grid-area: header;
-  display: grid; /* Change from flex to grid */
-  grid-template-columns: 200px 1fr; /* Define two columns, one for searchbar and one for links */
-  background-color: #f0f0f0;
-  padding: 20px;
-  align-items: center;
-}
-
-searchbar {
-  grid-column: 1; /* Place searchbar in the first column */
-}
-
-.links {
-  grid-column: 2; /* Place links in the second column */
-  display: flex; /* Make links stack on top of each other */
-  flex-direction: column;
-  align-items: flex-end; /* Align links to the right */
-}
-
-a {
-  display: block; /* Make links block elements to stack on top of each other */
-  margin: 10px;
-  color: #333333;
-  text-decoration: none;
-}
-
-.navigation {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #f5f5f5;
-  padding: 20px;
-  align-items: center;
-}
-
-.nav-item {
-  margin: 10px;
-  text-decoration: none;
-  color: #333333;
-}
-
-.nav-item:hover {
-  color: #666666;
-}
-
-#news-feed {
-  grid-area: news-feed;
-  padding: 40px;
-  overflow-y: auto; /* Add this to make the news feed scrollable */
-}
-
-footer {
-  grid-area: footer;
-  background-color: #f0f0f0;
-  padding: 20px;
-  text-align: center;
+  height: 100vh;
 }
 
 .modal-container {
@@ -110,29 +54,48 @@ footer {
   z-index: 900;
 }
 
-#news-feed {
-  grid-area: news-feed;
-  padding: 40px;
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
+#feedContent {
+  display: flex;
+  flex-wrap: wrap;      
+  justify-content: center;  
+  align-items: center;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+
+#events-feed {
+  grid-area: events-feed;
+  padding: 20px;
+  display: flex;
+    gap: 20px; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .feed-element {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 600px; 
+  background-color: #fff; 
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  padding: 20px;
 }
 
 .feed-element img {
   width: 100%;
-  height: 150px;
+  height: 300px;
   object-fit: cover;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .feed-element .description {
   padding: 10px;
   text-align: center;
+  font-size: 16px;
+  color: black;
 }

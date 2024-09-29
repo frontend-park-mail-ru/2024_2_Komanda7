@@ -1,61 +1,18 @@
 import { LoginForm } from "./components/Login/Login.js";
 import { RegisterForm } from "./components/Register/Register.js";
+import { Header } from "./components/Header/Header.js";
+import { Nav } from "./components/Nav/Nav.js";
+import { Footer } from "./components/Footer/Footer.js";
+import { Feed } from "./components/Feed/Feed.js"; 
+
 
 const root = document.getElementById('root');
 
-// Create header element
-const header = document.createElement('header');
+const header = new Header().renderHeader();
 root.appendChild(header);
+const nav = new Nav().renderNav()  ;
+root.appendChild(nav);
 
-// Create searchbar element
-const searchbar = document.createElement('input');
-searchbar.type = 'search';
-searchbar.placeholder = 'Search...';
-header.appendChild(searchbar);
-
-// Create links container element
-const linksContainer = document.createElement('div');
-linksContainer.className = 'links'; /* Add class to links container */
-header.appendChild(linksContainer);
-
-// Create login and signup links
-const loginLink = document.createElement('a');
-loginLink.href = '/login';
-loginLink.textContent = 'Login';
-linksContainer.appendChild(loginLink);
-
-const signupLink = document.createElement('a');
-signupLink.href = '/signup';
-signupLink.textContent = 'Signup';
-linksContainer.appendChild(signupLink);
-
-const navigation = {
-        feed1: {
-            href: '/feed',
-            text: 'Feed',
-        },
-        feed2: {
-            href: '/feed2',
-            text: 'Feed2',
-        },
-        feed3: {
-            href: '/feed3',
-            text: 'Feed3',
-        }, 
-};
-
-const navigationBar = document.createElement('nav');
-navigationBar.className = 'navigation'; /* Add class to navigation bar */
-
-Object.entries(navigation).forEach(([key, {href, text}]) => {
-  const navbarElement = document.createElement('a');
-  navbarElement.href = href;
-  navbarElement.textContent = text;
-  navbarElement.className = 'nav-item'; /* Add class to each navigation item */
-
-  navigationBar.appendChild(navbarElement);
-});
-root.appendChild(navigationBar);
 
 const newsFeed = document.createElement('main');
 root.appendChild(newsFeed);
@@ -69,8 +26,6 @@ const fetchFeed = await fetch(`http://localhost:8080/events`, {
 });
 if (fetchFeed.ok) {
   const feed = await fetchFeed.json();
-  //console.log(feed);
-  // Create news feed element
   feedContent.id = 'feedContent';
 
   Object.entries(feed).forEach(([key, {description, image}]) => {
@@ -78,7 +33,6 @@ if (fetchFeed.ok) {
     FeedElement.className = 'feed-element';
   
     const imageElement = document.createElement('img');
-    //console.log(description, image);
     imageElement.src = image;
     imageElement.onerror = function() {
       this.src = "/static/images/placeholder.png";
@@ -102,11 +56,9 @@ else {
   console.log(errorText);
 }
 
-// Create footer element
-const footer = document.createElement('footer');
+const footer = new Footer().renderFooter();
 root.appendChild(footer);
 
-// Create a modal container element
 const modalContainer = document.createElement('div');
 modalContainer.className = 'modal-container';
 root.appendChild(modalContainer);

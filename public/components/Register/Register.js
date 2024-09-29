@@ -3,27 +3,27 @@ export class RegisterForm {
     config = {
     
         registerLabel: {
-            text: 'Register',
+            text: 'Регистрация',
             tag: 'label',            
         },
     
         usernameEntry: {
-            text: 'Input your username',
+            text: 'Имя',
             tag: 'input',
         },
 
         registerEmailEntry: {
-            text: 'Input your mail',
+            text: 'Email',
             tag: 'input',
         },
     
         registerPasswordEntry: {
-            text: 'Input your password',
+            text: 'Пароль',
             tag: 'input',
         },
 
         registerSubmitBtn: {
-            text: 'Register!',
+            text: 'Зарегистрироваться',
             tag: 'button',
         },
         
