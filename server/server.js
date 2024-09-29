@@ -1,0 +1,34 @@
+'use strict';
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const cors = require('cors');
+
+const app = express();
+const PORT = 5500;
+
+app.use(express.static(path.resolve(__dirname, '..', 'public')));
+app.use(express.static(path.resolve(__dirname, '..', 'node_modules')));
+app.use(express.static(path.resolve(__dirname, '..', '.')));
+
+
+app.use(express.json());
+app.use(cors());
+
+app.get('*', (req, res) => {
+    if (req.accepts('html')) {
+      res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
+    } else {
+      res.status(200).send('');
+    }
+  });
+
+app.use(bodyParser.json());
+
+
+
+
+app.listen(PORT, () => {
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
+});

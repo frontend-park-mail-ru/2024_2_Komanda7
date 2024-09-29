@@ -1,0 +1,56 @@
+
+
+header {
+    background-color: white; /* Цвет фона */
+    color: black; /* Цвет текста */
+    display: flex; /* Используем flexbox для выравнивания */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    align-items: center; /* Выравниваем элементы по центру */
+    padding: 10px 20px; /* Отступы */
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 30px; /* Размер шрифта для логотипа */
+    font-weight: bold; /* Жирный шрифт */
+    padding-left: 50px;
+}
+
+.buttons{
+    display: flex;
+    justify-content:end;
+    align-items: center;
+    gap: 20px;
+}
+
+.searchbar{
+    height: 40px;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: lightgray;
+    border: 1px solid #ccc; 
+}
+
+button {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 20px; 
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+  }
+  
+.btnLogin{
+    color: black;
+    background-color: lightgray;
+    border-color: grey;
+
+}
+
+.btnRegister{
+    color: white;
+    background-color: black;
+}
