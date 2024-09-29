@@ -3,12 +3,13 @@ import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Footer } from "./components/Footer/Footer.js";
+import { endpoint } from "./config.js"
 
 const root = document.getElementById('root');
 
 let userIsLoggedIn = false;
 try {
-  const checkSession = await fetch(`http://localhost:8080/session`, {
+  const checkSession = await fetch(`${endpoint}/session`, {
     method: "GET",
     headers: {
         "Content-Type": "application/json",
@@ -51,7 +52,7 @@ const newsFeed = document.createElement('main');
 root.appendChild(newsFeed);
 //load events from backend
 const feedContent = document.createElement('content');
-const fetchFeed = await fetch(`http://localhost:8080/events`, {
+const fetchFeed = await fetch(`${endpoint}/events`, {
   method: "GET",
   headers: {
       "Content-Type": "application/json",
@@ -115,7 +116,7 @@ const routes = {
 
       try {
           //backend request
-          const response = await fetch('http://localhost:8080/login', {
+          const response = await fetch('${endpoint}/login', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -167,7 +168,7 @@ const routes = {
 
       try {
           //backend request
-          const response = await fetch('http://localhost:8080/register', {
+          const response = await fetch('${endpoint}/register', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
