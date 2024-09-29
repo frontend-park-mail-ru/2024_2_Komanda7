@@ -73,23 +73,23 @@ if (fetchFeed.ok) {
   // Create news feed element
   feedContent.id = 'feedContent';
 
-  Object.entries(feed).forEach(([key, {Description, ImageURL}]) => {
+  Object.entries(feed).forEach(([key, {description, image}]) => {
     const FeedElement = document.createElement('div');
     FeedElement.className = 'feed-element';
   
-    const image = document.createElement('img');
-    //console.log(Description, ImageURL);
-    image.src = ImageURL;
-    image.onerror = function() {
+    const imageElement = document.createElement('img');
+    //console.log(description, image);
+    imageElement.src = image;
+    imageElement.onerror = function() {
       this.src = "/static/images/placeholder.png";
       this.style.objectFit = 'fill';
     };
-    FeedElement.appendChild(image);
+    FeedElement.appendChild(imageElement);
   
-    const description = document.createElement('div');
-    description.className = 'description';
-    description.textContent = Description;
-    FeedElement.appendChild(description);
+    const descriptionElement = document.createElement('div');
+    descriptionElement.className = 'description';
+    descriptionElement.textContent = description;
+    FeedElement.appendChild(descriptionElement);
   
     feedContent.appendChild(FeedElement);
   });
