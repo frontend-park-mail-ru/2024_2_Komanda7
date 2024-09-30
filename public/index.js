@@ -141,7 +141,7 @@ const routes = {
 
       try {
           //backend request
-          const response = await fetch('${endpoint}/login', {
+          const response = await fetch(`${endpoint}/login`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ const routes = {
 
       try {
           //backend request
-          const response = await fetch('${endpoint}/register', {
+          const response = await fetch(`${endpoint}/register`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
