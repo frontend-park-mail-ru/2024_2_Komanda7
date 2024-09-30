@@ -115,8 +115,10 @@ const routes = {
     formLog.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = document.getElementById('emailEntry').value;//DOMPurify.sanitize(document.getElementById('emailEntry').value);
-      const password = document.getElementById('passwordEntry').value;//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+      //const username = document.getElementById('emailEntry').value;//DOMPurify.sanitize(document.getElementById('emailEntry').value);
+      const username = DOMPurify.sanitize(document.getElementById('emailEntry').value);
+      const password = DOMPurify.sanitize(document.getElementById('passwordEntry').value);//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+
 
       if (!username || !password) {
         alert('Please fill all fields');
@@ -125,13 +127,13 @@ const routes = {
 
       if (!isValidUsername(username))
       {
-        alert('Username must contain latin words and numbers');
+        alert('Username must contain latin letters and numbers');
         return;
       }
 
       if (!isValidPassword(password))
       {
-        alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+        alert('Password must contain latin letters and numbers');
         return;
       }
   
@@ -185,9 +187,9 @@ const routes = {
     formReg.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = document.getElementById('usernameEntry').value;
-      const email = document.getElementById('registerEmailEntry').value;
-      const password = document.getElementById('registerPasswordEntry').value;
+      const username = DOMPurify.sanitize(document.getElementById('usernameEntry').value);
+      const email = DOMPurify.sanitize(document.getElementById('registerEmailEntry').value);
+      const password = DOMPurify.sanitize(document.getElementById('registerPasswordEntry').value);
 
       if (!username || !password || !email) {
         alert('Please fill all fields');
@@ -196,19 +198,19 @@ const routes = {
 
       if (!isValidUsername(username))
       {
-        alert('Username must contain latin words and numbers');
-        return;
-      }
-
-      if (!isValidPassword(password))
-      {
-        alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+        alert('Username must contain latin letters and numbers');
         return;
       }
 
       if (!isValidEmail(email))
+      {
+        alert('Incorrect email');
+        return;
+      }
+
+      if (!isValidPassword(password))
         {
-          alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+          alert('Password must contain latin letters and numbers');
           return;
         }
   
