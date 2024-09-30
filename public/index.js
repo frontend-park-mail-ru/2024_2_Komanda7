@@ -171,7 +171,15 @@ const routes = {
           }
       } catch (error) {
           
+          //document.getElementById('response').innerText = 'Ошибка: ' + error.message;
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+        document.getElementById('response').classList.add('error');
+        document.getElementById('response').classList.add('show');
+        setTimeout(() => {
+          document.getElementById('response').classList.remove('show');
+          document.getElementById('response').classList.add('error');
+        }, 3000);
+          
       }
     });
     newsFeed.appendChild(responseElement);
@@ -232,11 +240,21 @@ const routes = {
           document.getElementById('response').innerText = data.message;
           
           if (!response.ok) {
+
+
+
               throw new Error(data.message);
           }
           userIsLoggedIn = true;
+          //go to 
       } catch (error) {
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
+        document.getElementById('response').classList.add('error');
+        document.getElementById('response').classList.add('show');
+        setTimeout(() => {
+          document.getElementById('response').classList.remove('show');
+          document.getElementById('response').classList.add('error');
+        }, 3000);
       }
     });
     newsFeed.appendChild(responseElement);
