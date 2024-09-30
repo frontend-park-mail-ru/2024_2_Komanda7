@@ -6,7 +6,7 @@ export class LoginForm {
             tag: 'label',            
         },
         usernameEntry: {
-            text: 'Email',
+            text: 'username',
             tag: 'input',
         },
         passwordEntry: {
