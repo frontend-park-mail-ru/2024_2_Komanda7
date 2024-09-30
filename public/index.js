@@ -5,6 +5,10 @@ import { Nav } from "./components/Nav/Nav.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { endpoint } from "./config.js"
 
+import { isValidUsername, isValidPassword, isValidEmail } from "./modules/FormValidation.js"
+
+//import DOMPurify from "dompurify";
+
 const root = document.getElementById('root');
 
 let userIsLoggedIn = false;
@@ -12,7 +16,7 @@ try {
   const checkSession = await fetch(`${endpoint}/session`, {
     method: "GET",
     headers: {
-        "Content-Type": "application/json",
+        //"Content-Type": "application/json",
     },
     credentials: 'include',
     
@@ -55,7 +59,7 @@ const feedContent = document.createElement('content');
 const fetchFeed = await fetch(`${endpoint}/events`, {
   method: "GET",
   headers: {
-      "Content-Type": "application/json",
+      //"Content-Type": "application/json",
   },
 });
 if (fetchFeed.ok) {
@@ -111,8 +115,27 @@ const routes = {
     formLog.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = document.getElementById('emailEntry').value;
-      const password = document.getElementById('passwordEntry').value;
+      const username = document.getElementById('emailEntry').value;//DOMPurify.sanitize(document.getElementById('emailEntry').value);
+      const password = document.getElementById('passwordEntry').value;//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+
+      if (!username || !password) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      if (!isValidUsername(username))
+      {
+        alert('Username must contain latin words and numbers');
+        return;
+      }
+
+      if (!isValidPassword(password))
+      {
+        alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+        return;
+      }
+  
+
 
       try {
           //backend request
@@ -165,6 +188,30 @@ const routes = {
       const username = document.getElementById('usernameEntry').value;
       const email = document.getElementById('registerEmailEntry').value;
       const password = document.getElementById('registerPasswordEntry').value;
+
+      if (!username || !password || !email) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      if (!isValidUsername(username))
+      {
+        alert('Username must contain latin words and numbers');
+        return;
+      }
+
+      if (!isValidPassword(password))
+      {
+        alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+        return;
+      }
+
+      if (!isValidEmail(email))
+        {
+          alert('The password must contain at least one uppercase letter, one lowercase letter and one number');
+          return;
+        }
+  
 
       try {
           //backend request

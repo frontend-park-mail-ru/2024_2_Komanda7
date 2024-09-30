@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dompurify": "^3.1.7",
     "express": "^4.21.0"
   }
 }
