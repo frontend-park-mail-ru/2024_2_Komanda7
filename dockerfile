@@ -16,3 +16,5 @@ COPY . .
 EXPOSE 80
 
 # Команда для запуска приложения
+
+CMD ["node", "server/server.js"]
