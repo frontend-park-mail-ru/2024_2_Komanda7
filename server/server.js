@@ -16,6 +16,9 @@ app.use(express.static(path.resolve(__dirname, '..', '.')));
 app.use(express.json());
 app.use(cors());
 
+
+
+
 app.get('*', (req, res) => {
     if (req.accepts('html')) {
       res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
