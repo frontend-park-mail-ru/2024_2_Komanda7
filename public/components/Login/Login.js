@@ -31,11 +31,10 @@ export class LoginForm {
         },
     };
 
-
     
     render() {
         
-        const bigObj = this.loginContent;
+        const bigObj = this.config;
 
         for (const key in bigObj) {
             const tag = bigObj[key]['tag'];
