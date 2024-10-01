@@ -5,7 +5,7 @@ export class LoginForm {
         this.form.id = formId;
     }
     
-    loginContent = {
+    config = {
         loginLabel: {
             text: 'Вход',
             tag: 'label',            
@@ -13,19 +13,16 @@ export class LoginForm {
         loginEmailEntry: {
             text: 'username',
             tag: 'input',
-            errorText: 'Incorrect email!'
+            errorText: "Incorrect login"
         },
         loginPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
             type: 'password', 
-            errorText: 'Incorrect password!'
         },
         loginErrorText: {
             text: '',
             tag: 'label',
-            type: 'password', 
-            errorText: 'Incorrect password!'
         },
         submitBtn: {
             text: 'Войти',
@@ -33,6 +30,8 @@ export class LoginForm {
             type: 'submit', 
         },
     };
+
+
     
     render() {
         
@@ -66,4 +65,7 @@ export class LoginForm {
 
         return this.form;
     }
+
+
+    
 }

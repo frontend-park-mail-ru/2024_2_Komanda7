@@ -1,4 +1,9 @@
 export class RegisterForm {
+
+    constructor(formId) {
+        this.form = document.createElement('form');
+        this.form.id = formId;
+    }
     
     config = {
     
@@ -33,7 +38,7 @@ export class RegisterForm {
         
     };
     
-    render(formName) {
+    render() {
         const form = document.createElement('form');
         const bigObj = this.config;
     

@@ -5,7 +5,7 @@ import { Nav } from "./components/Nav/Nav.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { endpoint } from "./config.js"
 
-import { isValidUsername, isValidPassword, isValidEmail } from "./modules/FormValidation.js"
+import { isValidUsername, isValidPassword, isValidEmail, showMessage, removeDangerous } from "./modules/FormValidation.js"
 
 const root = document.getElementById('root');
 
@@ -13,9 +13,7 @@ let userIsLoggedIn = false;
 try {
   const checkSession = await fetch(`${endpoint}/session`, {
     method: "GET",
-    headers: {
-        //"Content-Type": "application/json",
-    },
+    headers: {},
     credentials: 'include',
     
   });
@@ -123,6 +121,7 @@ const routes = {
 
       if (!isValidUsername(username))
       {
+        document.getElementById('loginEmailEntry')["error_text"];
         alert('Username must contain latin letters and numbers');
         return;
       }
@@ -166,16 +165,13 @@ const routes = {
             updateLinksContainer();
           }
       } catch (error) {
-          
-          //document.getElementById('response').innerText = 'Ошибка: ' + error.message;
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
-        document.getElementById('response').classList.add('error');
-        document.getElementById('response').classList.add('show');
-        setTimeout(() => {
-          document.getElementById('response').classList.remove('show');
           document.getElementById('response').classList.add('error');
-        }, 3000);
-          
+          document.getElementById('response').classList.add('show');
+          setTimeout(() => {
+            document.getElementById('response').classList.remove('show');
+            document.getElementById('response').classList.add('error');
+          }, 3000); 
       }
     });
     newsFeed.appendChild(responseElement);
