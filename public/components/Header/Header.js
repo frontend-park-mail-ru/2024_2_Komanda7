@@ -1,3 +1,5 @@
+import { endpoint } from "../../config.js"
+
 export class Header {
     renderHeader(userIsLoggedIn, logout, navigate) {
         const headerElement = document.createElement('header');
@@ -62,7 +64,7 @@ export class Header {
         logoutButton.textContent = 'Logout';
         logoutButton.onclick = async () => {
         try {
-          const response = await fetch('http://localhost:8080/logout', {
+          const response = await fetch(`${endpoint}/logout`, {
             method: 'POST',
             credentials: 'include',
           });

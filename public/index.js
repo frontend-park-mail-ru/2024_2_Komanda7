@@ -116,7 +116,7 @@ const routes = {
 
       document.getElementById('loginUsernameError').innerText = '';
       document.getElementById('loginPasswordError').innerText = '';
-      
+
       const username = removeDangerous(document.getElementById('loginUsernameEntry').value);
       const password = removeDangerous(document.getElementById('loginPasswordEntry').value);
 
@@ -196,9 +196,9 @@ const routes = {
     formReg.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = DOMPurify.sanitize(document.getElementById('usernameEntry').value);
-      const email = DOMPurify.sanitize(document.getElementById('registerEmailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('registerPasswordEntry').value);
+      const username = removeDangerous(document.getElementById('usernameEntry').value);
+      const email = removeDangerous(document.getElementById('registerEmailEntry').value);
+      const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
 
       if (!username || !password || !email) {
         alert('Please fill all fields');
