@@ -5,7 +5,12 @@ import { Nav } from "./components/Nav/Nav.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { endpoint } from "./config.js"
 
-import { isValidUsername, isValidPassword, isValidEmail, showMessage, removeDangerous } from "./modules/FormValidation.js"
+const EMPTY_FIELD = 'Это обязательное поле';
+const INCORRECT_USERNAME = 'Логин может состоять из латинских букв, цифр и знаков _ и быть в длину не более 15 символов'
+const INCORRECT_PASSWORD = '`_`';
+const INCORRECT_EMAIL = 'Адрес email должен содержать несколько символов до знака @, один символ @, несколько символов после @';
+
+import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from "./modules/FormValidation.js"
 
 const root = document.getElementById('root');
 
@@ -60,7 +65,6 @@ const fetchFeed = await fetch(`${endpoint}/events`, {
 });
 if (fetchFeed.ok) {
   const feed = await fetchFeed.json();
-  //console.log(feed); //DEBUG
   feedContent.id = 'feedContent';
 
   Object.entries(feed).forEach(([key, {description, image}]) => {
@@ -106,32 +110,36 @@ const routes = {
     newsFeed.innerHTML = '';
     newsFeed.appendChild(loginFormElement)
 
+
     loginFormElement.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      //const username = document.getElementById('emailEntry').value;//DOMPurify.sanitize(document.getElementById('emailEntry').value);
-      const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+      document.getElementById('loginUsernameError').innerText = '';
+      document.getElementById('loginPasswordError').innerText = '';
+      
+      const username = removeDangerous(document.getElementById('loginUsernameEntry').value);
+      const password = removeDangerous(document.getElementById('loginPasswordEntry').value);
 
 
-      if (!username || !password) {
-        alert('Please fill all fields');
+      if (!username) {
+        document.getElementById('loginUsernameError').innerText = EMPTY_FIELD;
+        if (!password) {
+          document.getElementById('loginPasswordError').innerText = EMPTY_FIELD;
+        }
         return;
       }
 
       if (!isValidUsername(username))
       {
-        document.getElementById('loginEmailEntry')["error_text"];
-        alert('Username must contain latin letters and numbers');
+        document.getElementById('loginUsernameError').innerText = INCORRECT_USERNAME;
         return;
       }
 
       if (!isValidPassword(password))
       {
-        alert('Password must contain latin letters and numbers');
+        document.getElementById('loginPasswordError').innerText = INCORRECT_PASSWORD;
         return;
       }
-  
 
 
       try {

@@ -1,6 +1,6 @@
 
 export function isValidUsername(username) {
-    const pattern = /^[a-zA-Z0-9]+$/;
+    const pattern = /^([a-zA-Z0-9_]){1,15}$/;
     return pattern.test(username);
 }
 
@@ -12,13 +12,6 @@ export function isValidPassword(password) {
 export function isValidEmail(email) {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(email);
-}
-
-
-
-export function showMessage(message) {
-    //do sth
-
 }
 
 

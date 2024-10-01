@@ -6,23 +6,33 @@ export class LoginForm {
     }
     
     config = {
+        EmptyLoginError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
+        },
         loginLabel: {
             text: 'Вход',
             tag: 'label',            
         },
-        loginEmailEntry: {
+        loginUsernameEntry: {
             text: 'username',
-            tag: 'input',
-            errorText: "Incorrect login"
+            tag: 'input', 
+        },
+        loginUsernameError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
         },
         loginPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
             type: 'password', 
         },
-        loginErrorText: {
+        loginPasswordError: {
             text: '',
             tag: 'label',
+            className: 'error_text',
         },
         submitBtn: {
             text: 'Войти',
@@ -30,6 +40,18 @@ export class LoginForm {
             type: 'submit', 
         },
     };
+
+    checkValues() {
+        const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
+      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+
+
+      if (!username || !password) {
+        console.log("In form: empty login and password");
+        return;
+      }
+
+    }
 
     
     render() {
@@ -42,6 +64,7 @@ export class LoginForm {
             newElement.id = key;
 
             const textContent = bigObj[key]['text']; 
+            newElement.text = textContent;
 
             switch(tag) {
                 case 'input':  
@@ -51,6 +74,12 @@ export class LoginForm {
                     }
                     break;
                 case 'label':
+                    newElement.innerText = textContent; 
+                    if (bigObj[key].hasOwnProperty('className')) {
+                        newElement.classList.add(bigObj[key]['className']);
+
+                    }
+                    break;
                 case 'button': 
                     newElement.innerText = textContent; 
                     if (tag === 'button') {
@@ -59,12 +88,13 @@ export class LoginForm {
                     break;
             }
 
+
+
             this.form.appendChild(newElement);
         }
 
+        
+
         return this.form;
-    }
-
-
-    
+    }    
 }

@@ -66,3 +66,7 @@ form button{
   #response.show {
     top: 0;
   }
+
+  .error_text {
+    color: #ff4d4d;
+  }
