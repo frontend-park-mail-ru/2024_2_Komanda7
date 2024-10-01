@@ -7,8 +7,6 @@ import { endpoint } from "./config.js"
 
 import { isValidUsername, isValidPassword, isValidEmail } from "./modules/FormValidation.js"
 
-//import DOMPurify from "dompurify";
-
 const root = document.getElementById('root');
 
 let userIsLoggedIn = false;
@@ -64,6 +62,7 @@ const fetchFeed = await fetch(`${endpoint}/events`, {
 });
 if (fetchFeed.ok) {
   const feed = await fetchFeed.json();
+  //console.log(feed); //DEBUG
   feedContent.id = 'feedContent';
 
   Object.entries(feed).forEach(([key, {description, image}]) => {
@@ -104,20 +103,17 @@ responseElement.id = 'response';
 // Update the routes to render the login and signup forms
 const routes = {
   '/login': () => {
-    const loginForm = new LoginForm();
-    const loginFormElement = loginForm.renderLogin();
-    loginFormElement.id = "loginForm";
+    const loginForm = new LoginForm("loginForm");
+    const loginFormElement = loginForm.render();
     newsFeed.innerHTML = '';
-    newsFeed.appendChild(loginFormElement);
+    newsFeed.appendChild(loginFormElement)
 
-    const formLog = document.getElementById('loginForm');
-
-    formLog.addEventListener('submit', async function(event) {
+    loginFormElement.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
       //const username = document.getElementById('emailEntry').value;//DOMPurify.sanitize(document.getElementById('emailEntry').value);
-      const username = DOMPurify.sanitize(document.getElementById('emailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('passwordEntry').value);//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+      const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
+      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);//DOMPurify.sanitize(document.getElementById('passwordEntry').value);
 
 
       if (!username || !password) {

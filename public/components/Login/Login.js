@@ -1,18 +1,31 @@
 export class LoginForm {
+
+    constructor(formId) {
+        this.form = document.createElement('form');
+        this.form.id = formId;
+    }
     
     loginContent = {
         loginLabel: {
             text: 'Вход',
             tag: 'label',            
         },
-        usernameEntry: {
+        loginEmailEntry: {
             text: 'username',
             tag: 'input',
+            errorText: 'Incorrect email!'
         },
-        passwordEntry: {
+        loginPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
             type: 'password', 
+            errorText: 'Incorrect password!'
+        },
+        loginErrorText: {
+            text: '',
+            tag: 'label',
+            type: 'password', 
+            errorText: 'Incorrect password!'
         },
         submitBtn: {
             text: 'Войти',
@@ -21,8 +34,8 @@ export class LoginForm {
         },
     };
     
-    renderLogin() {
-        const form = document.createElement('form');
+    render() {
+        
         const bigObj = this.loginContent;
 
         for (const key in bigObj) {
@@ -48,9 +61,9 @@ export class LoginForm {
                     break;
             }
 
-            form.appendChild(newElement);
+            this.form.appendChild(newElement);
         }
 
-        return form;
+        return this.form;
     }
 }
