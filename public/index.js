@@ -163,6 +163,7 @@ const routes = {
             userIsLoggedIn = true;
             document.getElementById('response').innerText = "Вход выполнен";
             updateLinksContainer();
+            navigate("exhibitions");
           }
       } catch (error) {
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
@@ -238,6 +239,9 @@ const routes = {
               throw new Error(data.message);
           }
           userIsLoggedIn = true;
+          document.getElementById('response').innerText = "Вход выполнен";
+          updateLinksContainer();
+          navigate("exhibitions");
           //go to 
       } catch (error) {
           document.getElementById('response').innerText = 'Ошибка: ' + error.message;
