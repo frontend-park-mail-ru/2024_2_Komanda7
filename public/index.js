@@ -167,7 +167,7 @@ const routes = {
                     userIsLoggedIn = true;
                     document.getElementById('response').innerText = "Вход выполнен";
                     updateLinksContainer();
-                    navigate("exhibitions");
+                    navigate("events");
                 }
             } catch (error) {
                 document.getElementById('loginServerError').innerText = 'Неверный логин или пароль';
@@ -247,7 +247,7 @@ const routes = {
                 userIsLoggedIn = true;
                 document.getElementById('response').innerText = "Вход выполнен";
                 updateLinksContainer();
-                navigate("exhibitions");
+                navigate("events");
                 //go to 
             } catch (error) {
                 document.getElementById('registerServerError').innerText = 'Пользователь с такими данными уже существует';
@@ -257,7 +257,7 @@ const routes = {
 
     },
     //load the events
-    '/exhibitions': () => {
+    '/events': () => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         newsFeed.appendChild(feedContent);
     },

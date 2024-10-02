@@ -32,7 +32,7 @@ export class Footer {
         list1Block.appendChild(header1);
 
         const ul1 = document.createElement('ul');
-        const links1 = ['Топ 10', 'Выставки', 'Театр'];
+        const links1 = ['О компании', 'Реклама', 'Партнерам', 'Возврат билетов', 'Пользовательское соглашение'];
         links1.forEach(text => {
             const li = document.createElement('li');
             const a = document.createElement('a');
@@ -47,11 +47,11 @@ export class Footer {
         list2Block.classList.add('list-block');
 
         const header2 = document.createElement('h2');
-        header2.textContent = "Навигация";
+        header2.textContent = "О сайте";
         list2Block.appendChild(header2);
 
         const ul2 = document.createElement('ul');
-        const links2 = ['Кино', 'Еда', 'Детям', 'Спорт'];
+        const links2 = ['Справка', 'Сертификаты', 'Карта сайта', 'Контакты'];
         links2.forEach(text => {
             const li = document.createElement('li');
             const a = document.createElement('a');

@@ -1,12 +1,12 @@
 export class Nav {
     renderNav() {
-        const navElement = document.createElement('nav'); 
-        const ul = document.createElement('ul'); 
+        const navElement = document.createElement('nav');
+        const ul = document.createElement('ul');
 
         const navigation = {
             Popular: {
-                href: 'events/popular',
-                text: 'Популярное',
+                href: '/events',
+                text: 'Все события',
             },
             Exhibition: {
                 href: '/exhibitions',
@@ -38,18 +38,18 @@ export class Nav {
             },
         };
 
-     
+
         Object.entries(navigation).forEach(([key, { href, text }]) => {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = href; 
-            a.textContent = text; 
-            li.appendChild(a); 
-            ul.appendChild(li); 
+            a.href = href;
+            a.textContent = text;
+            li.appendChild(a);
+            ul.appendChild(li);
         });
 
-        navElement.appendChild(ul); 
+        navElement.appendChild(ul);
 
-        return navElement; 
+        return navElement;
     }
 }
