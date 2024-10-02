@@ -46,17 +46,14 @@ export class Header {
         } else {
             //User is logged in
             const profileLink = document.createElement('a');
-            profileLink.href = '/profile';
             const avatarImage = document.createElement('img');
-            avatarImage.width = 50; // set width to 50px
-            avatarImage.height = 50; // set height to 50px
             avatarImage.src = '/static/images/myavatar.png'; // replace with your avatar image path
             avatarImage.onerror = function() {
                 this.src = "/static/images/default_avatar.png";
                 this.style.objectFit = 'fill';
             };
             avatarImage.alt = 'Avatar';
-            avatarImage.className = 'avatar'; // add a class to style the avatar image
+            avatarImage.className = 'avatar';
             profileLink.appendChild(avatarImage);
             buttons.appendChild(profileLink);
 

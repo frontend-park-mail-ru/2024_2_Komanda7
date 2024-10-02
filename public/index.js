@@ -268,7 +268,8 @@ const routes = {
 const defaultRoute = () => {
     newsFeed.innerHTML = '';
     const newsFeedText = document.createElement('p');
-    newsFeedText.textContent = 'No events!';
+    newsFeedText.textContent = 'Тут пока ничего нет, но скоро будет!';
+    newsFeedText.id = 'newsFeedText';
     newsFeed.appendChild(newsFeedText);
     newsFeed.appendChild(responseElement);
 };

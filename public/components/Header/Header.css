@@ -1,56 +1,67 @@
-
-
 header {
-    background-color: white; /* Цвет фона */
-    color: black; /* Цвет текста */
-    display: flex; /* Используем flexbox для выравнивания */
-    justify-content: space-between; /* Распределяем пространство между элементами */
-    align-items: center; /* Выравниваем элементы по центру */
-    padding: 10px 20px; /* Отступы */
+    background-color: white;
+    /* Цвет фона */
+    color: black;
+    /* Цвет текста */
+    display: flex;
+    /* Используем flexbox для выравнивания */
+    justify-content: space-between;
+    /* Распределяем пространство между элементами */
+    align-items: center;
+    /* Выравниваем элементы по центру */
+    padding: 10px 20px;
+    /* Отступы */
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     gap: 20px;
 }
 
 .logo {
-    font-size: 30px; /* Размер шрифта для логотипа */
-    font-weight: bold; /* Жирный шрифт */
+    font-size: 30px;
+    /* Размер шрифта для логотипа */
+    font-weight: bold;
+    /* Жирный шрифт */
     padding-left: 50px;
 }
 
-.buttons{
+.buttons {
     display: flex;
-    justify-content:end;
+    justify-content: end;
     align-items: center;
     gap: 20px;
 }
 
-.searchbar{
+.searchbar {
     height: 40px;
     border-radius: 10px;
     font-size: 14px;
     background-color: lightgray;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
 }
 
 button {
     display: inline-block;
     padding: 15px 30px;
-    border-radius: 20px; 
+    border-radius: 20px;
     font-weight: bold;
     letter-spacing: 1px;
     border: none;
     cursor: pointer;
-  }
-  
-.btnLogin{
+}
+
+.btnLogin {
     color: black;
     background-color: lightgray;
     border-color: grey;
-
 }
 
-.btnRegister{
+.btnRegister {
     color: white;
     background-color: black;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: fill;
 }
