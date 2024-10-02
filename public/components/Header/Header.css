@@ -18,10 +18,10 @@ header {
 
 .logo {
     font-size: 30px;
-    /* Размер шрифта для логотипа */
     font-weight: bold;
-    /* Жирный шрифт */
     padding-left: 50px;
+    text-decoration: none;
+    color: black;
 }
 
 .buttons {

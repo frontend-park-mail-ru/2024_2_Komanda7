@@ -5,9 +5,10 @@ export class Header {
         const headerElement = document.createElement('header');
 
         // Логотип
-        const logo = document.createElement('div');
+        const logo = document.createElement('a');
         logo.className = 'logo';
         logo.textContent = 'Выходной';
+        logo.href = '/events';
         headerElement.appendChild(logo);
 
         const searchbar = document.createElement('input');
