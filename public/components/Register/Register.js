@@ -59,7 +59,8 @@ export class RegisterForm {
     };
     
     render() {
-        const form = document.createElement('form');
+        //const form = document.createElement('form');
+
         const bigObj = this.config;
     
         for (const key in bigObj) {
@@ -92,9 +93,9 @@ export class RegisterForm {
                 break;
           }
 
-          form.appendChild(newElement);
+          this.form.appendChild(newElement);
         }
 
-        return form;
+        return this.form;
     }
 }
