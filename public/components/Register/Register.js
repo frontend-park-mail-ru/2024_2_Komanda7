@@ -6,7 +6,7 @@ export class RegisterForm {
     }
     
     config = {
-        regusterServerError: {
+        registerServerError: {
             text: '',
             tag: 'label',
             className: 'error_text',
