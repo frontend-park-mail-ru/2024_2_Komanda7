@@ -30,7 +30,7 @@ export class RegisterForm {
         registerEmailEntry: {
             text: 'Email',
             tag: 'input',
-            type: 'email', 
+            
         },
 
         registerEmailError: {
