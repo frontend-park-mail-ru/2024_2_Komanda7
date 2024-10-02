@@ -187,14 +187,19 @@ const routes = {
   },
 
   '/signup': () => {
-    const registerForm = new RegisterForm();
-    const registerFormElement = registerForm.render('registerForm');
-    registerFormElement.id = "registerForm";
+    const registerForm = new RegisterForm('registerForm');
+    const registerFormElement = registerForm.render();
     newsFeed.innerHTML = '';
     newsFeed.appendChild(registerFormElement);
-    const formReg = document.getElementById('registerForm');
-    formReg.addEventListener('submit', async function(event) {
+    
+    registerFormElement.addEventListener('submit', async function(event) {
       event.preventDefault(); 
+
+      document.getElementById('registerUsernameError').innerText = '';
+      document.getElementById('registerPasswordError').innerText = '';
+      document.getElementById('registerEmailError').innerText = '';
+      document.getElementById('registerServerError').innerText = '';
+      
 
       const username = removeDangerous(document.getElementById('registerUsernameEntry').value);
       const email = removeDangerous(document.getElementById('registerEmailEntry').value);
