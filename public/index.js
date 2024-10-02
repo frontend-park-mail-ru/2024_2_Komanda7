@@ -7,7 +7,7 @@ import { endpoint } from "./config.js"
 
 const EMPTY_FIELD = 'Это обязательное поле';
 const INCORRECT_USERNAME = 'Логин может состоять из латинских букв, цифр и знаков _ и быть в длину не более 15 символов'
-const INCORRECT_PASSWORD = '`_`';
+const INCORRECT_PASSWORD = 'Пароль должен состоят из букв и цифр';
 const INCORRECT_EMAIL = 'Адрес email должен содержать несколько символов до знака @, один символ @, несколько символов после @';
 
 import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from "./modules/FormValidation.js"
@@ -31,6 +31,7 @@ catch {
 }
 
 function logout() {
+  alert("in logout function");
   userIsLoggedIn = false;
   updateLinksContainer();
 }
@@ -116,6 +117,7 @@ const routes = {
 
       document.getElementById('loginUsernameError').innerText = '';
       document.getElementById('loginPasswordError').innerText = '';
+      document.getElementById('loginServerError').innerText = '';
 
       const username = removeDangerous(document.getElementById('loginUsernameEntry').value);
       const password = removeDangerous(document.getElementById('loginPasswordEntry').value);
@@ -161,7 +163,10 @@ const routes = {
           }
 
           const data = await clonedResponse.json();
+          alert(data);
           document.getElementById('response').innerText = data.message;
+
+          alert(response.status);
 
           if (!response.ok) {
 
@@ -174,13 +179,8 @@ const routes = {
             navigate("exhibitions");
           }
       } catch (error) {
-          document.getElementById('response').innerText = 'Ошибка: ' + error.message;
-          document.getElementById('response').classList.add('error');
-          document.getElementById('response').classList.add('show');
-          setTimeout(() => {
-            document.getElementById('response').classList.remove('show');
-            document.getElementById('response').classList.add('error');
-          }, 3000); 
+        document.getElementById('loginServerError').innerText = 'Неверный логин или пароль';
+
       }
     });
     newsFeed.appendChild(responseElement);
@@ -196,30 +196,36 @@ const routes = {
     formReg.addEventListener('submit', async function(event) {
       event.preventDefault(); 
 
-      const username = removeDangerous(document.getElementById('usernameEntry').value);
+      const username = removeDangerous(document.getElementById('registerUsernameEntry').value);
       const email = removeDangerous(document.getElementById('registerEmailEntry').value);
       const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
 
-      if (!username || !password || !email) {
-        alert('Please fill all fields');
+      if (!username) {
+        document.getElementById('registerUsernameError').innerText = EMPTY_FIELD;
+        if (!password) {
+          document.getElementById('registerEmailError').innerText = EMPTY_FIELD;
+          if (!email) {
+            document.getElementById('registerPasswordError').innerText = EMPTY_FIELD;
+          }
+        }
         return;
       }
 
       if (!isValidUsername(username))
       {
-        alert('Username must contain latin letters and numbers');
+        document.getElementById('registerUsernameError').innerText = INCORRECT_USERNAME;
         return;
       }
 
       if (!isValidEmail(email))
       {
-        alert('Incorrect email');
+        document.getElementById('registerEmailError').innerText = INCORRECT_EMAIL;
         return;
       }
 
       if (!isValidPassword(password))
         {
-          alert('Password must contain latin letters and numbers');
+          document.getElementById('registerPasswordError').innerText = INCORRECT_PASSWORD;
           return;
         }
   
@@ -241,9 +247,6 @@ const routes = {
           document.getElementById('response').innerText = data.message;
           
           if (!response.ok) {
-
-
-
               throw new Error(data.message);
           }
           userIsLoggedIn = true;
@@ -252,13 +255,7 @@ const routes = {
           navigate("exhibitions");
           //go to 
       } catch (error) {
-          document.getElementById('response').innerText = 'Ошибка: ' + error.message;
-        document.getElementById('response').classList.add('error');
-        document.getElementById('response').classList.add('show');
-        setTimeout(() => {
-          document.getElementById('response').classList.remove('show');
-          document.getElementById('response').classList.add('error');
-        }, 3000);
+        document.getElementById('registerServerError').innerText = 'Пользователь с такими данными уже существует';
       }
     });
     newsFeed.appendChild(responseElement);

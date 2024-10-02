@@ -6,16 +6,25 @@ export class RegisterForm {
     }
     
     config = {
-    
+        regusterServerError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
+        },
         registerLabel: {
             text: 'Регистрация',
             tag: 'label',            
         },
-    
-        usernameEntry: {
-            text: 'Имя',
+        
+        registerUsernameEntry: {
+            text: 'Имя пользователя',
             tag: 'input',
             type: 'text', 
+        },
+        registerUsernameError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
         },
 
         registerEmailEntry: {
@@ -23,11 +32,22 @@ export class RegisterForm {
             tag: 'input',
             type: 'email', 
         },
+
+        registerEmailError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
+        },
     
         registerPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
             type: 'password', 
+        },
+        registerPasswordError: {
+            text: '',
+            tag: 'label',
+            className: 'error_text',
         },
 
         registerSubmitBtn: {
@@ -58,6 +78,12 @@ export class RegisterForm {
                 }
                 break;
             case 'label':
+                newElement.innerText = textContent; 
+                if (bigObj[key].hasOwnProperty('className')) {
+                    newElement.classList.add(bigObj[key]['className']);
+
+                }
+                break;
             case 'button': 
                 newElement.innerText = textContent; 
                 if (tag === 'button') {

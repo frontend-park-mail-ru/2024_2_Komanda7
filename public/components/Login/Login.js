@@ -6,7 +6,7 @@ export class LoginForm {
     }
     
     config = {
-        EmptyLoginError: {
+        loginServerError: {
             text: '',
             tag: 'label',
             className: 'error_text',
@@ -16,7 +16,7 @@ export class LoginForm {
             tag: 'label',            
         },
         loginUsernameEntry: {
-            text: 'username',
+            text: 'Имя пользователя',
             tag: 'input', 
         },
         loginUsernameError: {
