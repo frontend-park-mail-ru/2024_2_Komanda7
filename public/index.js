@@ -31,7 +31,6 @@ catch {
 }
 
 function logout() {
-  alert("in logout function");
   userIsLoggedIn = false;
   updateLinksContainer();
 }
@@ -162,11 +161,8 @@ const routes = {
             updateLinksContainer();
           }
 
-          const data = await clonedResponse.json();
-          alert(data);
+          const data = await clonedResponse.json()
           document.getElementById('response').innerText = data.message;
-
-          alert(response.status);
 
           if (!response.ok) {
 
