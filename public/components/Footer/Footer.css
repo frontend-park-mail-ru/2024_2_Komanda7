@@ -2,7 +2,7 @@
     background-color: lightgray;
     color: black;
     display: grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
     height: fit-content;
     padding: 60px;
@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    grid-column: 1 / 2; 
+    grid-column: 1 / 2;
 }
 
 .subscribe-card {
@@ -32,27 +32,28 @@
     border: none;
     color: white;
     background-color: black;
+    cursor: default;
 }
 
 .subscribe-block input {
     height: 40px;
     border-radius: 10px;
     font-size: 14px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     border-color: lightgray;
     margin: 20px;
 }
 
 .lists-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Две равные колонки для списков */
-    grid-column: 2 / 3; /* Вторая колонка */
+    grid-template-columns: 1fr 1fr;
+    grid-column: 2 / 3;
     width: 100%;
-    justify-items: start; /* Выровнять списки по левому краю */
+    justify-items: start;
 }
 
 .list-block {
-    text-align: left; /* Выровнять текст внутри блоков по левому краю */
+    text-align: left;
 }
 
 .list-block h2 {

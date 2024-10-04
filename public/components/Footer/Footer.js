@@ -15,9 +15,11 @@ export class Footer {
         const inputEmail = document.createElement('input');
         inputEmail.type = 'email';
         inputEmail.placeholder = 'Введите ваш email';
+        inputEmail.setAttribute('disabled', "");
 
         const subscribeButton = document.createElement('button');
         subscribeButton.textContent = 'Подписаться';
+        subscribeButton.setAttribute('disabled', "");
 
         subscribeCard.appendChild(subscribeTitle);
         subscribeCard.appendChild(inputEmail);

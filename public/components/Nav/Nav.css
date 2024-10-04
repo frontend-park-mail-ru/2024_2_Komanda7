@@ -1,5 +1,5 @@
 nav {
-    background-color: #009951; 
+    background-color: #009951;
     text-align: center;
     height: 70px;
     letter-spacing: 1px;
@@ -14,12 +14,9 @@ nav ul {
     justify-content: space-around;
 }
 
-
 nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
     border-radius: 4px;
 }
-
-

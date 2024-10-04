@@ -15,6 +15,8 @@ export class Header {
         searchbar.type = 'search';
         searchbar.className = 'searchbar'
         searchbar.placeholder = 'Найти событие';
+        searchbar.setAttribute('disabled', "");
+
         headerElement.appendChild(searchbar);
         headerElement.appendChild(searchbar);
 
@@ -48,7 +50,7 @@ export class Header {
             //User is logged in
             const profileLink = document.createElement('a');
             const avatarImage = document.createElement('img');
-            avatarImage.src = '/static/images/myavatar.png'; // replace with your avatar image path
+            avatarImage.src = '/static/images/myavatar.png';
             avatarImage.onerror = function() {
                 this.src = "/static/images/default_avatar.png";
                 this.style.objectFit = 'fill';
@@ -59,7 +61,7 @@ export class Header {
             buttons.appendChild(profileLink);
 
             const logoutButton = document.createElement('button');
-            logoutButton.textContent = 'Logout';
+            logoutButton.textContent = 'Выйти';
             logoutButton.onclick = async() => {
                 try {
                     const response = await fetch(`${endpoint}/logout`, {
@@ -70,9 +72,7 @@ export class Header {
                     if (!response.ok) {
                         throw new Error(response.statusText);
                     }
-                    console.log("logout success");
                     logout();
-                    // redirect to login page or clear the session
                 } catch (error) {
                     console.error(error);
                 }
@@ -80,12 +80,7 @@ export class Header {
             buttons.appendChild(logoutButton);
         }
 
-
-
-
         headerElement.appendChild(buttons)
-            // Добавляем список в навигацию и навигацию в заголовок
-
         return headerElement;
     }
 }

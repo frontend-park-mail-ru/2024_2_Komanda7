@@ -1,62 +1,47 @@
+import { endpoint } from "../../config.js"
+
 export class Feed {
-    constructor(apiUrl) {
-      this.apiUrl = apiUrl; 
+    async renderFeed() {
+        const feedContent = document.createElement('content');
+
+        const fetchFeed = async() => {
+            const response = await fetch(`${endpoint}/events`, {
+                method: "GET",
+                headers: {
+                    //"Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const feed = await response.json();
+                feedContent.id = 'feedContent';
+
+                Object.entries(feed).forEach(([key, { description, image }]) => {
+                    const FeedElement = document.createElement('div');
+                    FeedElement.className = 'feed-element';
+
+                    const imageElement = document.createElement('img');
+                    imageElement.src = `${endpoint}${image}`;
+                    imageElement.onerror = function() {
+                        this.src = "/static/images/placeholder.png";
+                        this.style.objectFit = 'fill';
+                    };
+                    FeedElement.appendChild(imageElement);
+
+                    const descriptionElement = document.createElement('div');
+                    descriptionElement.className = 'description';
+                    descriptionElement.textContent = description;
+                    FeedElement.appendChild(descriptionElement);
+
+                    feedContent.appendChild(FeedElement);
+                });
+
+            } else {
+                const errorText = await response.json();
+            }
+        };
+
+        await fetchFeed(); // Вызов функции fetchFeed
+        return feedContent; // Возвращаем контент после загрузки данных
     }
-  
-    async fetchFeed() {
-      try {
-        const response = await fetch(this.apiUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-  
-        if (response.ok) {
-          const feed = await response.json();
-          return feed; 
-        } else {
-          const errorText = await response.text();
-          console.log("Error fetching feed:", errorText);
-          return null;
-        }
-      } catch (error) {
-        console.error("Ошибка загрузки фида:", error);
-        return null;
-      }
-    }
-  
-    renderFeed(feedData) {
-      const feedContent = document.createElement('div');
-      feedContent.id = 'feedContent';
-  
-      if (feedData && Object.keys(feedData).length > 0) {
-        Object.entries(feedData).forEach(([key, { description, image }]) => {
-          const feedElement = document.createElement('div');
-          feedElement.className = 'feed-element';
-  
-          const imageElement = document.createElement('img');
-          imageElement.src = image;
-          imageElement.onerror = function() {
-            this.src = '/static/images/placeholder.png'; 
-            this.style.objectFit = 'fill';
-          };
-          feedElement.appendChild(imageElement);
-  
-          const descriptionElement = document.createElement('div');
-          descriptionElement.className = 'description';
-          descriptionElement.textContent = description;
-          feedElement.appendChild(descriptionElement);
-  
-          feedContent.appendChild(feedElement);
-        });
-      } else {
-        const noEventsMessage = document.createElement('p');
-        noEventsMessage.textContent = 'No events!';
-        feedContent.appendChild(noEventsMessage);
-      }
-  
-      return feedContent; 
-    }
-  }
-  
+}
