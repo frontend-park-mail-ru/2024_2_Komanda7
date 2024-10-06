@@ -80,9 +80,7 @@ export class LoginForm {
                     break;
                 case 'button': 
                     newElement.innerText = textContent; 
-                    if (tag === 'button') {
-                        newElement.type = type; 
-                    }
+                    newElement.type = type;
                     break;
             }
             this.form.appendChild(newElement);
