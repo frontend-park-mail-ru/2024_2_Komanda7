@@ -76,7 +76,8 @@ export class Header {
                     console.error(error);
                 }
             };
-            buttons.appendChild(Button);
+            buttons.appendChild(logoutButton);
+            //buttons.appendChild(Button);
         }
 
         headerElement.appendChild(buttons)
