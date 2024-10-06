@@ -50,11 +50,13 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
         }
 
         const data = await clonedResponse.json()
+            //document.getElementById('response').innerText = data.message;
         console.log(response.ok)
         if (!response.ok) {
             throw new Error(data.message);
         } else {
             setUserLoggedIn(true);
+            //document.getElementById('response').innerText = "Вход выполнен";
             navigate("events");
         }
     } catch (error) {

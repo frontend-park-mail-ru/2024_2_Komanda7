@@ -7,7 +7,6 @@ import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit } from './modules/registerForm.js';
 import { handleLoginSubmit } from './modules/loginForm.js';
-import { navigate } from './modules/navigateComponents.js';
 
 const root = document.getElementById('root');
 let userIsLoggedIn = await checkSession();
@@ -22,7 +21,11 @@ function setUserLoggedIn(isLoggedIn) {
     updateLinksContainer();
 }
 
-///////
+// Updates the URL when the user navigates
+const navigate = (path) => {
+    window.history.pushState({}, '', path);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+};
 
 function updateLinksContainer() {
     const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout, navigate);
