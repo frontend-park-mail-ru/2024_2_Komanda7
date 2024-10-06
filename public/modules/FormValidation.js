@@ -14,7 +14,6 @@ export function isValidEmail(email) {
     return pattern.test(email);
 }
 
-
 export function removeDangerous(inputValue) {
     return DOMPurify.sanitize(inputValue);
 }

@@ -37,8 +37,7 @@ export class Nav {
                 text: 'Спорт',
             },
         };
-
-
+        
         Object.entries(navigation).forEach(([key, { href, text }]) => {
             const li = document.createElement('li');
             const a = document.createElement('a');

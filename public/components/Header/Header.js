@@ -23,7 +23,6 @@ export class Header {
         const buttons = document.createElement('div');
         buttons.className = "buttons";
 
-
         if (!userIsLoggedIn) {
             //User is not logged in
             const btnLogin = document.createElement('button');
@@ -77,7 +76,7 @@ export class Header {
                     console.error(error);
                 }
             };
-            buttons.appendChild(logoutButton);
+            buttons.appendChild(Button);
         }
 
         headerElement.appendChild(buttons)

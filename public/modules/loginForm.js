@@ -15,7 +15,6 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
     const username = removeDangerous(document.getElementById('loginUsernameEntry').value);
     const password = removeDangerous(document.getElementById('loginPasswordEntry').value);
 
-
     if (!username) {
         document.getElementById('loginUsernameError').innerText = EMPTY_FIELD;
         if (!password) {
