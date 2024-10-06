@@ -43,45 +43,44 @@ export class LoginForm {
 
     checkValues() {
         const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
-        const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value); //DOMPurify.sanitize(document.getElementById('passwordEntry').value);
+        const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);
 
         if (!username || !password) {
             console.log("In form: empty login and password");
             return;
         }
+
     }
 
     render() {
 
-        const bigObj = this.config;
+        const config = this.config;
 
-        for (const key in bigObj) {
-            const tag = bigObj[key]['tag'];
+        for (const key in config) {
+            const { tag, text, className, type } = config[key];
             const newElement = document.createElement(tag);
             newElement.id = key;
 
-            const textContent = bigObj[key]['text'];
+            const textContent = text;
             newElement.text = textContent;
 
             switch (tag) {
                 case 'input':
                     newElement.placeholder = textContent;
-                    if (bigObj[key].hasOwnProperty('type')) {
-                        newElement.type = bigObj[key]['type'];
+                    if (config[key].hasOwnProperty('type')) {
+                        newElement.type = type;
                     }
                     break;
                 case 'label':
                     newElement.innerText = textContent;
-                    if (bigObj[key].hasOwnProperty('className')) {
-                        newElement.classList.add(bigObj[key]['className']);
+                    if (config[key].hasOwnProperty('className')) {
+                        newElement.classList.add(className);
 
                     }
                     break;
                 case 'button':
                     newElement.innerText = textContent;
-                    if (tag === 'button') {
-                        newElement.type = bigObj[key]['type'];
-                    }
+                    newElement.type = type;
                     break;
             }
             this.form.appendChild(newElement);
