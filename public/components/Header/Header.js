@@ -77,7 +77,6 @@ export class Header {
                 }
             };
             buttons.appendChild(logoutButton);
-            //buttons.appendChild(Button);
         }
 
         headerElement.appendChild(buttons)
