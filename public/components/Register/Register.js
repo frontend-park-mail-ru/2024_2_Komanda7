@@ -61,39 +61,35 @@ export class RegisterForm {
     render() {
         //const form = document.createElement('form');
 
-        const bigObj = this.config;
-    
-        for (const key in bigObj) {
-          
-          const tag = bigObj[key]['tag'];
-          const newElement = document.createElement(tag);
-          newElement.id = key;
+        const config = this.config;
 
-          const textContent = bigObj[key]['text']; 
+        for (const key in config) {
+            const {tag, text, className, type} = config[key];
+            const newElement = document.createElement(tag);
+            newElement.id = key;
 
-          switch(tag) {
-            case 'input':  
-                newElement.placeholder = textContent;
-                if (bigObj[key].hasOwnProperty('type')) {
-                    newElement.type = bigObj[key]['type']; 
-                }
-                break;
-            case 'label':
-                newElement.innerText = textContent; 
-                if (bigObj[key].hasOwnProperty('className')) {
-                    newElement.classList.add(bigObj[key]['className']);
+            const textContent = text; 
 
-                }
-                break;
-            case 'button': 
-                newElement.innerText = textContent; 
-                if (tag === 'button') {
-                    newElement.type = bigObj[key]['type']; 
-                }
-                break;
-          }
+            switch(tag) {
+                case 'input':  
+                    newElement.placeholder = textContent;
+                    if (config[key].hasOwnProperty('type')) {
+                        newElement.type = type; 
+                    }
+                    break;
+                case 'label':
+                    newElement.innerText = textContent; 
+                    if (config[key].hasOwnProperty('className')) {
+                        newElement.classList.add(className);
+                    }
+                    break;
+                case 'button': 
+                    newElement.innerText = textContent;
+                    newElement.type = type; 
+                    break;
+            }
 
-          this.form.appendChild(newElement);
+            this.form.appendChild(newElement);
         }
 
         return this.form;
