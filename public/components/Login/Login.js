@@ -4,7 +4,7 @@ export class LoginForm {
         this.form = document.createElement('form');
         this.form.id = formId;
     }
-    
+
     config = {
         loginServerError: {
             text: '',
@@ -13,11 +13,11 @@ export class LoginForm {
         },
         loginLabel: {
             text: 'Вход',
-            tag: 'label',            
+            tag: 'label',
         },
         loginUsernameEntry: {
             text: 'Имя пользователя',
-            tag: 'input', 
+            tag: 'input',
         },
         loginUsernameError: {
             text: '',
@@ -27,7 +27,7 @@ export class LoginForm {
         loginPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
-            type: 'password', 
+            type: 'password',
         },
         loginPasswordError: {
             text: '',
@@ -37,54 +37,54 @@ export class LoginForm {
         submitBtn: {
             text: 'Войти',
             tag: 'button',
-            type: 'submit', 
+            type: 'submit',
         },
     };
 
     checkValues() {
-      const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);
+        const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
+        const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);
 
-      if (!username || !password) {
-        console.log("In form: empty login and password");
-        return;
-      }
+        if (!username || !password) {
+            console.log("In form: empty login and password");
+            return;
+        }
 
     }
-    
+
     render() {
-        
+
         const config = this.config;
 
         for (const key in config) {
-            const {tag, text, className, type} = config[key];
+            const { tag, text, className, type } = config[key];
             const newElement = document.createElement(tag);
             newElement.id = key;
 
-            const textContent = text; 
+            const textContent = text;
             newElement.text = textContent;
 
-            switch(tag) {
-                case 'input':  
+            switch (tag) {
+                case 'input':
                     newElement.placeholder = textContent;
                     if (config[key].hasOwnProperty('type')) {
-                        newElement.type = type; 
+                        newElement.type = type;
                     }
                     break;
                 case 'label':
-                    newElement.innerText = textContent; 
+                    newElement.innerText = textContent;
                     if (config[key].hasOwnProperty('className')) {
                         newElement.classList.add(className);
 
                     }
                     break;
-                case 'button': 
-                    newElement.innerText = textContent; 
+                case 'button':
+                    newElement.innerText = textContent;
                     newElement.type = type;
                     break;
             }
             this.form.appendChild(newElement);
         }
         return this.form;
-    }    
+    }
 }
