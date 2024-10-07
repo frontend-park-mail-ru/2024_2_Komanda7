@@ -1,0 +1,107 @@
+@import "./components/Login/Login.css";
+@import "components/Header/Header.css";
+@import "components/Nav/Nav.css";
+@import "components/Footer/Footer.css";
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+}
+
+#root {
+    display: grid;
+    grid-template-areas: "header" "navigation" "events-feed" "footer";
+    grid-template-rows: 100px 100px 1fr 50px;
+    grid-template-columns: 100%;
+    height: 100vh;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 1000;
+}
+
+.modal-window {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 900;
+}
+
+#feedContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+#events-feed {
+    grid-area: events-feed;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.feed-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.feed-element:hover {
+    transform: scale(1.05);
+}
+
+.feed-element img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.feed-element .description {
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    color: black;
+}
+
+#newsFeedText {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
