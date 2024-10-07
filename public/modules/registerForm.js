@@ -4,7 +4,7 @@ import { endpoint } from "../config.js";
 const EMPTY_FIELD = 'Это обязательное поле';
 const INCORRECT_USERNAME = 'Логин может состоять из латинских букв, цифр и знаков _ и быть в длину не более 15 символов'
 const INCORRECT_PASSWORD = 'Пароль должен состоят из букв и цифр';
-const INCORRECT_EMAIL = 'Адрес email должен содержать несколько символов до знака @, один символ @, несколько символов после @, точка, несколько знаков посел точки';
+const INCORRECT_EMAIL = 'Адрес email должен содержать несколько символов до знака @, один символ @, несколько символов после @, точка, несколько знаков послe точки';
 
 export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
     event.preventDefault();
