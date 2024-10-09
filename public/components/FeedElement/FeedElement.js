@@ -24,6 +24,10 @@ export class FeedElement {
         
     };
 
+
+
+
+    
     renderTemplate() {
         this.feedElement.className = 'feed-element';
 
