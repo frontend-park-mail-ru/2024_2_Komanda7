@@ -1,8 +1,14 @@
 import { endpoint } from "../../config.js"
 
+const someHandler = (event, path, navigate) => {
+    event.preventDefault();
+    navigate(path);
+};
+
 export class Header {
     renderHeader(userIsLoggedIn, logout, navigate) {
         const headerElement = document.createElement('header');
+        this.headerElement = headerElement;
 
         // Логотип
         const logo = document.createElement('a');
@@ -27,11 +33,8 @@ export class Header {
             //User is not logged in
             const btnLogin = document.createElement('button');
             const btnRegister = document.createElement('button');
-            btnLogin.addEventListener('click', (event) => {
-                event.preventDefault();
-                const path = '/login';
-                navigate(path);
-            });
+
+            btnLogin.addEventListener('click', (event)=> someHandler(event, '/login', navigate));
             btnRegister.addEventListener('click', (event) => {
                 event.preventDefault();
                 const path = '/signup';

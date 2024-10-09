@@ -61,7 +61,7 @@ const routes = {
     },
     '/signup': () => {
         const registerForm = new RegisterForm();
-        const registerFormElement = registerForm.render();
+        const registerFormElement = registerForm.renderTemplate();
         newsFeed.innerHTML = '';
         newsFeed.appendChild(registerFormElement);
         registerFormElement.addEventListener('submit', (event) => handleRegisterSubmit(event, setUserLoggedIn, navigate));
