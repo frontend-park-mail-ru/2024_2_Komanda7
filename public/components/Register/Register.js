@@ -104,18 +104,18 @@ export class RegisterForm {
         }
     }
 
-        renderTemplate() {
-            const template = Handlebars.templates['Register.hbs'];
-            const config = this.config;
-            let itemss = Object.entries(config);
-            let items = itemss.map(([key, {tag, text, className, type}], index) => {
-               
-                let needPlaceholder = (tag === 'input');
-                return {key, tag, text, className, type, needPlaceholder};
-            });
-
-            this.form.innerHTML += template({items});
+    renderTemplate() {
+        const template = Handlebars.templates['Register.hbs'];
+        const config = this.config;
+        let itemss = Object.entries(config);
+        let items = itemss.map(([key, {tag, text, className, type}], index) => {
             
-            return this.form;
-        }
+            let needPlaceholder = (tag === 'input');
+            return {key, tag, text, className, type, needPlaceholder};
+        });
+
+        this.form.innerHTML += template({items});
+        
+        return this.form;
+    }
 }
