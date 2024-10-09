@@ -8,6 +8,11 @@
     "lint": "npx eslint",
     "prepare": "husky && husky install"
   },
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "eslint"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/frontend-park-mail-ru/2024_2_Komanda7.git"
@@ -21,7 +26,8 @@
     "@eslint/js": "^9.11.1",
     "eslint": "^9.11.1",
     "globals": "^15.9.0",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.10"
   },
   "dependencies": {
     "cors": "^2.8.5",
