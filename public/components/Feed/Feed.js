@@ -19,7 +19,6 @@ export class Feed {
 
                 Object.entries(feed).forEach(([key, { description, image }]) => {
                     const feedElement = new FeedElement(key, description, `${endpoint}${image}`).renderTemplate();
-
                     feedContent.appendChild(feedElement);
                 });
 
