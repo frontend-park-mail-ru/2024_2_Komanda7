@@ -71,7 +71,6 @@ export class RegisterForm {
     };
     
     render() {
-        //const form = document.createElement('form');
 
         const config = this.config;
 
@@ -114,11 +113,9 @@ export class RegisterForm {
                 let needPlaceholder = (tag === 'input');
                 return {key, tag, text, className, type, needPlaceholder};
             });
-            
 
             this.form.innerHTML += template({items});
             
-
             return this.form;
         }
 }
