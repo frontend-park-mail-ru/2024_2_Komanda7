@@ -1,4 +1,5 @@
 import { endpoint } from "../../config.js"
+import { FeedElement } from "../FeedElement/FeedElement.js"
 
 export class Feed {
     async renderFeed() {
@@ -17,23 +18,9 @@ export class Feed {
                 feedContent.id = 'feedContent';
 
                 Object.entries(feed).forEach(([key, { description, image }]) => {
-                    const FeedElement = document.createElement('div');
-                    FeedElement.className = 'feed-element';
+                    const feedElement = new FeedElement(key, description, `${endpoint}${image}`).renderTemplate();
 
-                    const imageElement = document.createElement('img');
-                    imageElement.src = `${endpoint}${image}`;
-                    imageElement.onerror = function() {
-                        this.src = "/static/images/placeholder.png";
-                        this.style.objectFit = 'fill';
-                    };
-                    FeedElement.appendChild(imageElement);
-
-                    const descriptionElement = document.createElement('div');
-                    descriptionElement.className = 'description';
-                    descriptionElement.textContent = description;
-                    FeedElement.appendChild(descriptionElement);
-
-                    feedContent.appendChild(FeedElement);
+                    feedContent.appendChild(feedElement);
                 });
 
             } else {
