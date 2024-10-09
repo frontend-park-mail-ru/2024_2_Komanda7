@@ -11,17 +11,21 @@ import { handleLoginSubmit } from './modules/loginForm.js';
 const root = document.getElementById('root');
 let userIsLoggedIn = await checkSession();
 
+/** function sets logged user = false and redraw header then logout */
 function logout() {
     userIsLoggedIn = false;
     updateLinksContainer();
 }
 
+/** function sets logged user = true and redraw header */
 function setUserLoggedIn(isLoggedIn) {
     userIsLoggedIn = isLoggedIn;
     updateLinksContainer();
 }
 
-// Updates the URL when the user navigates
+/** Updates the URL when the user navigates 
+ *  @param {string} path - path to section
+ */ 
 const navigate = (path) => {
     window.history.pushState({}, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
