@@ -10,81 +10,63 @@ export class LoginForm {
             text: '',
             tag: 'label',
             className: 'error_text',
+            type: '', 
         },
         loginLabel: {
             text: 'Вход',
-            tag: 'label',            
+            tag: 'label',   
+            className: '',         
+            type: '', 
         },
+        
         loginUsernameEntry: {
             text: 'Имя пользователя',
-            tag: 'input', 
+            tag: 'input',
+            type: 'text', 
+            className: '',
         },
         loginUsernameError: {
             text: '',
             tag: 'label',
             className: 'error_text',
+            type: '', 
         },
+    
         loginPasswordEntry: {
             text: 'Пароль',
             tag: 'input',
             type: 'password', 
+            className: '',
         },
         loginPasswordError: {
             text: '',
             tag: 'label',
             className: 'error_text',
+            type: '', 
         },
-        submitBtn: {
+
+        loginSubmitBtn: {
             text: 'Войти',
             tag: 'button',
             type: 'submit', 
+            className: '',
+            type: '', 
         },
+        
     };
 
-    checkValues() {
-      const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);
-
-      if (!username || !password) {
-        console.log("In form: empty login and password");
-        return;
-      }
-
-    }
-    
-    render() {
-        
+    renderTemplate() {
+        const template = Handlebars.templates['Login.hbs'];
         const config = this.config;
+        let itemss = Object.entries(config);
+        let items = itemss.map(([key, {tag, text, className, type}], index) => {
+            
+            let needPlaceholder = (tag === 'input');
+            return {key, tag, text, className, type, needPlaceholder};
+        });
 
-        for (const key in config) {
-            const {tag, text, className, type} = config[key];
-            const newElement = document.createElement(tag);
-            newElement.id = key;
-
-            const textContent = text; 
-            newElement.text = textContent;
-
-            switch(tag) {
-                case 'input':  
-                    newElement.placeholder = textContent;
-                    if (config[key].hasOwnProperty('type')) {
-                        newElement.type = type; 
-                    }
-                    break;
-                case 'label':
-                    newElement.innerText = textContent; 
-                    if (config[key].hasOwnProperty('className')) {
-                        newElement.classList.add(className);
-
-                    }
-                    break;
-                case 'button': 
-                    newElement.innerText = textContent; 
-                    newElement.type = type;
-                    break;
-            }
-            this.form.appendChild(newElement);
-        }
+        this.form.innerHTML += template({items});
+        
         return this.form;
-    }    
+    }
 }

@@ -1,9 +1,9 @@
 export class Nav {
-    renderNav() {
-        const navElement = document.createElement('nav');
-        const ul = document.createElement('ul');
-
-        const navigation = {
+    constructor() {
+        this.navElement = document.createElement('nav');
+        this.ul = document.createElement('ul');
+    }
+        navigation = {
             Popular: {
                 href: '/events',
                 text: 'Все события',
@@ -37,18 +37,16 @@ export class Nav {
                 text: 'Спорт',
             },
         };
-        
-        Object.entries(navigation).forEach(([key, { href, text }]) => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = href;
-            a.textContent = text;
-            li.appendChild(a);
-            ul.appendChild(li);
-        });
 
-        navElement.appendChild(ul);
+        renderNav() { 
+            const template = Handlebars.templates['Nav.hbs'];
+            const config = this.navigation;
+            let itemss = Object.entries(config); 
+            let items = itemss.map(([key, {href, text}], index) => {            
+                return {key, href, text};
+            });
 
-        return navElement;
+            this.navElement.innerHTML += template({items});
+        return this.navElement;
     }
 }

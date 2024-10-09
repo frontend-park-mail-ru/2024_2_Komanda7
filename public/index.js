@@ -54,7 +54,7 @@ responseElement.id = 'response';
 const routes = {
     '/login': () => {
         const loginForm = new LoginForm();
-        const loginFormElement = loginForm.render();
+        const loginFormElement = loginForm.renderTemplate();
         newsFeed.innerHTML = '';
         newsFeed.appendChild(loginFormElement)
         loginFormElement.addEventListener('submit', (event) => handleLoginSubmit(event, setUserLoggedIn, navigate));

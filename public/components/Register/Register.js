@@ -70,40 +70,6 @@ export class RegisterForm {
         
     };
     
-    render() {
-
-        const config = this.config;
-
-        for (const key in config) {
-            const {tag, text, className, type} = config[key];
-            const newElement = document.createElement(tag);
-            newElement.id = key;
-
-            const textContent = text; 
-
-            switch(tag) {
-                case 'input':  
-                    newElement.placeholder = textContent;
-                    if (config[key].hasOwnProperty('type')) {
-                        newElement.type = type; 
-                    }
-                    break;
-                case 'label':
-                    newElement.innerText = textContent; 
-                    if (config[key].hasOwnProperty('className')) {
-                        newElement.classList.add(className);
-                    }
-                    break;
-                case 'button': 
-                    newElement.innerText = textContent;
-                    newElement.type = type; 
-                    break;
-            }
-
-            this.form.appendChild(newElement);
-        }
-    }
-
     renderTemplate() {
         const template = Handlebars.templates['Register.hbs'];
         const config = this.config;
