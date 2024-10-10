@@ -4,7 +4,11 @@
  * This module provides a function to check if a user's session is valid.
  * 
  */
-
+/**
+ * Import the endpoint configuration from the config.js file
+ * @import {string} endpoint - The API endpoint URL
+ */
+import { endpoint } from "../../config.js"
 /**
  * Checks if a user's session is valid.
  * 
@@ -17,6 +21,7 @@
  */
 export async function checkSession() {
     try {
+    console.log("checkSession");
       /**
        * The endpoint URL for the session check.
        * 

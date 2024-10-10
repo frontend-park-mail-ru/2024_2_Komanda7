@@ -5,10 +5,19 @@
  * 
  * @module registration
  */
-
+/**
+ * Import form validation functions from the FormValidation.js file
+ * @import {function} isValidUsername - Checks if a username is valid
+ * @import {function} isValidPassword - Checks if a password is valid
+ * @import {function} isValidEmail - Checks if an email is valid
+ * @import {function} removeDangerous - Removes dangerous characters from a string
+ */
 import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from './FormValidation.js';
-import { endpoint } from "../config.js";
-
+/**
+ * Import the endpoint configuration from the config.js file
+ * @import {string} endpoint - The API endpoint URL
+ */
+import { endpoint } from "../../config.js"
 /**
  * Error message for empty fields.
  * @constant {string}
@@ -97,12 +106,13 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
       credentials: 'include',
       body: JSON.stringify({ username, email, password }),
     });
-
-    const data = await response.json();
-
     // If response is not OK, throw error
     if (!response.ok) {
       throw new Error(data.message);
+    }
+    const data = await response.json();
+    if (data.message == "User alresdy exists") {
+        throw new Error(data.message);
     }
 
     // Set user as logged in and navigate to events page
