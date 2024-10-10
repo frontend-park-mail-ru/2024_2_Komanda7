@@ -111,7 +111,7 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
       throw new Error(data.message);
     }
     const data = await response.json();
-    if (data.message == "User alresdy exists") {
+    if (data.code) {
         throw new Error(data.message);
     }
 
