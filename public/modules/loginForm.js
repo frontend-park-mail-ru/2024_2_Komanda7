@@ -55,6 +55,9 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
         if (!response.ok) {
             throw new Error(data.message);
         } else {
+            if (data.code == 401){
+            throw new Error(data.message);
+            }
             setUserLoggedIn(true);
             //document.getElementById('response').innerText = "Вход выполнен";
             navigate("events");
