@@ -1,75 +1,234 @@
+/**
+ * Represents a register form.
+ * 
+ * @class RegisterForm
+ * @export
+ */
 export class RegisterForm {
 
+    /**
+     * Creates a new instance of RegisterForm.
+     * 
+     * @param {string} formId - The ID of the form.
+     */
     constructor(formId) {
+        /**
+         * The form element.
+         * @type {HTMLFormElement}
+         */
         this.form = document.createElement('form');
         this.form.id = formId;
     }
     
     config = {
+        /**
+         * Server error configuration
+         */
         registerServerError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-            type: '', 
+          /**
+           * Error text
+           */
+          text: '',
+          /**
+           * HTML tag for error element
+           */
+          tag: 'label',
+          /**
+           * CSS class for error element
+           */
+          className: 'error_text',
+          /**
+           * Type of error element
+           */
+          type: '', 
         },
+        /**
+         * Registration label configuration
+         */
         registerLabel: {
-            text: 'Регистрация',
-            tag: 'label',   
-            className: '',         
-            type: '', 
+          /**
+           * Label text
+           */
+          text: 'Регистрация',
+          /**
+           * HTML tag for label element
+           */
+          tag: 'label',   
+          /**
+           * CSS class for label element
+           */
+          className: '',         
+          /**
+           * Type of label element
+           */
+          type: '', 
         },
         
+        /**
+         * Username input configuration
+         */
         registerUsernameEntry: {
-            text: 'Имя пользователя',
-            tag: 'input',
-            type: 'text', 
-            className: '',
+          /**
+           * Input placeholder text
+           */
+          text: 'Имя пользователя',
+          /**
+           * HTML tag for input element
+           */
+          tag: 'input',
+          /**
+           * Type of input element
+           */
+          type: 'text', 
+          /**
+           * CSS class for input element
+           */
+          className: '',
         },
+        /**
+         * Username error configuration
+         */
         registerUsernameError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-            type: '', 
+          /**
+           * Error text
+           */
+          text: '',
+          /**
+           * HTML tag for error element
+           */
+          tag: 'label',
+          /**
+           * CSS class for error element
+           */
+          className: 'error_text',
+          /**
+           * Type of error element
+           */
+          type: '', 
         },
-
+      
+        /**
+         * Email input configuration
+         */
         registerEmailEntry: {
-            text: 'Email',
-            tag: 'input',
-            className: '',
-            type: '', 
-            
+          /**
+           * Input placeholder text
+           */
+          text: 'Email',
+          /**
+           * HTML tag for input element
+           */
+          tag: 'input',
+          /**
+           * CSS class for input element
+           */
+          className: '',
+          /**
+           * Type of input element
+           */
+          type: '', 
+                  
         },
-
+      
+        /**
+         * Email error configuration
+         */
         registerEmailError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-            type: '', 
-        },
-    
-        registerPasswordEntry: {
-            text: 'Пароль',
-            tag: 'input',
-            type: 'password', 
-            className: '',
-        },
-        registerPasswordError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-            type: '', 
-        },
-
-        registerSubmitBtn: {
-            text: 'Зарегистрироваться',
-            tag: 'button',
-            type: 'submit', 
-            className: '',
-            type: '', 
+          /**
+           * Error text
+           */
+          text: '',
+          /**
+           * HTML tag for error element
+           */
+          tag: 'label',
+          /**
+           * CSS class for error element
+           */
+          className: 'error_text',
+          /**
+           * Type of error element
+           */
+          type: '', 
         },
         
-    };
+        /**
+         * Password input configuration
+         */
+        registerPasswordEntry: {
+          /**
+           * Input placeholder text
+           */
+          text: 'Пароль',
+          /**
+           * HTML tag for input element
+           */
+          tag: 'input',
+          /**
+           * Type of input element
+           */
+          type: 'password', 
+          /**
+           * CSS class for input element
+           */
+          className: '',
+        },
+        /**
+         * Password error configuration
+         */
+        registerPasswordError: {
+          /**
+           * Error text
+           */
+          text: '',
+          /**
+           * HTML tag for error element
+           */
+          tag: 'label',
+          /**
+           * CSS class for error element
+           */
+          className: 'error_text',
+          /**
+           * Type of error element
+           */
+          type: '', 
+        },
+      
+        /**
+         * Submit button configuration
+         */
+        registerSubmitBtn: {
+          /**
+           * Button text
+           */
+          text: 'Зарегистрироваться',
+          /**
+           * HTML tag for button element
+           */
+          tag: 'button',
+          /**
+           * Type of button element
+           */
+          type: 'submit', 
+          /**
+           * CSS class for button element
+           */
+          className: '',
+          /**
+           * Type of button element ( duplicate property )
+           */
+          type: '', 
+        },
+              
+      }
+      
     
+    /**
+     * Renders the form template.
+     * 
+     * @returns {HTMLFormElement} The rendered form.
+     */
     renderTemplate() {
         const template = Handlebars.templates['Register.hbs'];
         const config = this.config;
