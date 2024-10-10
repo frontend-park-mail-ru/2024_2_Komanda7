@@ -1,90 +1,225 @@
+/**
+ * LoginForm class
+ */
 export class LoginForm {
-
+    /**
+     * Creates a new LoginForm instance
+     * @param {string} formId - The ID of the form
+     */
     constructor(formId) {
-        this.form = document.createElement('form');
-        this.form.id = formId;
+      /**
+       * The form element
+       * @type {HTMLFormElement}
+       */
+      this.form = document.createElement('form');
+      this.form.id = formId;
     }
-    
+  
+    /**
+     * Configuration object for the form
+     * @type {Object}
+     */
     config = {
-        loginServerError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-        },
-        loginLabel: {
-            text: 'Вход',
-            tag: 'label',            
-        },
-        loginUsernameEntry: {
-            text: 'Имя пользователя',
-            tag: 'input', 
-        },
-        loginUsernameError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-        },
-        loginPasswordEntry: {
-            text: 'Пароль',
-            tag: 'input',
-            type: 'password', 
-        },
-        loginPasswordError: {
-            text: '',
-            tag: 'label',
-            className: 'error_text',
-        },
-        submitBtn: {
-            text: 'Войти',
-            tag: 'button',
-            type: 'submit', 
-        },
+      /**
+       * Login server error configuration
+       * @type {Object}
+       */
+      loginServerError: {
+        /**
+         * Error text
+         * @type {string}
+         */
+        text: '',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'label',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: 'error_text',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: '',
+      },
+      /**
+       * Login label configuration
+       * @type {Object}
+       */
+      loginLabel: {
+        /**
+         * Text
+         * @type {string}
+         */
+        text: 'Вход',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'label',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: '',
+      },
+      /**
+       * Login username entry configuration
+       * @type {Object}
+       */
+      loginUsernameEntry: {
+        /**
+         * Text
+         * @type {string}
+         */
+        text: 'Имя пользователя',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'input',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: 'text',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
+      },
+      /**
+       * Login username error configuration
+       * @type {Object}
+       */
+      loginUsernameError: {
+        /**
+         * Error text
+         * @type {string}
+         */
+        text: '',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'label',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: 'error_text',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: '',
+      },
+      /**
+       * Login password entry configuration
+       * @type {Object}
+       */
+      loginPasswordEntry: {
+        /**
+         * Text
+         * @type {string}
+         */
+        text: 'Пароль',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'input',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: 'password',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
+      },
+      /**
+       * Login password error configuration
+       * @type {Object}
+       */
+      loginPasswordError: {
+        /**
+         * Error text
+         * @type {string}
+         */
+        text: '',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'label',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: 'error_text',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: '',
+      },
+      /**
+       * Login submit button configuration
+       * @type {Object}
+       */
+      loginSubmitBtn: {
+        /**
+         * Text
+         * @type {string}
+         */
+        text: 'Войти',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'button',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: 'submit',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
+      },
     };
-
-    checkValues() {
-      const username = DOMPurify.sanitize(document.getElementById('loginEmailEntry').value);
-      const password = DOMPurify.sanitize(document.getElementById('loginPasswordEntry').value);
-
-      if (!username || !password) {
-        console.log("In form: empty login and password");
-        return;
-      }
-
+  
+    /**
+     * Renders the form template
+     * @returns {HTMLFormElement} The rendered form
+     */
+    renderTemplate() {
+      const template = Handlebars.templates['Login.hbs'];
+      const config = this.config;
+      let itemss = Object.entries(config);
+      let items = itemss.map(([key, {tag, text, className, type}], index) => {
+        let needPlaceholder = (tag === 'input');
+        return {key, tag, text, className, type, needPlaceholder};
+      });
+  
+      this.form.innerHTML += template({items});
+      
+      return this.form;
     }
-    
-    render() {
-        
-        const config = this.config;
-
-        for (const key in config) {
-            const {tag, text, className, type} = config[key];
-            const newElement = document.createElement(tag);
-            newElement.id = key;
-
-            const textContent = text; 
-            newElement.text = textContent;
-
-            switch(tag) {
-                case 'input':  
-                    newElement.placeholder = textContent;
-                    if (config[key].hasOwnProperty('type')) {
-                        newElement.type = type; 
-                    }
-                    break;
-                case 'label':
-                    newElement.innerText = textContent; 
-                    if (config[key].hasOwnProperty('className')) {
-                        newElement.classList.add(className);
-
-                    }
-                    break;
-                case 'button': 
-                    newElement.innerText = textContent; 
-                    newElement.type = type;
-                    break;
-            }
-            this.form.appendChild(newElement);
-        }
-        return this.form;
-    }    
-}
+  }
+  

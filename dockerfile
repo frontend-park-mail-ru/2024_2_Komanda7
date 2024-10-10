@@ -8,7 +8,7 @@ WORKDIR /app
 RUN npm install express --save
 
 RUN npm i cors 
-
+RUN npm install handlebars
 # Копируем остальные файлы приложения
 COPY . .
 
