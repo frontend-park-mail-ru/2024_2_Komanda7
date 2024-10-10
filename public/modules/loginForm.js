@@ -86,7 +86,6 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
     }
 
     const data = await clonedResponse.json()
-    console.log(response.ok)
     if (!response.ok) {
       throw new Error(data.message);
     } else {
@@ -94,7 +93,6 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
       navigate("events");
     }
   } catch (error) {
-    console.log(error)
     document.getElementById('loginServerError').innerText = 'Неверный логин или пароль';
   }
 }

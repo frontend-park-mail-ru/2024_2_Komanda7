@@ -21,7 +21,6 @@ import { endpoint } from "../../config.js"
  */
 export async function checkSession() {
     try {
-    console.log("checkSession");
       /**
        * The endpoint URL for the session check.
        * 
