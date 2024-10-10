@@ -121,7 +121,7 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
 
   } catch (error) {
     // Display error message if registration fails
-    document.getElementById('registerServerError').innerText = 'Пользователь с такими данными уже существует';
+    document.getElementById('registerServerError').innerText = error;
   }
 }
 
