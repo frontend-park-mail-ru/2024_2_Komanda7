@@ -20,3 +20,5 @@ Frontend проекта "KudaGo" Команда 7
 # figma
 * https://www.figma.com/design/B9I0SPwTjYkMcqq6MwO2jW/kudaGo?node-id=0-1&t=DndAvQ4zTz4isemp-1
 
+# Swagger
+* https://app.swaggerhub.com/apis/RAM181524/kudago/1.0.0
