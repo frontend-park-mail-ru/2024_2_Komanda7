@@ -222,8 +222,7 @@ export class RegisterForm {
         },
               
       }
-      
-    
+  
     /**
      * Renders the form template.
      * 
@@ -232,10 +231,10 @@ export class RegisterForm {
     renderTemplate() {
         const template = Handlebars.templates['Register.hbs'];
         const config = this.config;
-        let itemss = Object.entries(config);
-        let items = itemss.map(([key, {tag, text, className, type}], index) => {
+        const fields = Object.entries(config);
+        const items = fields.map(([key, {tag, text, className, type}], index) => {
             
-            let needPlaceholder = (tag === 'input');
+            let needPlaceholder = tag === 'input';
             return {key, tag, text, className, type, needPlaceholder};
         });
 
