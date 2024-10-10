@@ -1,4 +1,14 @@
 /**
+ * Import the endpoint configuration from the config.js file
+ * @import {string} endpoint - The API endpoint URL
+ */
+import { endpoint } from "../../config.js"
+/**
+ * Import the FeedElement component from the FeedElement.js file
+ * @import FeedElement - A component representing a feed element
+ */
+import { FeedElement } from "../FeedElement/FeedElement.js"
+/**
  * Feed module.
  * 
  * This module provides a class to render a feed of events.

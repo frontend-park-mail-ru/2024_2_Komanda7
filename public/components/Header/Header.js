@@ -1,4 +1,9 @@
 /**
+ * Import the endpoint configuration from the config.js file
+ * @import {string} endpoint - The API endpoint URL
+ */
+import { endpoint } from "../../config.js"
+/**
  * Header module.
  * 
  * This module provides a class to render a header element.
@@ -74,7 +79,7 @@ export class Header {
          * @type {HTMLButtonElement}
          */
         const btnLogin = document.createElement('button');
-        btnLogin.addEventListener('click', (event) => someHandler(event, '/login', navigate));
+        btnLogin.addEventListener('click', () => navigate("/login"));
         btnLogin.className = "btnLogin";
         btnLogin.textContent = "Войти";
         buttons.appendChild(btnLogin);
