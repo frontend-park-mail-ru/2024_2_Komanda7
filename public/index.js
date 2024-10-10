@@ -6,7 +6,7 @@ import { Feed } from "./components/Feed/Feed.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
-import { handleLoginSubmit } from './modules/loginForm.js';
+import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 
 const root = document.getElementById('root');
 let userIsLoggedIn = await checkSession();
@@ -60,7 +60,8 @@ const routes = {
         const loginForm = new LoginForm();
         const loginFormElement = loginForm.renderTemplate();
         newsFeed.innerHTML = '';
-        newsFeed.appendChild(loginFormElement)
+        newsFeed.appendChild(loginFormElement);
+        loginFormElement.addEventListener('keyup', (event) => handleLoginCheck(event));
         loginFormElement.addEventListener('submit', (event) => handleLoginSubmit(event, setUserLoggedIn, navigate));
     },
     '/signup': () => {
