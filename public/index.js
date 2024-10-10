@@ -15,6 +15,7 @@ import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 
+
 /**
  * Get the root element
  * @type {HTMLElement}
