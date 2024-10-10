@@ -10,7 +10,7 @@
   },
   "lint-staged": {
     "*.{js, jsx}": [
-      "eslint"
+      "npm run lint"
     ]
   },
   "repository": {
