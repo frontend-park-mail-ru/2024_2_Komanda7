@@ -5,7 +5,7 @@ import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
-import { handleRegisterSubmit } from './modules/registerForm.js';
+import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit } from './modules/loginForm.js';
 
 const root = document.getElementById('root');
@@ -68,6 +68,7 @@ const routes = {
         const registerFormElement = registerForm.renderTemplate();
         newsFeed.innerHTML = '';
         newsFeed.appendChild(registerFormElement);
+        registerFormElement.addEventListener('keyup', (event) => handleRegisterCheck(event));
         registerFormElement.addEventListener('submit', (event) => handleRegisterSubmit(event, setUserLoggedIn, navigate));
     },
     //load the events

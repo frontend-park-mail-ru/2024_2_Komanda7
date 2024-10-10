@@ -67,3 +67,36 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
         document.getElementById('registerServerError').innerText = 'Пользователь с такими данными уже существует';
     }
 }
+
+export function handleRegisterCheck(event) {
+    const target = event.target;
+    const id = target.id;
+    if (id === 'registerUsernameEntry') {
+        const username = removeDangerous(target.value);
+        if (!username) {
+          document.getElementById('registerUsernameError').innerText = EMPTY_FIELD;
+        } else if (!isValidUsername(username)) {
+          document.getElementById('registerUsernameError').innerText = INCORRECT_USERNAME;
+        } else {
+          document.getElementById('registerUsernameError').innerText = '';
+        }
+      } else if (id === 'registerEmailEntry') {
+        const email = removeDangerous(target.value);
+        if (!email) {
+          document.getElementById('registerEmailError').innerText = EMPTY_FIELD;
+        } else if (!isValidEmail(email)) {
+          document.getElementById('registerEmailError').innerText = INCORRECT_EMAIL;
+        } else {
+          document.getElementById('registerEmailError').innerText = '';
+        }
+      } else if (id === 'registerPasswordEntry') {
+        const password = removeDangerous(target.value);
+        if (!password) {
+          document.getElementById('registerPasswordError').innerText = EMPTY_FIELD;
+        } else if (!isValidPassword(password)) {
+          document.getElementById('registerPasswordError').innerText = INCORRECT_PASSWORD;
+        } else {
+          document.getElementById('registerPasswordError').innerText = '';
+        }
+      }
+}
