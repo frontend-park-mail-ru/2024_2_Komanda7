@@ -15,7 +15,7 @@ Frontend проекта "KudaGo" Команда 7
 * [Backend](https://github.com/go-park-mail-ru/2024_2_Team7)
 
 # Проект
-* [vyhodnoy.ru]http://37.139.40.252/
+* [vyhodnoy.ru](http://37.139.40.252/)
 
 # figma
 * https://www.figma.com/design/B9I0SPwTjYkMcqq6MwO2jW/kudaGo?node-id=0-1&t=DndAvQ4zTz4isemp-1
