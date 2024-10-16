@@ -14,7 +14,6 @@ form {
 
 form label {
   font-size: 18px;
-  font-weight: bold;
   margin-bottom: 10px;
   color: black;
   display: block;
@@ -27,10 +26,15 @@ form input {
   padding: 10px;
   margin-bottom: 20px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
   box-sizing: border-box;
+}
+
+form input:focus {
+  border-color: gray; 
+  outline: none;
 }
 
 form button {

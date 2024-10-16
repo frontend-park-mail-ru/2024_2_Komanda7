@@ -4,14 +4,22 @@ nav {
     height: 70px;
     letter-spacing: 1px;
     font-size: 18px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 0 100px 0 60px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
 nav ul {
     list-style-type: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+nav ul li {
+    display: flex;
+    align-items: center; 
 }
 
 nav ul li a {
@@ -19,4 +27,5 @@ nav ul li a {
     text-decoration: none;
     font-weight: bold;
     border-radius: 4px;
+    padding: 10px;
 }
