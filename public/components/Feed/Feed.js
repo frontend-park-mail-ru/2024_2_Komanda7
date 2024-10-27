@@ -86,9 +86,12 @@ export class Feed {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
-          Object.entries(feed).forEach(([key, { description, image }]) => {
-            const feedElement = new FeedElement(key, description, `${endpoint}${image}`).renderTemplate();
+          console.log(feed.events);
+          Object.entries(feed.events).forEach( (elem) => {
+            const {id, description, image} = elem[1];
+            const feedElement = new FeedElement(id, description, `${endpoint}${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
+            //console.log(elem[1]);
           });
   
         } else {
