@@ -10,6 +10,7 @@ import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
+import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
@@ -161,6 +162,11 @@ const routes = {
         let feed = await new Feed().renderFeed();
         newsFeed.appendChild(feed);
     },
+    '/events/:id': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new EventContentPage('event').renderTemplate(id);
+        newsFeed.appendChild(eventPage);
+    },
 };
 
 /**
@@ -207,11 +213,18 @@ if (currentPath === '/login' || currentPath === '/signup') {
          */
         route();
     }
-} else if (currentPath === '/events' || currentPath === "/") {
+} else if (currentPath === '/events' || currentPath === '/') {
     /**
      * Call the events route function
      */
     routes['/events']();
+} else if (/\/events\/\d+/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[2];
+    routes['/events/:id'](id); // Вызываем обработчик с id
+    
 } else {
     /**
      * Call the default route function

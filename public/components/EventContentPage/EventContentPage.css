@@ -1,0 +1,67 @@
+.eventPage {
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+}
+
+.event__leftPart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+}
+
+.event__rightPart {
+    display: block;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+}
+
+.event__leftPart__title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.event__date {
+    margin: 5px 0;
+}
+
+.event_actionsDiv {
+    display:inline
+}
+
+.event_tagsDiv {
+    display:inline
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
+.buttonDelete {
+    background-color: red; 
+    color: white;          
+    padding: 10px 20px;   
+    border: none;         
+    border-radius: 5px;   
+    cursor: pointer;       
+    font-size: 16px;       
+    transition: background-color 0.3s; 
+}
+
+.buttonDelete {
+    background-color: red; 
+    color: white;          
+    padding: 10px 20px;   
+    border: none;         
+    border-radius: 5px;   
+    cursor: pointer;       
+    font-size: 16px;       
+    transition: background-color 0.3s; 
+}
