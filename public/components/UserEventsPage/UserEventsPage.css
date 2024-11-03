@@ -1,0 +1,30 @@
+.userEventsManager {
+    margin: calc(var(--group-padding, 0px)* -1);
+    border-radius: inherit;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.actions {
+    position: relative;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    text-align: center;
+}
+
+.createEvent {
+    background: white;
+    border: 2px solid #008EB0;
+    border-color: #008EB0;
+    color:#008EB0;
+
+}
+
+.createEvent:active {
+    background: #008EB0;
+    border: 2px solid #008EB0;
+    border-color: #008EB0;
+    color:white;
+
+}
+
