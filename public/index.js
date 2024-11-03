@@ -11,10 +11,13 @@ import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
 import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
+import { UserEventsPage } from "./components/UserEventsPage/UserEventsPage.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
+import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
+import { handleCreateEventSubmit } from './modules/handleEventsActions.js';
 
 /**
  * Get the root element
@@ -167,6 +170,22 @@ const routes = {
         let eventPage = await new EventContentPage('event').renderTemplate(id);
         newsFeed.appendChild(eventPage);
     },
+    '/my_events': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
+        newsFeed.appendChild(UserEventPage);
+    },
+    '/add_event': () => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const formCreate = new EventCreateForm().renderTemplate();
+        newsFeed.appendChild(formCreate)
+        const createBtn = document.getElementById('eventSubmitBtn');
+        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+        //formCreate.addEventListener('submit', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+        
+        //button to cancel creating
+    },
 };
 
 /**
@@ -224,7 +243,14 @@ if (currentPath === '/login' || currentPath === '/signup') {
      */
     const id = currentPath.split('/')[2];
     routes['/events/:id'](id); // Вызываем обработчик с id
-    
+} else if (currentPath === '/my_events') {
+    //(/\/events\d+/.test(currentPath))
+    //let num = currentPath.match(/\d+/)[0];
+    const num = 0;
+    /* somehow get current user id and check that user is logged in*/
+    routes['/my_events'](num);
+} else if (currentPath === '/add_event') {
+    routes['/add_event']();
 } else {
     /**
      * Call the default route function

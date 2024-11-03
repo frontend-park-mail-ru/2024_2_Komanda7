@@ -3,6 +3,8 @@
 @import "components/Nav/Nav.css";
 @import "components/Footer/Footer.css";
 @import "components/EventContentPage/EventContentPage.css";
+@import "components/UserEventsPage/UserEventsPage.css";
+UserEventsPage
 body {
     font-family: Arial, sans-serif;
     font-weight: bold;

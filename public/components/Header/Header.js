@@ -116,6 +116,14 @@ export class Header {
         avatarImage.className = 'avatar';
         profileLink.appendChild(avatarImage);
         buttons.appendChild(profileLink);
+
+        const btnMyEvents = document.createElement('button');
+        btnMyEvents.textContent = 'Мои мероприятия';
+        btnMyEvents.addEventListener('click', (event) => {
+          event.preventDefault();
+          const path = '/my_events';
+          navigate(path);
+        });
   
         /**
          * The logout button element.
@@ -139,6 +147,7 @@ export class Header {
             console.error(error);
           }
         };
+        buttons.appendChild(btnMyEvents);
         buttons.appendChild(logoutButton);
       }
   

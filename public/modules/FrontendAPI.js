@@ -1,6 +1,6 @@
 import { endpoint } from "../config.js";
 
-export class FrontendAPI {
+class FrontendAPI {
     /* *
     {path, headers = {}, needCredentials = false, id = null} 
     object like request
@@ -16,6 +16,11 @@ export class FrontendAPI {
           needCredentials,
           id,
       });*/
+      }
+
+      post(path, request) {
+        request['method'] = 'POST';
+        return this._commonFetchRequest(path, request);
       }
 
       _removeNullUndefined(obj) {
@@ -71,3 +76,5 @@ export class FrontendAPI {
         return response;
     }
 }
+
+export const api = new FrontendAPI();
