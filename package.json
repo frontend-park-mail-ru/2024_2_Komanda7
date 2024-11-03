@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint",
-    "prepare": "husky && husky install"
+    "prepare": "husky && husky install",
+    "compile:templates": "handlebars public/components/EventCreateForm/EventCreateForm.hbs -f public/components/EventCreateForm/EventCreateForm.precompiled.js"
   },
   "lint-staged": {
     "*.{js, jsx}": [
