@@ -1,4 +1,4 @@
-import { FrontendAPI } from "../../modules/FrontendAPI.js";
+import { api } from "../../modules/FrontendAPI.js";
 
 export class EventContentPage {
     constructor(eventId) {
@@ -47,7 +47,7 @@ export class EventContentPage {
 
     };
 
-    renderEvent(event){
+    _renderEvent(event){
         console.log(event);
         console.log(event.title);
         
@@ -66,7 +66,7 @@ export class EventContentPage {
             this.style.objectFit = 'fill';
         };
 
-        const descr = document.createElement('div');
+        const descr = document.createElement('div');            /** render event  */
         //descr.className = 'title';
         descr.textContent = event.description;
         
@@ -82,8 +82,13 @@ export class EventContentPage {
 
         const btnDeleteEvent = document.createElement('button');
         btnDeleteEvent.className = 'buttonDelete';
-        btnDeleteEvent.textContent = 'Delete';
+        btnDeleteEvent.textContent = 'Удалить мероприятие';
 
+        const btnEditEvent = document.createElement('button');
+        btnEditEvent.className = 'buttonEdit';
+        btnEditEvent.textContent = 'Редактировать мероприятие';
+        
+        actionsDiv.appendChild(btnEditEvent);
         actionsDiv.appendChild(btnDeleteEvent);
 
         const tagsDiv = document.createElement('div');
@@ -92,11 +97,11 @@ export class EventContentPage {
         
         const startDate = document.createElement('div');
         startDate.className = 'event__date';
-        startDate.textContent = 'Date start: ' + event.date_start; // Укажите вашу дату начала
+        startDate.textContent = 'Дата начала: ' + event.date_start; // Укажите вашу дату начала
 
         const endDate = document.createElement('div');
         endDate.className = 'event__date';
-        endDate.textContent = 'Date end: ' + event.date_end; // Укажите вашу дату окончания
+        endDate.textContent = 'Дата окончания: ' + event.date_end; // Укажите вашу дату окончания
 
         rightDiv.appendChild(actionsDiv);
         rightDiv.appendChild(tagsDiv);
@@ -110,19 +115,13 @@ export class EventContentPage {
     }
     async renderTemplate(id) {
         console.log(id);
-        const api = new FrontendAPI();
         const path = '/events/'+id.toString();
         const request = {headers: {}};
         try {
             const response = await api.get(path, request);
 
             const event = await response.json();
-            console.log(event);
-            console.log("here");
-            /** render event  */
-            this.renderEvent(event);
-            //this.leftPart = document.createElement('leftPart');
-            //this.rightPart = document.createElement('rightPart');
+            this._renderEvent(event);
     
         } catch (error) {
             console.log(error);
