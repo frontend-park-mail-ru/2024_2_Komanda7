@@ -3,6 +3,7 @@
  * @import {string} endpoint - The API endpoint URL
  */
 import { endpoint } from "../../config.js"
+import { api } from '../../modules/FrontendAPI.js';
 /**
  * Header module.
  * 
@@ -116,7 +117,14 @@ export class Header {
         const profileLink = document.createElement('a');
         profileLink.href = '/profile';
         const avatarImage = document.createElement('img');
-        avatarImage.src = '/static/images/myavatar.png';
+
+        this.fetchProfilePic().then(profilePic => {
+          if (profilePic) {
+            avatarImage.src = endpoint + '/' + profilePic.image;
+          }
+        })
+
+        //avatarImage.src = '/static/images/myavatar.png';
         avatarImage.onerror = function() {
           this.src = "/static/images/default_avatar.png";
           this.style.objectFit = 'fill';
@@ -162,6 +170,25 @@ export class Header {
   
       headerElement.appendChild(buttons);
       return headerElement;
+    }
+    async fetchProfilePic() {
+      try {
+          const request = {
+              headers: {
+
+              },
+              credentials: 'include',
+          };
+          const response = await api.get('/profile', request);
+
+          if (!response.ok) {
+              throw new Error('Failed to fetch profile data');
+          }
+
+          return await response.json();
+      } catch (error) {
+          console.error('Error fetching profile data:', error);
+      }
     }
   }
   

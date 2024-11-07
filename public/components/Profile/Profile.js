@@ -94,10 +94,13 @@ export class Profile {
 
     async fetchProfileData() {
         try {
-            const response = await fetch(`${endpoint}/profile`, {
-                method: 'GET',
+            const request = {
+                headers: {
+
+                },
                 credentials: 'include',
-            });
+            };
+            const response = await api.get('/profile', request);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch profile data');
