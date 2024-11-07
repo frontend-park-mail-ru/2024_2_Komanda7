@@ -106,6 +106,7 @@ export class Header {
          * @type {HTMLElement}
          */
         const profileLink = document.createElement('a');
+        profileLink.href = '/profile';
         const avatarImage = document.createElement('img');
         avatarImage.src = '/static/images/myavatar.png';
         avatarImage.onerror = function() {

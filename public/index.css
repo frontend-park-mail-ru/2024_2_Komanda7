@@ -2,6 +2,7 @@
 @import "components/Header/Header.css";
 @import "components/Nav/Nav.css";
 @import "components/Footer/Footer.css";
+@import "components/Profile/Profile.css";
 @import "components/EventContentPage/EventContentPage.css";
 @import "components/UserEventsPage/UserEventsPage.css";
 UserEventsPage

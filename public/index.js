@@ -10,6 +10,7 @@ import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
+import { Profile } from "./components/Profile/Profile.js";
 import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
 import { UserEventsPage } from "./components/UserEventsPage/UserEventsPage.js";
 import { Footer } from "./components/Footer/Footer.js";
@@ -165,6 +166,12 @@ const routes = {
         let feed = await new Feed().renderFeed();
         newsFeed.appendChild(feed);
     },
+    '/profile': () => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const profile = new Profile();
+        const profileElement = profile.renderProfile();
+        newsFeed.appendChild(profileElement);
+    },
     '/events/:id': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let eventPage = await new EventContentPage('event').renderTemplate(id);
@@ -223,7 +230,7 @@ const currentPath = window.location.pathname;
 /**
  * Check if the current path is the login or signup page
  */
-if (currentPath === '/login' || currentPath === '/signup') {
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search') {
     /**
      * Get the route for the current path
      */
