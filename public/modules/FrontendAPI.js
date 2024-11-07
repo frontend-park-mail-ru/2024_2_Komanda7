@@ -18,10 +18,6 @@ class FrontendAPI {
       request['method'] = 'PUT';
       return this._commonFetchRequest(path, request);
     }
-    put(path, request) {
-      request['method'] = 'PUT';
-      return this._commonFetchRequest(path, request);
-    }
 
     delete(path, request) {
       request['method'] = 'DELETE';
