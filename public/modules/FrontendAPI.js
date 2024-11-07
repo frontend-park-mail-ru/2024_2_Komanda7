@@ -8,20 +8,16 @@ class FrontendAPI {
     get(path, request) {
       request['method'] = 'GET';
       return this._commonFetchRequest(path, request);
-      /*
-      return this._commonFetchRequest({
-          method: 'GET',
-          path,
-          headers,
-          needCredentials,
-          id,
-      });*/
       }
 
-      post(path, request) {
-        request['method'] = 'POST';
-        return this._commonFetchRequest(path, request);
-      }
+    post(path, request) {
+      request['method'] = 'POST';
+      return this._commonFetchRequest(path, request);
+    }
+    put(path, request) {
+      request['method'] = 'PUT';
+      return this._commonFetchRequest(path, request);
+    }
 
       _removeNullUndefined(obj) {
         for (const key in obj) {

@@ -1,4 +1,5 @@
 import { endpoint } from "../../config.js";
+import { api } from '../../modules/FrontendAPI.js';
 
 export class Profile {
     renderProfile() {
@@ -34,32 +35,9 @@ export class Profile {
         formContainer.classList.add('form-container');
 
         // Unchangeable fields
-        const unchangeableFields = [
+        const changeableFields = [
             { label: 'Username', id: 'username' },
             { label: 'Email', id: 'email' }
-        ];
-
-        unchangeableFields.forEach(field => {
-            const fieldContainer = document.createElement('div');
-            const label = document.createElement('label');
-            label.textContent = field.label;
-            label.setAttribute('for', field.id);
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.id = field.id;
-            input.readOnly = true; // Make the field read-only
-
-            fieldContainer.appendChild(label);
-            fieldContainer.appendChild(input);
-            formContainer.appendChild(fieldContainer);
-        });
-
-        // Changeable fields
-        const changeableFields = [
-            { label: 'Name', id: 'name', type: 'text' },
-            { label: 'Surname', id: 'surname', type: 'text' },
-            // { label: 'Password', id: 'password', type: 'password' },
         ];
 
         changeableFields.forEach(field => {
@@ -88,10 +66,9 @@ export class Profile {
 
         this.fetchProfileData().then(profileData => {
             if (profileData) {
+                console.log(profileData);
                 document.getElementById('username').value = profileData.username;
                 document.getElementById('email').value = profileData.email;
-                document.getElementById('name').value = profileData.name || '';
-                document.getElementById('surname').value = profileData.surname || '';
                 profilePicture.src = profileData.profilePictureUrl || '/static/images/default_avatar.png';
             }
         }).catch(error => {
@@ -106,7 +83,9 @@ export class Profile {
         const file = event.target.files[0];
         if (file) {
             const formData = new FormData();
-            formData.append('profilePicture', file);
+            formData.append('image', file);
+            const body = formData;
+            document.getElementById('profileImage').value = file;
         }
     }
 
@@ -129,25 +108,36 @@ export class Profile {
 
     async saveChanges() {
         const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
         const email = document.getElementById('email').value;
-        const name = document.getElementById('name').value;
-        const surname = document.getElementById('surname').value;
-        const dob = document.getElementById('dob').value;
-
-        const formData = new FormData();
-        formData.append('username', username);
-        formData.append('password', password);
-        formData.append('email', email);
-        formData.append('name', name);
-        formData.append('surname', surname);
-        formData.append('dob', dob);
-
+        const image = document.getElementById('profileImage').value;
         try {
-            const response = await fetch(`${endpoint}/profile`, {
-                method: 'PUT',
-                json: {email: email, username: username},
-            });
+            const userData = {
+                email: email, 
+                username: username,
+            };
+            const json = JSON.stringify(userData);
+            const formData = new FormData();
+            formData.append('json', json);
+            formData.append('image', image);
+            const body = formData;
+            const request = {
+                    headers: {
+
+                    },
+                    credentials: 'include',
+                    body: body,
+                };
+            const path = '/profile';
+            const response = await api.put(path, request);
+
+            // const response = await fetch(`${endpoint}/profile`, {
+            //     method: 'PUT',
+            //     headers: {
+            //         'Content-Type': 'application/json' // Заменено на правильный синтаксис
+            //     },
+            //     body: JSON.stringify({ email: email, username: username }), // Используйте 'body' вместо 'json'
+            //     credentials: 'include',
+            // });
 
             if (response.ok) {
                 alert('Profile updated successfully!');
