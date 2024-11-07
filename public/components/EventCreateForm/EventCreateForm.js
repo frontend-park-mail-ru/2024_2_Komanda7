@@ -50,8 +50,6 @@ export class EventCreateForm {
          */
         className: '',
 
-
-
       },
       
       eventNameError: {
@@ -265,5 +263,4 @@ export class EventCreateForm {
       return this.form;
     }
   }
-  
- 
+   
