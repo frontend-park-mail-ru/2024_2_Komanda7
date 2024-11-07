@@ -5,6 +5,7 @@
 @import "components/Profile/Profile.css";
 @import "components/EventContentPage/EventContentPage.css";
 @import "components/UserEventsPage/UserEventsPage.css";
+@import "components/Search/Search.css";
 UserEventsPage
 body {
     font-family: Arial, sans-serif;

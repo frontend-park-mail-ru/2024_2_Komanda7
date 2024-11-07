@@ -11,6 +11,7 @@ import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
 import { Profile } from "./components/Profile/Profile.js";
+import { Search } from "./components/Search/Search.js";
 import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
 import { UserEventsPage } from "./components/UserEventsPage/UserEventsPage.js";
 import { Footer } from "./components/Footer/Footer.js";
@@ -182,6 +183,11 @@ const routes = {
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
         newsFeed.appendChild(UserEventPage);
     },
+    '/search': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let feed = await new Search().renderSearch(navigate, window.location.search.substring(1));
+        newsFeed.appendChild(feed);
+    },
     '/add_event': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
@@ -226,7 +232,7 @@ window.addEventListener('popstate', () => {
  * Check the current path when the page is loaded
  */
 const currentPath = window.location.pathname;
-
+console.log(currentPath);
 /**
  * Check if the current path is the login or signup page
  */

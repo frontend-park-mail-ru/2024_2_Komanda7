@@ -59,7 +59,14 @@ export class Header {
       searchbar.type = 'search';
       searchbar.className = 'searchbar';
       searchbar.placeholder = 'Найти событие';
-      searchbar.setAttribute('disabled', "");
+      // Add event listener to detect Enter key press
+      searchbar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') { // Check if the pressed key is Enter
+            event.preventDefault();
+            const searchQuery = searchbar.value;
+            navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+        }
+      });
       headerElement.appendChild(searchbar);
       headerElement.appendChild(searchbar);
   
@@ -98,7 +105,8 @@ export class Header {
         btnRegister.className = "btnRegister";
         btnRegister.textContent = "Зарегистрироваться";
         buttons.appendChild(btnRegister);
-      } else {
+      } 
+      if (userIsLoggedIn) {
         //User  is logged in
         /**
          * The profile link element.
