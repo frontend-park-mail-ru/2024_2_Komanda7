@@ -17,7 +17,7 @@ import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
-import { handleCreateEventSubmit } from './modules/handleEventsActions.js';
+import { handleCreateEventSubmit, loadCategories } from './modules/handleEventsActions.js';
 
 /**
  * Get the root element
@@ -175,10 +175,12 @@ const routes = {
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
         newsFeed.appendChild(UserEventPage);
     },
-    '/add_event': () => {
+    '/add_event': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        const formCreate = new EventCreateForm().renderTemplate();
-        newsFeed.appendChild(formCreate)
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        console.log(formCreate);
+        newsFeed.appendChild(formCreate);
         const createBtn = document.getElementById('eventSubmitBtn');
         
         createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));

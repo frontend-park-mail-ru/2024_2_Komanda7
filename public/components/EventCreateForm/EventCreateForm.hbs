@@ -1,7 +1,13 @@
 {{#each items}}
-    {{#if this.needPlaceholder}}
-        <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" placeholder = "{{this.text}}" type="{{this.type}}" data-section="{{this.key}}"></{{this.tag}}>
-    {{else}}
-        <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" data-section="{{this.key}}">{{this.text}}</{{this.tag}}>
-    {{/if}}
+        
+        {{#if this.needPlaceholder}}
+            <div style = ".edit_container">
+                <label>{{this.text}}</label>
+                <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" placeholder = "{{this.text}}" type="{{this.type}}" data-section="{{this.key}}"></{{this.tag}}>
+            </div>
+            
+        {{else}}
+            <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" data-section="{{this.key}}">{{this.text}}</{{this.tag}}>
+        {{/if}}
+
 {{/each}}

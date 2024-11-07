@@ -20,6 +20,7 @@ import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from 
 import { endpoint } from "../../config.js"
 
 import { api } from './FrontendAPI.js';
+console.log(api);
 /**
  * Error message for empty fields.
  * @constant {string}
@@ -55,18 +56,47 @@ const INCORRECT_EMAIL = 'Адрес email должен содержать нес
  * @param {function} setUserLoggedIn - A function to set the user's logged-in state.
  * @param {function} navigate - A function to navigate to a different page.
  */
+
+export async function loadCategories() {
+  const selectElement = document.createElement('select');
+  console.log(selectElement);
+  try {
+    const request = { headers: {} };
+    console.log(api);
+      const response = await api.get('/categories', request);
+      const categories = await response.json();
+
+      console.log(categories);
+
+      // Заполнение выпадающего списка
+      categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id; // id категории
+          option.textContent = category.name; // название категории
+          selectElement.appendChild(option);
+      });
+      return selectElement;
+  } catch (error) {
+      console.error('Ошибка при загрузке категорий:', error);
+  }
+  return selectElement;
+}
+
 export async function handleCreateEventSubmit(event, pageToCome, navigate) {
   event.preventDefault();
-  console.log('click');
+  loadCategories();
    // Get form data
    const title = removeDangerous(document.getElementById('eventNameEntry').value);
    const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
-   const tags = removeDangerous(document.getElementById('eventTagsEntry').value);
-   const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value);
-   const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value);
-   console.log(title, description, tags, dateStart, dateEnd);
-  /*
+   const tags = removeDangerous(document.getElementById('eventTagsEntry').value).split();
+   const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
+   const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
 
+   const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
+   
+   const image = document.getElementById('imageInput').files[0];
+   console.log(title, description, tags, dateStart, dateEnd, image, categoryId);
+  /*
   // Clear error messages
   document.getElementById('registerUsernameError').innerText = '';
   document.getElementById('registerPasswordError').innerText = '';
@@ -109,13 +139,26 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
     */
   try {
     // Send request to backend
-    const body = { title, description, tags, dateStart, dateEnd };
+    const userData = {
+      title: title,
+      description: description,
+      tags: tags,
+      event_start: dateStart,
+      event_end: dateEnd,
+      category_id: categoryId,
+      };
+  
+    const json = JSON.stringify(userData);
+    const formData = new FormData();    
+    formData.append('json', json); 
+    formData.append('image', image);
+    const body = formData;
     const request = {
         headers: {
-          'Content-Type': 'application/json',
+      
         },
         credentials: 'include',
-        body: JSON.stringify(body),
+        body: body,
       };
     const path = '/events';
     const response = await api.post(path, request);

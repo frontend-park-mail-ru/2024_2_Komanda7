@@ -1,6 +1,7 @@
 /**
  * LoginForm class
  */
+import { api } from '../../modules/FrontendAPI.js';
 export class EventCreateForm {
    
     constructor(formId) {
@@ -10,7 +11,7 @@ export class EventCreateForm {
 
     config = {
       eventServerError: {
-        text: 'очень много текста на неизвестном древнем языке',
+        text: '',
         tag: 'label',
         className: 'error_text',
         type: '',
@@ -48,6 +49,9 @@ export class EventCreateForm {
          * @type {string}
          */
         className: '',
+
+
+
       },
       
       eventNameError: {
@@ -59,7 +63,7 @@ export class EventCreateForm {
       eventDescriptionEntry: {
         
         text: 'Описание мероприятия',
-        tag: 'input',
+        tag: 'textarea',
         
         type: '',
         
@@ -110,18 +114,18 @@ export class EventCreateForm {
         type: '',
       },
 
-         eventBeginEntry: {
+      eventBeginEntry: {
           
           text: 'Время начала мероприятия',
           
           tag: 'input',
           
-          type: '',
+          type: 'datetime-local',
           
           className: '',
-        },
-        
-        eventBeginError: {
+      },
+      
+      eventBeginError: {
           
           text: '',
           
@@ -130,7 +134,7 @@ export class EventCreateForm {
           className: 'error_text',
           
           type: '',
-        },
+      },
 
       eventEndEntry: {
         /**
@@ -147,14 +151,14 @@ export class EventCreateForm {
          * Type
          * @type {string}
          */
-        type: '',
+        type: 'datetime-local',
         /**
          * Class name
          * @type {string}
          */
         className: '',
       },
-      
+
       eventEndError: {
         /**
          * Error text
@@ -171,6 +175,48 @@ export class EventCreateForm {
          * @type {string}
          */
         className: 'error_text',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: '',
+      },
+      imageInput: {
+        /**
+         * Error text
+         * @type {string}
+         */
+        text: '',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'input',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
+        /**
+         * Type
+         * @type {string}
+         */
+        type: 'file',
+        accept: "image/png, image/jpeg"
+      },
+      categories: {
+        
+        text: '',
+        /**
+         * Tag type
+         * @type {string}
+         */
+        tag: 'div',
+        /**
+         * Class name
+         * @type {string}
+         */
+        className: '',
         /**
          * Type
          * @type {string}
@@ -194,19 +240,24 @@ export class EventCreateForm {
      * Renders the form template
      * @returns {HTMLFormElement} The rendered form
      */
-    renderTemplate() {
+    renderTemplate(selectElement) {
       
       const template = Handlebars.templates['EventCreateForm.hbs'];
-      console.log( template );
+
       const config = this.config;
       let itemsArray = Object.entries(config);
       let items = itemsArray.map(([key, {tag, text, className, type}], index) => {
         let needPlaceholder = (tag === 'input');
-        return {key, tag, text, className, type, needPlaceholder}; 
+        let needMaxMinTime = (type === 'time');
+        return {key, tag, text, className, type, needPlaceholder, needMaxMinTime}; 
       });
       console.log(items);
   
       this.form.innerHTML += template({items});
+  
+      const categoriesSelect = selectElement;
+      selectElement.id = 'categoriesInput';
+      this.form.appendChild(categoriesSelect);
 
       //const createBtn = document.getElementById('createBtn');
       //createBtn.addEventListener();
@@ -215,3 +266,4 @@ export class EventCreateForm {
     }
   }
   
+ 

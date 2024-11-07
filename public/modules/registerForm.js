@@ -66,6 +66,8 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
   const username = removeDangerous(document.getElementById('registerUsernameEntry').value);
   const email = removeDangerous(document.getElementById('registerEmailEntry').value);
   const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
+  const image = document.getElementById('imageInput').files[0]
+  console.log(image);
 
   // Initialize validation flag
   let isValid = true;
@@ -97,14 +99,25 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
   }
 
   try {
+    const userData = {
+      username: username,
+      email: email,
+      password: password,
+    };
+  
+    const json = JSON.stringify(userData);
+    const formData = new FormData();    
+    formData.append('json', json); 
+    formData.append('image', image);
+    console.log(formData);
     // Send request to backend
     const response = await fetch(`${endpoint}/register`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+  
       },
       credentials: 'include',
-      body: JSON.stringify({ username, email, password }),
+      body: formData,
     });
     // If response is not OK, throw error
     if (!response.ok) {
