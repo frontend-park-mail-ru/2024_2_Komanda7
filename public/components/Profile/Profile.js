@@ -69,7 +69,7 @@ export class Profile {
                 console.log(profileData);
                 document.getElementById('username').value = profileData.username;
                 document.getElementById('email').value = profileData.email;
-                profilePicture.src = profileData.profilePictureUrl || '/static/images/default_avatar.png';
+                profilePicture.src = endpoint + '/' + profileData.image || '/static/images/default_avatar.png';
             }
         }).catch(error => {
             console.error('Error fetching profile data:', error);
@@ -81,12 +81,15 @@ export class Profile {
 
     async uploadProfilePicture(event) {
         const file = event.target.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
-            const body = formData;
-            document.getElementById('profileImage').value = file;
-        }
+        console.log("hey");
+        const reader = new FileReader();
+        
+        // Set up the onload event for the FileReader
+        reader.onload = (e) => {
+            // Update the src of the profile picture with the uploaded image
+            document.getElementById('profileImage').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 
     async fetchProfileData() {
