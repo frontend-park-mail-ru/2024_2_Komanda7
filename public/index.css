@@ -7,6 +7,7 @@
 @import "components/UserEventsPage/UserEventsPage.css";
 @import "components/Search/Search.css";
 @import "components/EventCreateForm/EventCreateForm.css";
+@import "components/EventEditForm/EventEditForm.css";
 UserEventsPage
 *{
     margin:0;
