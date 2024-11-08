@@ -111,9 +111,14 @@ export class EventContentPage {
         deleteButton.className = 'buttonDelete';
         deleteButton.textContent = 'Удалить мероприятие';
         deleteButton.addEventListener("click", async () => {
-            response = await api.delete(event, event);
+            const request = {
+                headers: {
+                },
+                credentials: 'include',
+            };
+            response = await api.delete(`/event/${event.id}`, request);
             console.log(response);
-            //navigate("/profile", event);
+            navigate('/events');
         });
 
         const editButton = document.createElement('button');
