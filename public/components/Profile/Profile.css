@@ -43,7 +43,7 @@
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: black;
+  /* color: black; */
   display: block;
   text-align: left;
   width: 100%;
@@ -75,6 +75,19 @@
 /* Эффект при наведении на кнопку */
 #profileContent button:hover {
   background-color: #444;
+}
+
+/* Стили для успешного сообщения */
+#successMessage {
+  color: green; /* Зеленый цвет для успешного сообщения */
+  font-size: 16px; /* Размер шрифта */
+  margin-top: 10px; /* Отступ сверху */
+}
+/* Стили для сообщения об ошибке */
+#errorMessage {
+  color: red; /* Красный цвет для сообщения об ошибке */
+  font-size: 16px; /* Размер шрифта */
+  margin-top: 10px; /* Отступ сверху */
 }
 
 /* Стили для текста ошибок */

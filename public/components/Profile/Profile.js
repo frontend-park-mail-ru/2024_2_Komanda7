@@ -1,5 +1,6 @@
 import { endpoint } from "../../config.js";
 import { api } from '../../modules/FrontendAPI.js';
+import { navigate } from "../../modules/router.js";
 
 export class Profile {
     renderProfile() {
@@ -36,9 +37,16 @@ export class Profile {
 
         // Unchangeable fields
         const changeableFields = [
-            { label: 'Username', id: 'username' },
-            { label: 'Email', id: 'email' }
+            { label: 'Имя пользователя', id: 'username' },
+            { label: 'Электронная почта', id: 'email' }
         ];
+
+        const errorMessage = document.createElement('label');
+        errorMessage.id = 'errorMessage';
+        formContainer.appendChild(errorMessage);
+        const successMessage = document.createElement('label');
+        successMessage.id = 'successMessage';
+        formContainer.appendChild(successMessage);
 
         changeableFields.forEach(field => {
             const fieldContainer = document.createElement('div');
@@ -56,7 +64,7 @@ export class Profile {
         });
 
         const saveButton = document.createElement('button');
-        saveButton.textContent = 'Save Changes';
+        saveButton.textContent = 'Сохранить изменения';
         saveButton.addEventListener('click', this.saveChanges.bind(this));
         formContainer.appendChild(saveButton);
 
@@ -66,7 +74,7 @@ export class Profile {
 
         this.fetchProfileData().then(profileData => {
             if (profileData) {
-                console.log(profileData);
+                //console.log(profileData);
                 document.getElementById('username').value = profileData.username;
                 document.getElementById('email').value = profileData.email;
                 profilePicture.src = endpoint + '/' + profileData.image || '/static/images/default_avatar.png';
@@ -146,13 +154,17 @@ export class Profile {
             // });
 
             if (response.ok) {
-                alert('Profile updated successfully!');
+                console.log("success");
+                document.getElementById('successMessage').innerText = 'Профиль успешно обновлён!';
+                document.getElementById('errorMessage').innerText = '';
             } else {
+                document.getElementById('successMessage').innerText = '';
+                document.getElementById('errorMessage').innerText = 'Ошибка!';
                 const errorText = await response.json();
-                alert(`Error updating profile: ${errorText.message}`);
             }
         } catch (error) {
-            console.error('Error saving profile data:', error);
+            document.getElementById('errorMessage').innerText = 'Ошибка сохранения ' + JSON.stringify(error.status);
+            //console.error('Error saving profile data:', error);
         }
     }
 }
