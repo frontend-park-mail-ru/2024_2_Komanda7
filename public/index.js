@@ -183,7 +183,6 @@ const routes = {
     },
     '/events/categories/:id': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        console.log("cat")
         let eventPage = await new Feed().renderFeed(`/events/categories/${id}`);
         newsFeed.appendChild(eventPage);
     },
@@ -230,7 +229,14 @@ const defaultRoute = () => {
 window.addEventListener('popstate', () => {
     const path = window.location.pathname;
     const route = routes[path];
-    if (route) {
+    if (/\/events\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[2];
+        routes['/events/:id'](id);
+    }
+    else if (route) {
         route();
     } else {
         defaultRoute(); // Call the default route if no matching route is found
@@ -241,7 +247,6 @@ window.addEventListener('popstate', () => {
  * Check the current path when the page is loaded
  */
 const currentPath = window.location.pathname;
-console.log(currentPath);
 /**
  * Check if the current path is the login or signup page
  */

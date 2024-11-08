@@ -3,6 +3,7 @@
  * @import {string} endpoint - The API endpoint URL
  */
 import { endpoint } from "../../config.js"
+import { navigate } from "../../modules/router.js";
 /**
  * Import the FeedElement component from the FeedElement.js file
  * @import FeedElement - A component representing a feed element
@@ -53,7 +54,6 @@ export class Feed {
          * 
          * @type {Response}
          */
-        console.log(`${endpoint}${apiPath}`)
         const response = await fetch(`${endpoint}${apiPath}`, {
           /**
            * The HTTP method for the request.
@@ -87,12 +87,15 @@ export class Feed {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
-          console.log(feed.events);
           Object.entries(feed.events).forEach( (elem) => {
             const {id, description, image} = elem[1];
             const feedElement = new FeedElement(id, description, `${endpoint}${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
-            //console.log(elem[1]);
+            feedElement.addEventListener('click', (event) => {
+              event.preventDefault();
+              const path = `/events/${id}`;
+              navigate(path);
+            });
           });
   
         } else {
