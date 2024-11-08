@@ -2,8 +2,14 @@
 @import "components/Header/Header.css";
 @import "components/Nav/Nav.css";
 @import "components/Footer/Footer.css";
+@import "components/Profile/Profile.css";
+@import "components/EventContentPage/EventContentPage.css";
+@import "components/UserEventsPage/UserEventsPage.css";
+@import "components/Search/Search.css";
+UserEventsPage
 body {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
     margin: 0;
 }
 
@@ -30,7 +36,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
+    background: #f1f1f1;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -76,11 +82,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.feed-element:hover {
-    transform: scale(1.05);
+    margin: 20px;
 }
 
 .feed-element img {

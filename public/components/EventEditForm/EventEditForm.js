@@ -209,12 +209,12 @@ export class LoginForm {
      * @returns {HTMLFormElement} The rendered form
      */
     renderTemplate() {
-      const template = Handlebars.templates['Login.hbs'];
+      const template = Handlebars.templates['EventEditForm.hbs'];
       const config = this.config;
-      let itemsArray = Object.entries(config);
-      let items = itemsArray.map(([key, {tag, text, className, type}], index) => {
+      let itemss = Object.entries(config);
+      let items = itemss.map(([key, {tag, text, className, type}], index) => {
         let needPlaceholder = (tag === 'input');
-        return {key, tag, text, className, type, needPlaceholder};
+        return {key, tag, text, className, type, needPlaceholder}; 
       });
   
       this.form.innerHTML += template({items});
