@@ -193,7 +193,7 @@ const routes = {
     },
     '/search': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        let feed = await new Search().renderSearch(navigate, window.location.search.substring(1));
+        let feed = await new Search().renderSearch('/events', window.location.search.substring(1));
         newsFeed.appendChild(feed);
     },
     '/add_event': async() => {
@@ -236,6 +236,13 @@ window.addEventListener('popstate', () => {
         const id = path.split('/')[2];
         routes['/events/:id'](id);
     }
+    else if (/\/events\/categories\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[3];
+        routes['/events/categories/:id'](id);
+    }
     else if (route) {
         route();
     } else {
@@ -272,12 +279,18 @@ if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/pr
      */
     const id = currentPath.split('/')[2];
     routes['/events/:id'](id); // Вызываем обработчик с id
+} else if (/\/events\/categories\/\d+/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[3];
+    routes['/events/categories/:id'](id);
 } else if (currentPath === '/my_events') {
     //(/\/events\d+/.test(currentPath))
     //let num = currentPath.match(/\d+/)[0];
     const num = 0;
     /* somehow get current user id and check that user is logged in*/
-    routes['/my_events'](num);
+    routes['/events/my'](num);
 } else if (currentPath === '/add_event') {
     routes['/add_event']();
 } else {
