@@ -6,6 +6,5 @@ export const navigate = (path) => {
     /**
      * Dispatch a popstate event
      */
-    console.log(path)
     window.dispatchEvent(new PopStateEvent('popstate'));
 };

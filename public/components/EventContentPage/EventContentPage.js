@@ -1,7 +1,8 @@
 import { api } from "../../modules/FrontendAPI.js";
+
+import { endpoint } from "../../config.js";
 import { navigate } from "../../modules/router.js";
-import { handleDeleteEventSubmit } from "../../modules/handleEventsActions.js";
-import {endpoint} from "../../config.js"
+
 
 export class EventContentPage {
     constructor(eventId) {
@@ -50,74 +51,93 @@ export class EventContentPage {
 
     };
 
-    _renderEvent(event){
-        console.log(event);
-        console.log(event.title);
-        
-        const leftDiv = document.createElement('div');
-        leftDiv.className = 'event__leftPart';
-        
-        const title = document.createElement('div');
-        title.className = 'event__leftPart__title ';
-        title.textContent = event.title;
 
-        const image = document.createElement('img');
-        image.className = 'image';
-        image.src = endpoint + '/' + event.image || "/static/images/placeholder.png"; //this.config.image.src;
-       
-        const descr = document.createElement('div');            /** render event  */
-        //descr.className = 'title';
-        descr.textContent = event.description;
-        
-        leftDiv.appendChild(title);
-        leftDiv.appendChild(image);
-        leftDiv.appendChild(descr);
+    _renderEvent(event) {
+        //console.log(event);
 
-        const rightDiv = document.createElement('div');
-        rightDiv.className = 'event__rightPart';
+        const eventDetails = document.createElement('div');
+        eventDetails.className = 'event__details';
 
-        const actionsDiv = document.createElement('div');
-        rightDiv.className = 'event_actionsDiv';
+        const eventTitle = document.createElement('div');
+        eventTitle.className = 'event__title';
+        eventTitle.textContent = event.title;
 
-        
+        const eventImage = document.createElement('img');
+        eventImage.className = 'event__image';
+        eventImage.src = endpoint + '/' + event.image;
+        //console.log(eventImage.src);
+        eventImage.onerror = function () {
+            this.src = "/static/images/placeholder.png";
+            this.style.objectFit = 'fill';
+        };
 
-        this.btnEditEvent = document.createElement('button');
-        this.btnEditEvent.className = 'buttonEdit';
-        this.btnEditEvent.textContent = 'Редактировать мероприятие';
-
-        this.btnDeleteEvent = document.createElement('button');
-        this.btnDeleteEvent.className = 'buttonDelete';
-        this.btnDeleteEvent.textContent = 'Удалить мероприятие';
-
-        actionsDiv.appendChild(this.btnEditEvent);
-        actionsDiv.appendChild(this.btnDeleteEvent);
-        
         const tagsDiv = document.createElement('div');
-        tagsDiv.className = 'event_tagsDiv';
-        tagsDiv.textContent = event.tag[0];
-        
-        const startDate = document.createElement('div');
-        startDate.className = 'event__date';
-        startDate.textContent = 'Дата начала: ' + event.date_start; // 
+        tagsDiv.className = 'event__tags';
+        event.tag.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.className = 'event__tag';
+            tagElement.textContent = tag;
+            tagsDiv.appendChild(tagElement);
+        });
 
-        const endDate = document.createElement('div');
-        endDate.className = 'event__date';
-        endDate.textContent = 'Дата окончания: ' + event.date_end; // 
+        const eventStartDate = document.createElement('div');
+        eventStartDate.className = 'event__date';
+        eventStartDate.textContent = `Дата начала: ${this._formatDate(event.event_start)}`;
 
-        rightDiv.appendChild(actionsDiv);
-        rightDiv.appendChild(tagsDiv);
-        rightDiv.appendChild(startDate);
-        rightDiv.appendChild(endDate);
-               
-        // Добавляем левую и правую части в основной контейнер
-        this.contentBody.appendChild(leftDiv);
-        this.contentBody.appendChild(rightDiv);
-         
+        const eventEndDate = document.createElement('div');
+        eventEndDate.className = 'event__date';
+        eventEndDate.textContent = `Дата окончания: ${this._formatDate(event.event_end)}`;
+
+
+        const eventInfoRow = document.createElement('div');
+        eventInfoRow.className = 'event__info-row';
+        eventInfoRow.appendChild(tagsDiv);
+        eventInfoRow.appendChild(eventStartDate);
+        eventInfoRow.appendChild(eventEndDate);
+
+        const eventDescription = document.createElement('div');
+        eventDescription.className = 'event__description';
+        eventDescription.textContent = event.description;
+
+        eventDetails.appendChild(eventTitle);
+        eventDetails.appendChild(eventImage);
+        eventDetails.appendChild(eventInfoRow);
+        eventDetails.appendChild(eventDescription);
+
+        const eventActions = document.createElement('div');
+        eventActions.className = 'event__actions';
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'buttonDelete';
+        deleteButton.textContent = 'Удалить мероприятие';
+        deleteButton.addEventListener("click", async () => {
+            response = await api.delete(event, event);
+            console.log(response);
+            //navigate("/profile", event);
+        });
+
+        const editButton = document.createElement('button');
+        editButton.className = 'buttonEdit';
+        editButton.textContent = 'Редактировать мероприятие';
+        editButton.addEventListener("click", () => {
+            console.log("redact ", event);
+            const currentPath = window.location.pathname;
+            navigate(currentPath + "/edit");
+        });
+
+        eventActions.appendChild(editButton);
+        eventActions.appendChild(deleteButton);
+
+        this.contentBody.appendChild(eventDetails);
+        this.contentBody.appendChild(eventActions);
+
     }
     async renderTemplate(id) {
-        console.log(id);
-        const path = '/events/'+id.toString();
-        const request = {headers: {}};
+
+        //console.log(id);
+        const path = `/events/${id}`;
+        const request = { headers: {} };
+
         try {
             const response = await api.get(path, request);
 

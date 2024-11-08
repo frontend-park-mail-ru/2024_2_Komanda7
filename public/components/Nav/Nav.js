@@ -17,8 +17,6 @@ async renderNav() {
     const response = await api.get('/categories', request);
     const dynamicCategories = await response.json();
 
-    console.log(dynamicCategories);
-
     const allEventsItem = {
       key: 'allEvents',
       href: '/events',

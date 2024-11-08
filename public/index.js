@@ -174,6 +174,16 @@ const routes = {
         let eventPage = await new EventContentPage('event').renderTemplate(id);
         newsFeed.appendChild(eventPage);
     },
+    '/events/:id/edit': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        console.log(formCreate);
+        newsFeed.appendChild(formCreate);
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+
+    },
     '/events/my': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
@@ -183,7 +193,6 @@ const routes = {
     },
     '/events/categories/:id': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        console.log("cat")
         let eventPage = await new Feed().renderFeed(`/events/categories/${id}`);
         newsFeed.appendChild(eventPage);
     },
@@ -194,7 +203,7 @@ const routes = {
     },
     '/search': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        let feed = await new Search().renderSearch(navigate, window.location.search.substring(1));
+        let feed = await new Search().renderSearch('/events', window.location.search.substring(1));
         newsFeed.appendChild(feed);
     },
     '/add_event': async() => {
@@ -203,12 +212,19 @@ const routes = {
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
         console.log(formCreate);
         newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');
-        
+        const createBtn = document.getElementById('eventSubmitBtn');        
         createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-        //formCreate.addEventListener('submit', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-        
-        //button to cancel creating
+
+    },
+    '/edit_event': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        console.log(formCreate);
+        newsFeed.appendChild(formCreate);
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+
     },
 };
 
@@ -230,7 +246,21 @@ const defaultRoute = () => {
 window.addEventListener('popstate', () => {
     const path = window.location.pathname;
     const route = routes[path];
-    if (route) {
+    if (/\/events\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[2];
+        routes['/events/:id'](id);
+    }
+    else if (/\/events\/categories\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[3];
+        routes['/events/categories/:id'](id);
+    }
+    else if (route) {
         route();
     } else {
         defaultRoute(); // Call the default route if no matching route is found
@@ -241,7 +271,6 @@ window.addEventListener('popstate', () => {
  * Check the current path when the page is loaded
  */
 const currentPath = window.location.pathname;
-console.log(currentPath);
 /**
  * Check if the current path is the login or signup page
  */
@@ -267,12 +296,24 @@ if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/pr
      */
     const id = currentPath.split('/')[2];
     routes['/events/:id'](id); // Вызываем обработчик с id
+} else if (/\/events\/\d+(\/edit)?/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[2];
+    routes['/events/:id/edit'](id); // Вызываем обработчик с id
+} else if (/\/events\/categories\/\d+/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[3];
+    routes['/events/categories/:id'](id);
 } else if (currentPath === '/my_events') {
     //(/\/events\d+/.test(currentPath))
     //let num = currentPath.match(/\d+/)[0];
     const num = 0;
     /* somehow get current user id and check that user is logged in*/
-    routes['/my_events'](num);
+    routes['/events/my'](num);
 } else if (currentPath === '/add_event') {
     routes['/add_event']();
 } else {
