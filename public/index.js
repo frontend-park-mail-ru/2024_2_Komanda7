@@ -96,29 +96,24 @@ function updateLinksContainer() {
     header = newHeaderElement;
 }
 
-/**
- * Create the initial header element
- */
-let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
-root.appendChild(header);
-
-/**
- * Create the navigation element
- */
-const nav = new Nav().renderNav();
-root.appendChild(nav);
-
-/**
- * Create the feed element
- */
 const newsFeed = document.createElement('main');
-root.appendChild(newsFeed);
 
-/**
- * Create the footer element
- */
-const footer = new Footer().renderFooter();
-root.appendChild(footer);
+async function initializeApp() {
+    // Добавление header
+    let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    root.appendChild(header);
+
+    // Добавление навигации
+    const nav = await new Nav().renderNav();
+    root.appendChild(nav);
+
+        root.appendChild(newsFeed);
+
+    const footer = new Footer().renderFooter();
+    root.appendChild(footer);
+}
+
+initializeApp();
 
 /**
  * Create the response element
@@ -164,7 +159,7 @@ const routes = {
      */
     '/events': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        let feed = await new Feed().renderFeed();
+        let feed = await new Feed().renderFeed('/events');
         newsFeed.appendChild(feed);
     },
     '/profile': () => {
@@ -175,13 +170,27 @@ const routes = {
     },
     '/events/:id': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
+        
         let eventPage = await new EventContentPage('event').renderTemplate(id);
         newsFeed.appendChild(eventPage);
     },
-    '/my_events': async(id) => {
+    '/events/my': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
         newsFeed.appendChild(UserEventPage);
+        let eventPage = await new Feed().renderFeed('/events/my');
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/categories/:id': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        console.log("cat")
+        let eventPage = await new Feed().renderFeed(`/events/categories/${id}`);
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/past': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new Feed().renderFeed('/events/past');
+        newsFeed.appendChild(eventPage);
     },
     '/search': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content

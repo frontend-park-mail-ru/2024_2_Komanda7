@@ -36,7 +36,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
+    background: #f1f1f1;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -84,8 +84,6 @@ body {
     padding: 20px;
     margin: 20px;
 }
-
-
 
 .feed-element img {
     width: 100%;

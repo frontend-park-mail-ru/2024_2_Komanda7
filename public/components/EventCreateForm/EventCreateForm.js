@@ -92,7 +92,7 @@ export class EventCreateForm {
 
       eventTagsEntry: {
         
-        text: 'Тэги (не более 3 штуки)',
+        text: 'Тэги (не более 3 штук)',
         
         tag: 'input',
         

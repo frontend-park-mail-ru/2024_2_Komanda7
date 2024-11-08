@@ -138,7 +138,7 @@ export class Header {
         btnMyEvents.textContent = 'Мои мероприятия';
         btnMyEvents.addEventListener('click', (event) => {
           event.preventDefault();
-          const path = '/my_events';
+          const path = '/events/my';
           navigate(path);
         });
   

@@ -33,7 +33,7 @@ export class Feed {
      * @method renderFeed
      * @returns {HTMLElement} The feed content element.
      */
-    async renderFeed() {
+    async renderFeed(apiPath) {
       /**
        * The feed content element.
        * 
@@ -53,7 +53,8 @@ export class Feed {
          * 
          * @type {Response}
          */
-        const response = await fetch(`${endpoint}/events`, {
+        console.log(`${endpoint}${apiPath}`)
+        const response = await fetch(`${endpoint}${apiPath}`, {
           /**
            * The HTTP method for the request.
            * 
