@@ -1,18 +1,16 @@
 import { api } from "../../modules/FrontendAPI.js";
+
 import { endpoint } from "../../config.js";
 import { navigate } from "../../modules/router.js";
+
 
 export class EventContentPage {
     constructor(eventId) {
         this.contentBody = document.createElement('div');
         this.contentBody.className = 'eventPage';
+
         this.eventId = eventId;
     }
-    _formatDate(dateString) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString('ru-RU', options);
-    }
-
     config = {
         author: {
             text: '',
@@ -50,7 +48,9 @@ export class EventContentPage {
             className: '',
             src: '',
         },
+
     };
+
 
     _renderEvent(event) {
         //console.log(event);
@@ -135,23 +135,30 @@ export class EventContentPage {
 
         this.contentBody.appendChild(eventDetails);
         this.contentBody.appendChild(eventActions);
-    }
 
+    }
     async renderTemplate(id) {
+
         //console.log(id);
         const path = `/events/${id}`;
         const request = { headers: {} };
 
         try {
             const response = await api.get(path, request);
-            const event = await response.json();
-            this._renderEvent(event);
 
+            const eventCon = await response.json();
+            this._renderEvent(eventCon);
+
+           
+            console.log(this.btnDeleteEvent);
+
+            this.btnDeleteEvent.addEventListener('click', (event)=>{handleDeleteEventSubmit(event, id, '/events')});
+    
         } catch (error) {
             console.log(error);
-            console.log("Ошибка при загрузке события");
+            console.log("ERROR HERE");
+            /* some more useful error handling */
         }
-
-        return this.contentBody;
+       return this.contentBody; 
     }
 }
