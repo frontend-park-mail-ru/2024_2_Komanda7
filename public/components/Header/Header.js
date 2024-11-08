@@ -3,6 +3,7 @@
  * @import {string} endpoint - The API endpoint URL
  */
 import { endpoint } from "../../config.js"
+import { api } from '../../modules/FrontendAPI.js';
 /**
  * Header module.
  * 
@@ -59,7 +60,14 @@ export class Header {
       searchbar.type = 'search';
       searchbar.className = 'searchbar';
       searchbar.placeholder = 'Найти событие';
-      searchbar.setAttribute('disabled', "");
+      // Add event listener to detect Enter key press
+      searchbar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') { // Check if the pressed key is Enter
+            event.preventDefault();
+            const searchQuery = searchbar.value;
+            navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+        }
+      });
       headerElement.appendChild(searchbar);
       headerElement.appendChild(searchbar);
   
@@ -98,7 +106,8 @@ export class Header {
         btnRegister.className = "btnRegister";
         btnRegister.textContent = "Зарегистрироваться";
         buttons.appendChild(btnRegister);
-      } else {
+      } 
+      if (userIsLoggedIn) {
         //User  is logged in
         /**
          * The profile link element.
@@ -106,8 +115,16 @@ export class Header {
          * @type {HTMLElement}
          */
         const profileLink = document.createElement('a');
+        profileLink.href = '/profile';
         const avatarImage = document.createElement('img');
-        avatarImage.src = '/static/images/myavatar.png';
+
+        this.fetchProfilePic().then(profilePic => {
+          if (profilePic) {
+            avatarImage.src = endpoint + '/' + profilePic.image;
+          }
+        })
+
+        //avatarImage.src = '/static/images/myavatar.png';
         avatarImage.onerror = function() {
           this.src = "/static/images/default_avatar.png";
           this.style.objectFit = 'fill';
@@ -153,6 +170,25 @@ export class Header {
   
       headerElement.appendChild(buttons);
       return headerElement;
+    }
+    async fetchProfilePic() {
+      try {
+          const request = {
+              headers: {
+
+              },
+              credentials: 'include',
+          };
+          const response = await api.get('/profile', request);
+
+          if (!response.ok) {
+              throw new Error('Failed to fetch profile data');
+          }
+
+          return await response.json();
+      } catch (error) {
+          console.error('Error fetching profile data:', error);
+      }
     }
   }
   

@@ -2,15 +2,10 @@
 @import "components/Header/Header.css";
 @import "components/Nav/Nav.css";
 @import "components/Footer/Footer.css";
+@import "components/Profile/Profile.css";
 @import "components/EventContentPage/EventContentPage.css";
 @import "components/UserEventsPage/UserEventsPage.css";
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+@import "components/Search/Search.css";
 UserEventsPage
 body {
     font-family: Arial, sans-serif;
