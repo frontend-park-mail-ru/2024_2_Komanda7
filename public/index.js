@@ -174,6 +174,16 @@ const routes = {
         let eventPage = await new EventContentPage('event').renderTemplate(id);
         newsFeed.appendChild(eventPage);
     },
+    '/events/:id/edit': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        console.log(formCreate);
+        newsFeed.appendChild(formCreate);
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+
+    },
     '/events/my': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
@@ -202,12 +212,19 @@ const routes = {
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
         console.log(formCreate);
         newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');
-        
+        const createBtn = document.getElementById('eventSubmitBtn');        
         createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-        //formCreate.addEventListener('submit', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-        
-        //button to cancel creating
+
+    },
+    '/edit_event': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        console.log(formCreate);
+        newsFeed.appendChild(formCreate);
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+
     },
 };
 
@@ -279,6 +296,12 @@ if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/pr
      */
     const id = currentPath.split('/')[2];
     routes['/events/:id'](id); // Вызываем обработчик с id
+} else if (/\/events\/\d+(\/edit)?/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[2];
+    routes['/events/:id/edit'](id); // Вызываем обработчик с id
 } else if (/\/events\/categories\/\d+/.test(currentPath)) {
     /**
      * Call the events route function

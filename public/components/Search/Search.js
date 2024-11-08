@@ -2,38 +2,40 @@
  * Import the endpoint configuration from the config.js file
  * @import {string} endpoint - The API endpoint URL
  */
-import { endpoint } from "../../config.js";
+import { endpoint } from "../../config.js"
+import { navigate } from "../../modules/router.js";
+import { api } from '../../modules/FrontendAPI.js';
 /**
  * Import the FeedElement component from the FeedElement.js file
  * @import FeedElement - A component representing a feed element
  */
-import { FeedElement } from "../FeedElement/FeedElement.js";
+import { FeedElement } from "../FeedElement/FeedElement.js"
 /**
- * Search module.
+ * Feed module.
  * 
- * This module provides a class to render a search feed of events.
+ * This module provides a class to render a feed of events.
  * 
- * @module search
+ * @module feed
  */
 
 /**
- * Search class.
+ * Feed class.
  * 
- * This class is responsible for rendering a search feed of events.
+ * This class is responsible for rendering a feed of events.
  * 
- * @class Search
+ * @class Feed
  */
 export class Search {
     /**
-     * Renders the search feed of events.
+     * Renders the feed of events.
      * 
      * This method fetches the events from the server, creates a FeedElement for each event, and appends them to the feed content.
      * 
      * @async
-     * @method renderSearch
-     * @returns {HTMLElement} The search feed content element.
+     * @method renderFeed
+     * @returns {HTMLElement} The feed content element.
      */
-    async renderSearch(navigate, searchQuery) {
+    async renderSearch(apiPath, searchQuery) {
         // Create the main container for the search page
         const searchPage = document.createElement('div');
         searchPage.id = 'searchPage';
@@ -95,40 +97,80 @@ export class Search {
     
         // Append the searchParameters to the searchPage
         searchPage.appendChild(searchParameters);
-    
-        // Create the feed content element
-        const feedContent = document.createElement('div');
-        feedContent.id = 'feedContent';
-    
-        // Fetch the feed from the server
-        const fetchFeed = async (tags, searchTerm) => {
-            const response = await fetch(`${endpoint}/events`, {
-                method: "GET",
+      /**
+       * The feed content element.
+       * 
+       * @type {HTMLElement}
+       */
+      const feedContent = document.createElement('content');
+  
+      /**
+       * Fetches the feed from the server.
+       * 
+       * @async
+       * @function fetchFeed
+       */
+      const fetchFeed = async () => {
+        /**
+         * The response from the server.
+         * 
+         * @type {Response}
+         */
+        console.log(apiPath);
+        
+        try {
+            const request = {
                 headers: {
-                    
+
                 },
-                SearchRequest: {
-                    query: searchTerm,
-                    tags: tags,
-                }
+                credentials: 'include',
+            };
+            const path = '/events/search?query=' + searchTerm;
+            const response = await api.get(path, request);
+            console.log("Search request: ", path);
+        
+        if (response.ok) {
+          /**
+           * The feed data from the server.
+           * 
+           * @type {object}
+           */
+          const feed = await response.json();
+          feedContent.id = 'feedContent';
+  
+          /**
+           * Iterates over the feed data and creates a FeedElement for each event.
+           * 
+           * @param {string} key - The key of the event.
+           * @param {string} description - The description of the event.
+           * @param {string} image - The image URL of the event.
+           */
+          Object.entries(feed.events).forEach( (elem) => {
+            const {id, description, image} = elem[1];
+            const feedElement = new FeedElement(id, description, `${endpoint}/${image}`).renderTemplate();
+            feedContent.appendChild(feedElement);
+            feedElement.addEventListener('click', (event) => {
+              event.preventDefault();
+              const path = `/events/${id}`;
+              navigate(path);
             });
-    
-            if (response.ok) {
-                const feed = await response.json();
-                Object.entries(feed.events).forEach(([key, { description, id }]) => {
-                    const feedElement = new FeedElement(key, description, id, navigate).renderTemplate();
-                    feedContent.appendChild(feedElement);
-                });
-            } else {
-                const errorText = await response.json();
-                console.error('Error fetching feed:', errorText);
-            }
-        };
-    
-        await fetchFeed(tags, searchTerm); // Calls the fetchFeed function
-    
-        // Append the feed content to the main search page
-        searchPage.appendChild(feedContent);
-        return searchPage; // Returns the search page element
+          });
+  
+        } else {
+          /**
+           * The error text from the server.
+           * 
+           * @type {object}
+           */
+          const errorText = await response.json();
+        }
+    } catch (error) {
+        console.error('Error searching:', error);
     }
-}
+      };
+      await fetchFeed(); // Calls the fetchFeed function
+    searchPage.appendChild(feedContent);
+    return searchPage; // Returns the search page element
+    }
+  }
+  

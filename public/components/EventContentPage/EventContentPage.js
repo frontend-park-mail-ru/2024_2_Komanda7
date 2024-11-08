@@ -1,5 +1,6 @@
 import { api } from "../../modules/FrontendAPI.js";
 import { endpoint } from "../../config.js";
+import { navigate } from "../../modules/router.js";
 
 export class EventContentPage {
     constructor(eventId) {
@@ -52,7 +53,7 @@ export class EventContentPage {
     };
 
     _renderEvent(event) {
-        console.log(event);
+        //console.log(event);
 
         const eventDetails = document.createElement('div');
         eventDetails.className = 'event__details';
@@ -64,7 +65,7 @@ export class EventContentPage {
         const eventImage = document.createElement('img');
         eventImage.className = 'event__image';
         eventImage.src = endpoint + '/' + event.image;
-        console.log(eventImage.src);
+        //console.log(eventImage.src);
         eventImage.onerror = function () {
             this.src = "/static/images/placeholder.png";
             this.style.objectFit = 'fill';
@@ -109,10 +110,20 @@ export class EventContentPage {
         const deleteButton = document.createElement('button');
         deleteButton.className = 'buttonDelete';
         deleteButton.textContent = 'Удалить мероприятие';
+        deleteButton.addEventListener("click", async () => {
+            response = await api.delete(event, event);
+            console.log(response);
+            //navigate("/profile", event);
+        });
 
         const editButton = document.createElement('button');
         editButton.className = 'buttonEdit';
         editButton.textContent = 'Редактировать мероприятие';
+        editButton.addEventListener("click", () => {
+            console.log("redact ", event);
+            const currentPath = window.location.pathname;
+            navigate(currentPath + "/edit");
+        });
 
         eventActions.appendChild(editButton);
         eventActions.appendChild(deleteButton);
@@ -122,7 +133,7 @@ export class EventContentPage {
     }
 
     async renderTemplate(id) {
-        console.log(id);
+        //console.log(id);
         const path = `/events/${id}`;
         const request = { headers: {} };
 
