@@ -115,9 +115,7 @@ export async function handleDeleteEventSubmit(event, id, pageToCome) {
 
 export async function handleCreateEventSubmit(event, pageToCome, navigate) {
   event.preventDefault();
-  
- 
- 
+   
   try {
     // Send request to backend
     const userData = {
