@@ -89,7 +89,7 @@ export class Feed {
            */
           Object.entries(feed.events).forEach( (elem) => {
             const {id, description, image} = elem[1];
-            const feedElement = new FeedElement(id, description, `${endpoint}${image}`).renderTemplate();
+            const feedElement = new FeedElement(id, description, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
             feedElement.addEventListener('click', (event) => {
               event.preventDefault();

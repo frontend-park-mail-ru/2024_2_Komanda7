@@ -1,4 +1,5 @@
 import { api } from "../../modules/FrontendAPI.js";
+import { endpoint } from "../../config.js";
 
 export class EventContentPage {
     constructor(eventId) {
@@ -62,7 +63,8 @@ export class EventContentPage {
 
         const eventImage = document.createElement('img');
         eventImage.className = 'event__image';
-        eventImage.src = this.config.image.src;
+        eventImage.src = endpoint + '/' + event.image;
+        console.log(eventImage.src);
         eventImage.onerror = function () {
             this.src = "/static/images/placeholder.png";
             this.style.objectFit = 'fill';
