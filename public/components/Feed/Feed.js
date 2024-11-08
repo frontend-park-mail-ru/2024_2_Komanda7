@@ -90,8 +90,8 @@ export class Feed {
            * @param {string} image - The image URL of the event.
            */
           Object.entries(feed.events).forEach( (elem) => {
-            const {id, description, image} = elem[1];
-            const feedElement = new FeedElement(id, description, `${endpoint}/${image}`).renderTemplate();
+            const {id, title, image} = elem[1];
+            const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
             feedElement.addEventListener('click', (event) => {
               event.preventDefault();
