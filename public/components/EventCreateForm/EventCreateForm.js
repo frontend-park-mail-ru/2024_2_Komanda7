@@ -1,236 +1,117 @@
-/**
- * LoginForm class
- */
 import { api } from '../../modules/FrontendAPI.js';
+
 export class EventCreateForm {
-   
     constructor(formId) {
       this.form = document.createElement('form');
       this.form.id = formId;
+      this.form.className = 'event-create-form'; 
     }
 
     config = {
       eventServerError: {
         text: '',
         tag: 'label',
-        className: 'error_text',
+        className: 'event-create-form__error-text',
         type: '',
       },
 
       eventAddLabel: {
-        
         text: 'Создать мероприятие',
-        
         tag: 'label',
-        
-        className: '',
-        
+        className: 'event-create-form__title',
         type: '',
       },
       
       eventNameEntry: {
-        /**
-         * Text
-         * @type {string}
-         */
         text: 'Название мероприятия',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'input',
-        /**
-         * Type
-         * @type {string}
-         */
         type: 'text',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: '',
-
+        className: 'event-create-form__input',
       },
       
       eventNameError: {
         text: '',
         tag: 'label',
-        className: 'error_text',
+        className: 'event-create-form__error-text',
         type: '',
       },
+      
       eventDescriptionEntry: {
-        
         text: 'Описание мероприятия',
         tag: 'textarea',
-        
         type: '',
-        
-        className: '',
+        className: 'event-create-form__textarea',
       },
+      
       eventDescriptionError: {
-        /**
-         * Error text
-         * @type {string}
-         */
         text: '',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'label',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: 'error_text',
-        /**
-         * Type
-         * @type {string}
-         */
+        className: 'event-create-form__error-text',
         type: '',
       },
 
       eventTagsEntry: {
-        
         text: 'Тэги (не более 3 штук)',
-        
         tag: 'input',
-        
-        type: '',
-        
-        className: '',
+        type: 'text',
+        className: 'event-create-form__input',
       },
      
       eventTagsError: {
-
         text: '',
-        
         tag: 'label',
-        
-        className: 'error_text',
-        
+        className: 'event-create-form__error-text',
         type: '',
       },
 
       eventBeginEntry: {
-          
-          text: 'Время начала мероприятия',
-          
-          tag: 'input',
-          
-          type: 'datetime-local',
-          
-          className: '',
+        text: 'Время начала мероприятия',
+        tag: 'input',
+        type: 'datetime-local',
+        className: 'event-create-form__input event-create-form__input--datetime-local',
       },
       
       eventBeginError: {
-          
-          text: '',
-          
-          tag: 'label',
-          
-          className: 'error_text',
-          
-          type: '',
+        text: '',
+        tag: 'label',
+        className: 'event-create-form__error-text',
+        type: '',
       },
 
       eventEndEntry: {
-        /**
-         * Text
-         * @type {string}
-         */
         text: 'Время окончания мероприятия',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'input',
-        /**
-         * Type
-         * @type {string}
-         */
         type: 'datetime-local',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: '',
+        className: 'event-create-form__input event-create-form__input--datetime-local',
       },
 
       eventEndError: {
-        /**
-         * Error text
-         * @type {string}
-         */
         text: '',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'label',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: 'error_text',
-        /**
-         * Type
-         * @type {string}
-         */
+        className: 'event-create-form__error-text',
         type: '',
       },
+
       imageInput: {
-        /**
-         * Error text
-         * @type {string}
-         */
         text: '',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'input',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: '',
-        /**
-         * Type
-         * @type {string}
-         */
+        className: 'event-create-form__input event-create-form__input--file',
         type: 'file',
-        accept: "image/png, image/jpeg"
+        accept: 'image/png, image/jpeg',
       },
+
       categories: {
-        
         text: '',
-        /**
-         * Tag type
-         * @type {string}
-         */
         tag: 'div',
-        /**
-         * Class name
-         * @type {string}
-         */
-        className: '',
-        /**
-         * Type
-         * @type {string}
-         */
+        className: 'event-create-form__categories-select',
         type: '',
       },
      
       eventSubmitBtn: {
-      
         text: 'Создать',
-        
         tag: 'button',
-
         type: 'submit',
-      
-        className: '',
+        className: 'event-create-form__submit-btn',
       },
     };
   
@@ -239,28 +120,27 @@ export class EventCreateForm {
      * @returns {HTMLFormElement} The rendered form
      */
     renderTemplate(selectElement) {
-      
       const template = Handlebars.templates['EventCreateForm.hbs'];
       
       const config = this.config;
-      let itemsArray = Object.entries(config);
-      let items = itemsArray.map(([key, {tag, text, className, type}], index) => {
-        let needPlaceholder = (tag === 'input');
-        let needMaxMinTime = (type === 'time');
-        return {key, tag, text, className, type, needPlaceholder, needMaxMinTime}; 
-      });
-      //console.log(items);
-  
-      this.form.innerHTML += template({items});
-  
+      const itemsArray = Object.entries(config);
+      const items = itemsArray.map(([key, { tag, text, className, type }]) => ({
+        key,
+        tag,
+        text,
+        className,
+        type,
+        needPlaceholder: tag === 'input',
+        needMaxMinTime: type === 'time'
+      }));
+    
+      this.form.innerHTML = template({ items });
+    
       const categoriesSelect = selectElement;
-      selectElement.id = 'categoriesInput';
-      this.form.appendChild(categoriesSelect);
-
-      //const createBtn = document.getElementById('createBtn');
-      //createBtn.addEventListener();
-      
+      categoriesSelect.classList.add('event-create-form__categories');
+      categoriesSelect.id = 'categoriesInput';
+      this.form.insertBefore(categoriesSelect, this.form.querySelector('.event-create-form__submit-btn'));
+    
       return this.form;
-    }
+    }    
   }
-   
