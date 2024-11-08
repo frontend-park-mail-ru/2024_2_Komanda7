@@ -27,7 +27,6 @@ export class EditEventForm {
             title: 'eventNameEntry',
             description: 'eventDescriptionEntry',
             category_id: 'categories',
-            tag
         };
         const time = {
             event_start: 'eventBeginEntry',
