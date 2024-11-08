@@ -96,7 +96,7 @@ export async function handleLoginSubmit(event, setUserLoggedIn, navigate) {
       navigate("events");
     }
   } catch (error) {
-    document.getElementById('loginServerError').innerText = 'Неверный логин или пароль';
+    document.getElementById('loginServerError').innerText = error;
   }
 }
 
