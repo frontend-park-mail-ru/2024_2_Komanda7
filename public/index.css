@@ -4,6 +4,13 @@
 @import "components/Footer/Footer.css";
 @import "components/EventContentPage/EventContentPage.css";
 @import "components/UserEventsPage/UserEventsPage.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 UserEventsPage
 body {
     font-family: Arial, sans-serif;
@@ -34,7 +41,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
+    background: #f1f1f1;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -82,8 +89,6 @@ body {
     padding: 20px;
     margin: 20px;
 }
-
-
 
 .feed-element img {
     width: 100%;
