@@ -79,6 +79,8 @@ const navigate = (path) => {
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
 
+let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+root.appendChild(header);
 initializeApp();
 /**
  * Update the links container
@@ -102,8 +104,8 @@ const newsFeed = document.createElement('main');
 
 async function initializeApp() {
     // Добавление header
-    let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
-    root.appendChild(header);
+    // let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    // root.appendChild(header);
 
     // Добавление навигации
     const nav = await new Nav().renderNav();
