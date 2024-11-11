@@ -54,7 +54,7 @@ export class Feed {
          * 
          * @type {Response}
          */
-        console.log(apiPath);
+        //console.log(apiPath);
         const response = await fetch(`${endpoint}${apiPath}`, {
           /**
            * The HTTP method for the request.
@@ -70,6 +70,7 @@ export class Feed {
           headers: {
             //"Content-Type": "application/json",
           },
+          credentials: "include",
         });
   
         if (response.ok) {

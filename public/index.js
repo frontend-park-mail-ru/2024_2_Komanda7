@@ -20,6 +20,7 @@ import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerFor
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
 import { handleCreateEventSubmit, loadCategories } from './modules/handleEventsActions.js';
+import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
 
 /**
  * Get the root element
@@ -77,7 +78,9 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-
+let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+root.appendChild(header);
+initializeApp();
 /**
  * Update the links container
  */
@@ -100,8 +103,8 @@ const newsFeed = document.createElement('main');
 
 async function initializeApp() {
     // Добавление header
-    let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
-    root.appendChild(header);
+    // let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    // root.appendChild(header);
 
     // Добавление навигации
     const nav = await new Nav().renderNav();
@@ -112,8 +115,6 @@ async function initializeApp() {
     const footer = new Footer().renderFooter();
     root.appendChild(footer);
 }
-
-initializeApp();
 
 /**
  * Create the response element
@@ -174,16 +175,6 @@ const routes = {
         let eventPage = await new EventContentPage('event').renderTemplate(id);
         newsFeed.appendChild(eventPage);
     },
-    '/events/:id/edit': async(id) => {
-        newsFeed.innerHTML = ''; // Clear the modal window content
-        const categSelect = await loadCategories();
-        const formCreate = new EventCreateForm().renderTemplate(categSelect);
-        console.log(formCreate);
-        newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');        
-        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-
-    },
     '/events/my': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
@@ -206,25 +197,27 @@ const routes = {
         let feed = await new Search().renderSearch('/events', window.location.search.substring(1));
         newsFeed.appendChild(feed);
     },
-    '/add_event': async() => {
+    '/add_event': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
-        console.log(formCreate);
+        //console.log(formCreate);
         newsFeed.appendChild(formCreate);
         const createBtn = document.getElementById('eventSubmitBtn');        
         createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
 
     },
-    '/edit_event': async() => {
+    '/edit_event': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
-        const formCreate = new EventCreateForm().renderTemplate(categSelect);
-        console.log(formCreate);
+        const formId = 'editEventForm';
+        const editEventForm = new EditEventForm(formId);
+        
+        const formCreate = editEventForm.renderTemplate(categSelect);
         newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');        
-        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
-
+        await editEventForm.init(id);
+        const editBtn = document.getElementById('editSubmitBtn');        
+        editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, '/my_events', navigate));
     },
 };
 
@@ -243,6 +236,7 @@ const defaultRoute = () => {
 /**
  * URL bar listener
  */
+//This segment is enacted on URL change
 window.addEventListener('popstate', () => {
     const path = window.location.pathname;
     const route = routes[path];
@@ -251,7 +245,12 @@ window.addEventListener('popstate', () => {
          * Call the events route function
          */
         const id = path.split('/')[2];
-        routes['/events/:id'](id);
+        if (path.split('/')[3] === "edit") {
+            routes['/edit_event'](id);
+        } else {
+            routes['/events/:id'](id);
+        }
+        //routes['/events/:id'](id);
     }
     else if (/\/events\/categories\/\d+/.test(path)) {
         /**
@@ -274,6 +273,7 @@ const currentPath = window.location.pathname;
 /**
  * Check if the current path is the login or signup page
  */
+//This segment is enacted on refresh
 if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search') {
     /**
      * Get the route for the current path
@@ -295,14 +295,12 @@ if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/pr
      * Call the events route function
      */
     const id = currentPath.split('/')[2];
-    routes['/events/:id'](id); // Вызываем обработчик с id
-} else if (/\/events\/\d+(\/edit)?/.test(currentPath)) {
-    /**
-     * Call the events route function
-     */
-    const id = currentPath.split('/')[2];
-    routes['/events/:id/edit'](id); // Вызываем обработчик с id
-} else if (/\/events\/categories\/\d+/.test(currentPath)) {
+    if (currentPath.split('/')[3] === "edit") {
+        routes['/edit_event'](id);
+    } else {
+        routes['/events/:id'](id);
+    } // Вызываем обработчик с id
+}  else if (/\/events\/categories\/\d+/.test(currentPath)) {
     /**
      * Call the events route function
      */

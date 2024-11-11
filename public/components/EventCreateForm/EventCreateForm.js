@@ -241,7 +241,7 @@ export class EventCreateForm {
     renderTemplate(selectElement) {
       
       const template = Handlebars.templates['EventCreateForm.hbs'];
-
+      
       const config = this.config;
       let itemsArray = Object.entries(config);
       let items = itemsArray.map(([key, {tag, text, className, type}], index) => {
@@ -249,7 +249,7 @@ export class EventCreateForm {
         let needMaxMinTime = (type === 'time');
         return {key, tag, text, className, type, needPlaceholder, needMaxMinTime}; 
       });
-      console.log(items);
+      //console.log(items);
   
       this.form.innerHTML += template({items});
   
