@@ -132,7 +132,7 @@ export async function handleCreateEventEdit(event, id, navigate) {
         throw new Error(data.message);
     }
     // Navigate to page
-    const pageToCome = `events/${id}`;
+    const pageToCome = `../${id}`;
     navigate(pageToCome);
 
   } catch (error) {
