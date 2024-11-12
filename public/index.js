@@ -274,7 +274,7 @@ const currentPath = window.location.pathname;
  * Check if the current path is the login or signup page
  */
 //This segment is enacted on refresh
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == 'events/my') {
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my') {
     /**
      * Get the route for the current path
      */
