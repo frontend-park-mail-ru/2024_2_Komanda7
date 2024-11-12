@@ -116,9 +116,9 @@ export class EventContentPage {
                 },
                 credentials: 'include',
             };
-            response = await api.delete(`/event/${event.id}`, request);
+            const response = await api.delete(`/events/${event.id}`, request);
             console.log(response);
-            navigate('/events');
+            navigate('/events/my');
         });
 
         const editButton = document.createElement('button');
