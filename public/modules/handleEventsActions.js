@@ -100,7 +100,7 @@ export async function handleCreateEventEdit(event, id, navigate) {
   try {
     // Send request to backend
     const userData = {
-      title: title,
+      title: '',
       description: description,
       tags: tags,
       event_start: dateStart,
