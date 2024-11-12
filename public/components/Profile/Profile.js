@@ -25,6 +25,7 @@ export class Profile {
 
         // Button to upload new image
         const uploadButton = document.createElement('input');
+        uploadButton.id = "avatarUpload";
         uploadButton.type = 'file';
         uploadButton.accept = 'image/*';
         uploadButton.addEventListener('change', this.uploadProfilePicture.bind(this));
@@ -74,7 +75,6 @@ export class Profile {
 
         this.fetchProfileData().then(profileData => {
             if (profileData) {
-                //console.log(profileData);
                 document.getElementById('username').value = profileData.username;
                 document.getElementById('email').value = profileData.email;
                 profilePicture.src = endpoint + '/' + profileData.image || '/static/images/default_avatar.png';
@@ -89,7 +89,6 @@ export class Profile {
 
     async uploadProfilePicture(event) {
         const file = event.target.files[0];
-        console.log("hey");
         const reader = new FileReader();
         
         // Set up the onload event for the FileReader
@@ -113,7 +112,6 @@ export class Profile {
             if (!response.ok) {
                 throw new Error('Failed to fetch profile data');
             }
-
             return await response.json();
         } catch (error) {
             console.error('Error fetching profile data:', error);
@@ -121,9 +119,16 @@ export class Profile {
     }
 
     async saveChanges() {
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const image = document.getElementById('profileImage').value;
+        const profileData = await this.fetchProfileData();
+        let username = '';
+        let email = '';
+        if (document.getElementById('username').value !== profileData.username) {
+            username = document.getElementById('username').value;
+        }
+        if (document.getElementById('email').value !== profileData.email) {
+            email = document.getElementById('email').value;
+        }
+        const image = '' || document.getElementById('avatarUpload').files[0];
         try {
             const userData = {
                 email: email, 

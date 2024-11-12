@@ -19,7 +19,7 @@ import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
-import { handleCreateEventSubmit, loadCategories } from './modules/handleEventsActions.js';
+import { handleCreateEventSubmit, loadCategories, handleCreateEventEdit } from './modules/handleEventsActions.js';
 import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
 
 /**
@@ -78,7 +78,6 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-
 let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
 root.appendChild(header);
 initializeApp();
@@ -205,7 +204,7 @@ const routes = {
         //console.log(formCreate);
         newsFeed.appendChild(formCreate);
         const createBtn = document.getElementById('eventSubmitBtn');        
-        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/my_events', navigate));
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
 
     },
     '/edit_event': async(id) => {
@@ -218,7 +217,7 @@ const routes = {
         newsFeed.appendChild(formCreate);
         await editEventForm.init(id);
         const editBtn = document.getElementById('editSubmitBtn');        
-        editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, '/my_events', navigate));
+        editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
 };
 
@@ -275,7 +274,7 @@ const currentPath = window.location.pathname;
  * Check if the current path is the login or signup page
  */
 //This segment is enacted on refresh
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search') {
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == 'events/my') {
     /**
      * Get the route for the current path
      */

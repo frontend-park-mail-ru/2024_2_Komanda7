@@ -82,7 +82,7 @@ export async function loadCategories() {
   return selectElement;
 }
 
-export async function handleCreateEventEdit(event, pageToCome, navigate) {
+export async function handleCreateEventEdit(event, id, navigate) {
   event.preventDefault();
   loadCategories();
    // Get form data
@@ -96,47 +96,7 @@ export async function handleCreateEventEdit(event, pageToCome, navigate) {
    
    const image = document.getElementById('imageInput').files[0];
    console.log(title, description, tags, dateStart, dateEnd, image, categoryId);
-  /*
-  // Clear error messages
-  document.getElementById('registerUsernameError').innerText = '';
-  document.getElementById('registerPasswordError').innerText = '';
-  document.getElementById('registerEmailError').innerText = '';
-  document.getElementById('registerServerError').innerText = '';
 
-  // Get form data
-  const username = removeDangerous(document.getElementById('registerUsernameEntry').value);
-  const email = removeDangerous(document.getElementById('registerEmailEntry').value);
-  const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
-
-  // Initialize validation flag
-  let isValid = true;
-
-  // Validate form data
-  if (!username) {
-    document.getElementById('registerUsernameError').innerText = EMPTY_FIELD;
-    isValid = false;
-  }
-
-  if (!isValidUsername(username)) {
-    document.getElementById('registerUsernameError').innerText = INCORRECT_USERNAME;
-    isValid = false;
-  }
-
-  if (!isValidEmail(email)) {
-    document.getElementById('registerEmailError').innerText = INCORRECT_EMAIL;
-    isValid = false;
-  }
-
-  if (!isValidPassword(password)) {
-    document.getElementById('registerPasswordError').innerText = INCORRECT_PASSWORD;
-    isValid = false;
-  }
-
-  // If form data is invalid, exit function
-  if (!isValid) {
-    return;
-  }
-    */
   try {
     // Send request to backend
     const userData = {
@@ -149,7 +109,7 @@ export async function handleCreateEventEdit(event, pageToCome, navigate) {
       };
   
     const json = JSON.stringify(userData);
-    const formData = new FormData();    
+    const formData = new FormData();
     formData.append('json', json); 
     formData.append('image', image);
     const body = formData;
@@ -160,7 +120,8 @@ export async function handleCreateEventEdit(event, pageToCome, navigate) {
         credentials: 'include',
         body: body,
       };
-    const path = '/events';
+    const path = `/events/${id}`;
+    console.log(path);
     const response = await api.put(path, request);
     // If response is not OK, throw error
     if (!response.ok) {
@@ -171,6 +132,7 @@ export async function handleCreateEventEdit(event, pageToCome, navigate) {
         throw new Error(data.message);
     }
     // Navigate to page
+    const pageToCome = `events/${id}`;
     navigate(pageToCome);
 
   } catch (error) {
@@ -181,6 +143,7 @@ export async function handleCreateEventEdit(event, pageToCome, navigate) {
 }
 
 export async function handleCreateEventSubmit(event, pageToCome, navigate) {
+  console.log("hey");
   event.preventDefault();
   loadCategories();
    // Get form data

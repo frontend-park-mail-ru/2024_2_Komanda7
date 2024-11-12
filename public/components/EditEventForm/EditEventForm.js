@@ -24,8 +24,10 @@ export class EditEventForm {
     _renderEvent(event) {
         const mapping = {
             title: 'eventNameEntry',
+            image: 'imageInput',
             description: 'eventDescriptionEntry',
             category_id: 'categories',
+
         };
         const time = {
             event_start: 'eventBeginEntry',
@@ -34,14 +36,20 @@ export class EditEventForm {
         for (const key in mapping) {
             const inputElement = this.form.querySelector(`[id="${mapping[key]}"]`);
             if (inputElement) {
+                if (mapping[key] === 'imageInput') {
+                    console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
+                    console.log(inputElement);
+                    inputElement.src = event[key];
+                } else {
                 console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
                 inputElement.value = event[key];
+                }
             }
         }
         for (const key in time) {
             const inputElement = this.form.querySelector(`[id="${time[key]}"]`);
             if (inputElement) {
-                console.log(`Updating ${time[key]} with value: ${event[key]}`);
+                //console.log(`Updating ${time[key]} with value: ${event[key]}`);
                 inputElement.value = formatDateTimeForInput(event[key]);
             }
         }
