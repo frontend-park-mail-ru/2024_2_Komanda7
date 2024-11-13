@@ -47,22 +47,22 @@ export class Search {
     
         // Create the Tags title and input field
         const tagsLabel = document.createElement('label');
-        // tagsLabel.textContent = 'Tags';
-        // tagsLabel.className = 'input-label'; // Add a class for styling
-        // const tagsInput = document.createElement('input');
-        // tagsInput.type = 'text';
-        // tagsInput.placeholder = 'Enter tags...'; // Placeholder text for Tags input
-        // tagsInput.className = 'tags-input'; // Add a class for styling
-        // // Add event listener to detect Enter key press
-        // tagsInput.addEventListener('keydown', (event) => {
-        //     if (event.key === 'Enter') { // Check if the pressed key is Enter
-        //         event.preventDefault();
-        //         const newTags = tagsInput.value;
-        //         const newSearchTerm = searchInput.value;
-        //         navigate(`/search?tags=${encodeURIComponent(newTags)}&q=${encodeURIComponent(newSearchTerm)}`);
-        //     }
-        // });
-        // Create the Search title and input field
+        tagsLabel.textContent = 'Tags';
+        tagsLabel.className = 'input-label'; // Add a class for styling
+        const tagsInput = document.createElement('input');
+        tagsInput.type = 'text';
+        tagsInput.placeholder = 'Enter tags...'; // Placeholder text for Tags input
+        tagsInput.className = 'tags-input'; // Add a class for styling
+        // Add event listener to detect Enter key press
+        tagsInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') { // Check if the pressed key is Enter
+                event.preventDefault();
+                const newTags = tagsInput.value;
+                const newSearchTerm = searchInput.value;
+                navigate(`/search?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+            }
+        });
+        //Create the Search title and input field
         const searchLabel = document.createElement('label');
         searchLabel.textContent = 'Поиск';
         searchLabel.className = 'input-label'; // Add a class for styling
@@ -74,25 +74,22 @@ export class Search {
             if (event.key === 'Enter') { // Check if the pressed key is Enter
                 event.preventDefault();
                 const newSearchTerm = searchInput.value;
-                //const newTags = tagsInput.value;
-                //navigate(`/search?tags=${encodeURIComponent(newTags)}&q=${encodeURIComponent(newSearchTerm)}`);
-                navigate(`/search?&q=${encodeURIComponent(newSearchTerm)}`);
+                const newTags = tagsInput.value;
+                navigate(`/search?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         // Parse the searchQuery to extract tags and search term
         const params = new URLSearchParams(searchQuery);
         
-        //const tags = params.get('tags') ? params.get('tags').split(' ') : []; // Split tags by space
+        const tags = params.get('tags') ? params.get('tags').split(' ') : []; // Split tags by space
         const searchTerm = params.get('q') || ''; // Get the search term
-        //console.log("Tags: ", tags);
-        //console.log("searchTerms: ", searchTerm);
-        // Set the value of the input fields
-        //tagsInput.value = tags.join(' '); // Join tags with space for display
+        //Set the value of the input fields
+        tagsInput.value = tags.join(' '); // Join tags with space for display
         searchInput.value = searchTerm; // Set search term
     
         // Append the titles and input fields to the searchParameters container
         searchParameters.appendChild(tagsLabel);
-        //searchParameters.appendChild(tagsInput);
+        searchParameters.appendChild(tagsInput);
         searchParameters.appendChild(searchLabel);
         searchParameters.appendChild(searchInput);
     
@@ -126,7 +123,17 @@ export class Search {
                 },
                 credentials: 'include',
             };
-            const path = '/events/search?query=' + searchTerm;
+            console.log(searchTerm);
+            console.log(tags);
+            let path = '/events/search?';
+            if (searchTerm) {
+              path += 'query=' + searchTerm;
+            }
+            if (tags.length) {
+              path += '&tags=' + tags;
+            }
+            //path += '&category_id=' + 7;
+            console.log(path);
             const response = await api.get(path, request);
             //console.log("Search request: ", path);
         
@@ -147,8 +154,8 @@ export class Search {
            * @param {string} image - The image URL of the event.
            */
           Object.entries(feed.events).forEach( (elem) => {
-            const {id, description, image} = elem[1];
-            const feedElement = new FeedElement(id, description, `${endpoint}/${image}`).renderTemplate();
+            const {id, title, image} = elem[1];
+            const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
             feedElement.addEventListener('click', (event) => {
               event.preventDefault();
