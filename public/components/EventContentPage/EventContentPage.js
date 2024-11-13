@@ -77,6 +77,11 @@ export class EventContentPage {
             const tagElement = document.createElement('span');
             tagElement.className = 'event__tag';
             tagElement.textContent = tag;
+            tagElement.addEventListener('click', (event) => {
+                event.preventDefault();
+                const path = `/search?tags=${tag}`;
+                navigate(path);
+            })
             tagsDiv.appendChild(tagElement);
         });
 
