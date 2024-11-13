@@ -91,7 +91,7 @@ export class EditEventForm {
             className: 'event-edit-form__error-text',
             type: '',
         },
-        eventTagsEntry: {
+        eventTagEntry: {
             text: 'Тэги (не более 3 штук)',
             tag: 'input',
             type: 'text',
