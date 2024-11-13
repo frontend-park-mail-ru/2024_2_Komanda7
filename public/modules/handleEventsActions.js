@@ -88,21 +88,20 @@ export async function handleCreateEventEdit(event, id, navigate) {
    // Get form data
    const title = removeDangerous(document.getElementById('eventNameEntry').value);
    const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
-   const tags = removeDangerous(document.getElementById('eventTagsEntry').value).split();
+   const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
    const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
-
    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
    
    const image = document.getElementById('imageInput').files[0];
-   console.log(title, description, tags, dateStart, dateEnd, image, categoryId);
+   console.log(title, description, tag, dateStart, dateEnd, image, categoryId);
 
   try {
     // Send request to backend
     const userData = {
       title: '',
       description: description,
-      tags: tags,
+      tag: tag,
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
@@ -149,14 +148,14 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
    // Get form data
    const title = removeDangerous(document.getElementById('eventNameEntry').value);
    const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
-   const tags = removeDangerous(document.getElementById('eventTagsEntry').value).split();
+   const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
    const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
 
    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
    
    const image = document.getElementById('imageInput').files[0];
-   console.log(title, description, tags, dateStart, dateEnd, image, categoryId);
+   console.log(title, description, tag, dateStart, dateEnd, image, categoryId);
   /*
   // Clear error messages
   document.getElementById('registerUsernameError').innerText = '';
@@ -203,7 +202,7 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
     const userData = {
       title: title,
       description: description,
-      tags: tags,
+      tag: tag,
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
