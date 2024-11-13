@@ -52,7 +52,7 @@ export class EventContentPage {
         },
     };
 
-    _renderEvent(event) {
+    async _renderEvent(event) {
         //console.log(event);
 
         const eventDetails = document.createElement('div');
@@ -117,7 +117,7 @@ export class EventContentPage {
                 credentials: 'include',
             };
             const response = await api.delete(`/events/${event.id}`, request);
-            console.log(response);
+            //console.log(response);
             navigate('/events/my');
         });
 
@@ -125,13 +125,17 @@ export class EventContentPage {
         editButton.className = 'buttonEdit';
         editButton.textContent = 'Редактировать мероприятие';
         editButton.addEventListener("click", () => {
-            console.log("redact ", event);
+            //console.log("redact ", event);
             const currentPath = window.location.pathname;
             navigate(currentPath + "/edit");
         });
 
-        eventActions.appendChild(editButton);
-        eventActions.appendChild(deleteButton);
+        const possession = await this.checkPossession();
+        //array of post ids
+        if (possession.includes(event.id)) {
+            eventActions.appendChild(editButton);
+            eventActions.appendChild(deleteButton);
+        }
 
         this.contentBody.appendChild(eventDetails);
         this.contentBody.appendChild(eventActions);
@@ -153,5 +157,23 @@ export class EventContentPage {
         }
 
         return this.contentBody;
+    }
+    async checkPossession() {
+        //console.log(id);
+        const path = `/events/my`;
+        const request = { headers: {}, credentials: "include" };
+
+        try {
+            const response = await api.get(path, request);
+            const event = await response.json();
+            const arr = Array.from(event.events, (ev) => ev.id);
+            return arr;
+
+        } catch (error) {
+            console.log(error);
+            console.log("Ошибка при загрузке событий");
+        }
+
+        return [];
     }
 }
