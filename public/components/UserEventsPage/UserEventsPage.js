@@ -55,28 +55,8 @@ export class UserEventsPage {
          
     }
     async renderTemplate(id) {
-        console.log(id);
-        //const path = '/events/'+id.toString();
-        //const request = {headers: {}};
-        /*try {
-            const response = await api.get(path, request);
-
-            const event = await response.json();
-            console.log(event);
-            console.log("here");
-           
-            this.renderEvent(event);
-            //this.leftPart = document.createElement('leftPart');
-            //this.rightPart = document.createElement('rightPart');
-    
-        } catch (error) {
-            console.log(error);
-            console.log("ERROR HERE");
-            
-        }*/
         const event = {};
         this.renderEvent(event);
-        console.log(this.contentBody);
         return this.contentBody; 
     }
 }
