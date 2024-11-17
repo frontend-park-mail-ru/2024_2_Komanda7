@@ -194,7 +194,7 @@ const routes = {
     },
     '/search': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        let feed = await new Search().renderSearch('/events', window.location.search.substring(1));
+        let feed = await new Search().renderSearch('/search', window.location.search.substring(1));
         newsFeed.appendChild(feed);
     },
     '/add_event': async(id) => {
