@@ -1,7 +1,4 @@
-import { api } from "../../modules/FrontendAPI.js";
 import { navigate } from "../../modules/router.js";
-import { FeedElement } from "../FeedElement/FeedElement.js"
-import { EventCreateForm } from "../EventCreateForm/EventCreateForm.js"
 
 export class UserEventsPage {
     constructor(eventId) {

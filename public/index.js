@@ -201,7 +201,6 @@ const routes = {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
-        //console.log(formCreate);
         newsFeed.appendChild(formCreate);
         const createBtn = document.getElementById('eventSubmitBtn');        
         createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
@@ -307,8 +306,6 @@ if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/pr
     const id = currentPath.split('/')[3];
     routes['/events/categories/:id'](id);
 } else if (currentPath === '/my_events') {
-    //(/\/events\d+/.test(currentPath))
-    //let num = currentPath.match(/\d+/)[0];
     const num = 0;
     /* somehow get current user id and check that user is logged in*/
     routes['/events/my'](num);

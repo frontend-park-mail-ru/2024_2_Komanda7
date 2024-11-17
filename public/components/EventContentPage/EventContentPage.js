@@ -53,7 +53,6 @@ export class EventContentPage {
     };
 
     async _renderEvent(event) {
-        //console.log(event);
 
         const eventDetails = document.createElement('div');
         eventDetails.className = 'event__details';
@@ -65,7 +64,6 @@ export class EventContentPage {
         const eventImage = document.createElement('img');
         eventImage.className = 'event__image';
         eventImage.src = endpoint + '/' + event.image;
-        //console.log(eventImage.src);
         eventImage.onerror = function () {
             this.src = "/static/images/placeholder.png";
             this.style.objectFit = 'fill';
@@ -122,7 +120,6 @@ export class EventContentPage {
                 credentials: 'include',
             };
             const response = await api.delete(`/events/${event.id}`, request);
-            //console.log(response);
             navigate('/events/my');
         });
 
@@ -130,7 +127,6 @@ export class EventContentPage {
         editButton.className = 'buttonEdit';
         editButton.textContent = 'Редактировать мероприятие';
         editButton.addEventListener("click", () => {
-            //console.log("redact ", event);
             const currentPath = window.location.pathname;
             navigate(currentPath + "/edit");
         });
@@ -147,7 +143,6 @@ export class EventContentPage {
     }
 
     async renderTemplate(id) {
-        //console.log(id);
         const path = `/events/${id}`;
         const request = { headers: {} };
 
@@ -164,7 +159,6 @@ export class EventContentPage {
         return this.contentBody;
     }
     async checkPossession() {
-        //console.log(id);
         const path = `/events/my`;
         const request = { headers: {}, credentials: "include" };
 

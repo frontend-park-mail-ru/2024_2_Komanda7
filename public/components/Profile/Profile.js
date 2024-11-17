@@ -149,15 +149,6 @@ export class Profile {
             const path = '/profile';
             const response = await api.put(path, request);
 
-            // const response = await fetch(`${endpoint}/profile`, {
-            //     method: 'PUT',
-            //     headers: {
-            //         'Content-Type': 'application/json' // Заменено на правильный синтаксис
-            //     },
-            //     body: JSON.stringify({ email: email, username: username }), // Используйте 'body' вместо 'json'
-            //     credentials: 'include',
-            // });
-
             if (response.ok) {
                 document.getElementById('successMessage').innerText = 'Профиль успешно обновлён!';
                 document.getElementById('errorMessage').innerText = '';
@@ -168,7 +159,6 @@ export class Profile {
             }
         } catch (error) {
             document.getElementById('errorMessage').innerText = 'Ошибка сохранения ' + JSON.stringify(error.status);
-            //console.error('Error saving profile data:', error);
         }
     }
 }

@@ -124,7 +124,6 @@ export class Header {
           }
         })
 
-        //avatarImage.src = '/static/images/myavatar.png';
         avatarImage.onerror = function() {
           this.src = "/static/images/default_avatar.png";
           this.style.objectFit = 'fill';
