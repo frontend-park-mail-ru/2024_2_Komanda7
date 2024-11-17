@@ -59,7 +59,7 @@ export class Search {
                 event.preventDefault();
                 const newTags = tagsInput.value;
                 const newSearchTerm = searchInput.value;
-                navigate(`/search?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         //Create the Search title and input field
@@ -75,7 +75,7 @@ export class Search {
                 event.preventDefault();
                 const newSearchTerm = searchInput.value;
                 const newTags = tagsInput.value;
-                navigate(`/search?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         // Parse the searchQuery to extract tags and search term
@@ -114,7 +114,6 @@ export class Search {
          * 
          * @type {Response}
          */
-        //console.log(apiPath);
         
         try {
             const request = {
@@ -123,8 +122,6 @@ export class Search {
                 },
                 credentials: 'include',
             };
-            console.log(searchTerm);
-            console.log(tags);
             let path = '/events/search?';
             if (searchTerm) {
               path += 'query=' + searchTerm;
@@ -135,9 +132,7 @@ export class Search {
               })
             }
             //path += '&category_id=' + 7;
-            console.log(path);
             const response = await api.get(path, request);
-            //console.log("Search request: ", path);
         
         if (response.ok) {
           /**
