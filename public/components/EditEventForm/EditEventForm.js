@@ -14,7 +14,7 @@ export class EditEventForm {
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            console.log("Fetched event data:", event);
+            //console.log("Fetched event data:", event);
             this._renderEvent(event);
         } catch (error) {
             console.log(error);
@@ -37,11 +37,11 @@ export class EditEventForm {
             const inputElement = this.form.querySelector(`[id="${mapping[key]}"]`);
             if (inputElement) {
                 if (mapping[key] === 'imageInput') {
-                    console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
-                    console.log(inputElement);
+                    // console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
+                    // console.log(inputElement);
                     inputElement.src = event[key];
                 } else {
-                console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
+                // console.log(`Updating ${mapping[key]} with value: ${event[key]}`);
                 inputElement.value = event[key];
                 }
             }

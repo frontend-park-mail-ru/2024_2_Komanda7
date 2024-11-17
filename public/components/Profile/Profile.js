@@ -159,7 +159,6 @@ export class Profile {
             // });
 
             if (response.ok) {
-                console.log("success");
                 document.getElementById('successMessage').innerText = 'Профиль успешно обновлён!';
                 document.getElementById('errorMessage').innerText = '';
             } else {
