@@ -130,7 +130,9 @@ export class Search {
               path += 'query=' + searchTerm;
             }
             if (tags.length) {
-              path += '&tags=' + tags;
+              tags.forEach((tag) => {
+                path += '&tags=' + tag;
+              })
             }
             //path += '&category_id=' + 7;
             console.log(path);
