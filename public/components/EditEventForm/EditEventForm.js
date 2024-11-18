@@ -2,6 +2,8 @@
  * EditEventForm class
  */
 import { api } from '../../modules/FrontendAPI.js';
+
+
 export class EditEventForm {
     constructor(formId) {
         this.form = document.createElement('form');
@@ -14,7 +16,6 @@ export class EditEventForm {
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            //console.log("Fetched event data:", event);
             this._renderEvent(event);
         } catch (error) {
             console.log(error);
