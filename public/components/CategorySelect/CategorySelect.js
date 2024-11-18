@@ -5,8 +5,6 @@ async function loadCategories() {
       const response = await api.get('/categories', request);
       const categories = await response.json();
 
-      console.log(categories);
-
       // Заполнение выпадающего списка
       categories.forEach(category => {
           const option = document.createElement('option');
