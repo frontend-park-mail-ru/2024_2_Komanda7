@@ -54,7 +54,6 @@ export class Feed {
          * 
          * @type {Response}
          */
-        //console.log(apiPath);
         const response = await fetch(`${endpoint}${apiPath}`, {
           /**
            * The HTTP method for the request.
