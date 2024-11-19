@@ -44,14 +44,6 @@
     border-radius: 15px;
 }
 
-
-/* Блок для кнопок */
-.event_actionsDiv {
-    margin-top: 15px;
-    display:inline-block;
-    margin-top: 15px;
-}
-
 /* Кнопка удаления */
 .buttonDelete {
     background: #fff;
