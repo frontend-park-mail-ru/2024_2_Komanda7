@@ -140,7 +140,50 @@ export class EventCreateForm {
       categoriesSelect.classList.add('event-create-form__categories');
       categoriesSelect.id = 'categoriesInput';
       this.form.insertBefore(categoriesSelect, this.form.querySelector('.event-create-form__submit-btn'));
-    
+      // Создание контейнера для карты
+      const mapContainer = document.createElement('div');
+      mapContainer.id = 'map';
+      mapContainer.style.width = '100%'; // Ширина карты
+      mapContainer.style.height = '400px'; // Высота карты
+      this.form.insertBefore(mapContainer, this.form.querySelector('.event-create-form__submit-btn'));
+
+      // Инициализация карты
+      const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17 };
+      ymaps.ready(() => this.initMap(mock_data));
+
       return this.form;
-    }    
+    }
+    initMap(mock_data) {
+      const myMap = new ymaps.Map("map", {
+          center: [mock_data.latitude, mock_data.longitude],
+          zoom: mock_data.zoom,
+      });  
+      // Обработчик события клика на карту
+      myMap.events.add('mousedown', (e) => {
+          const coords = e.get('coords');
+          const zoom = myMap.getZoom();
+          var selectedPoint = {
+              latitude: coords[0],
+              longitude: coords[1],
+              zoom: zoom,
+          };
+          // Удаляем старую метку, если она существует
+          if (this.currentPlacemark) {
+              myMap.geoObjects.remove(this.currentPlacemark);
+          }
+          // Создаем новую метку
+          this.currentPlacemark = new ymaps.Placemark(coords, {
+              hintContent: 'Новая метка',
+          }, {
+              iconLayout: 'default#image',
+              iconImageHref: '/static/images/location.png',
+              iconImageSize: [32, 32],
+              iconImageOffset: [-16, -32]
+          });
+          // Добавляем новую метку на карту
+          myMap.geoObjects.add(this.currentPlacemark);
+          console.log(selectedPoint);
+      });
   }
+}
+
