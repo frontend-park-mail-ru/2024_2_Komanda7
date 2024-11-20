@@ -120,3 +120,7 @@
     gap: 350px;
 }
 
+#map {
+    width: 70%;
+    height: 600px;
+}

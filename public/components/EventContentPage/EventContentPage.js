@@ -8,6 +8,49 @@ export class EventContentPage {
         this.contentBody.className = 'eventPage';
         this.eventId = eventId;
     }
+    init(mock_data) {
+        var myMap = new ymaps.Map("map", {
+            center: [mock_data.latitude, mock_data.longitude], // Координаты центра карты
+            zoom: mock_data.zoom,
+        });
+        // создать метку
+        const myPlacemark = new ymaps.Placemark([mock_data.latitude, mock_data.longitude], {
+            hintContent: 'Место',
+        }, {
+            // Необходимо указать данный тип макета.
+            iconLayout: 'default#image',
+            // Своё изображение иконки метки.
+            iconImageHref: '/static/images/location.png',
+            iconImageSize: [32, 32],
+            iconImageOffset: [-16, -32]
+        });
+        myMap.geoObjects.add(myPlacemark);
+        
+        myMap.events.add('mousedown', function (e) {
+            var coords = e.get('coords');
+            const zoom = myMap.getZoom();
+            var latitude = coords[0];
+            var longitude = coords[1];
+
+            // saving
+            var selectedPoint = {
+                latitude: latitude,
+                longitude: longitude,
+                zoom: zoom,
+            };
+            console.log(selectedPoint);
+            const myPlacemark = new ymaps.Placemark([latitude, longitude], {
+                hintContent: 'Котёнок ^w^',
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: '/static/images/location.png',
+                iconImageSize: [32, 32],
+                iconImageOffset: [-16, -32]
+            });
+            myMap.geoObjects.add(myPlacemark);
+        });
+
+    };
     _formatDate(dateString) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('ru-RU', options);
@@ -140,6 +183,13 @@ export class EventContentPage {
 
         this.contentBody.appendChild(eventDetails);
         this.contentBody.appendChild(eventActions);
+        // Create map container
+        const mapContainer = document.createElement('div');
+        mapContainer.id = 'map';
+        this.contentBody.appendChild(mapContainer);
+        const mock_data = {latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17};
+        // Initialize map after appending to DOM
+        ymaps.ready(() => this.init(mock_data));
     }
 
     async renderTemplate(id) {
