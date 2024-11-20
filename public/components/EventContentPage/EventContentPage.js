@@ -17,7 +17,6 @@ export class EventContentPage {
         const myPlacemark = new ymaps.Placemark([mock_data.latitude, mock_data.longitude], {
             hintContent: 'Место',
         }, {
-            // Необходимо указать данный тип макета.
             iconLayout: 'default#image',
             // Своё изображение иконки метки.
             iconImageHref: '/static/images/location.png',
@@ -25,31 +24,6 @@ export class EventContentPage {
             iconImageOffset: [-16, -32]
         });
         myMap.geoObjects.add(myPlacemark);
-        
-        myMap.events.add('mousedown', function (e) {
-            var coords = e.get('coords');
-            const zoom = myMap.getZoom();
-            var latitude = coords[0];
-            var longitude = coords[1];
-
-            // saving
-            var selectedPoint = {
-                latitude: latitude,
-                longitude: longitude,
-                zoom: zoom,
-            };
-            console.log(selectedPoint);
-            const myPlacemark = new ymaps.Placemark([latitude, longitude], {
-                hintContent: 'Котёнок ^w^',
-            }, {
-                iconLayout: 'default#image',
-                iconImageHref: '/static/images/location.png',
-                iconImageSize: [32, 32],
-                iconImageOffset: [-16, -32]
-            });
-            myMap.geoObjects.add(myPlacemark);
-        });
-
     };
     _formatDate(dateString) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
