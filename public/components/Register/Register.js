@@ -194,6 +194,29 @@ export class RegisterForm {
            */
           type: '', 
         },
+        imageInput: {
+          /**
+           * Error text
+           * @type {string}
+           */
+          text: '',
+          /**
+           * Tag type
+           * @type {string}
+           */
+          tag: 'input',
+          /**
+           * Class name
+           * @type {string}
+           */
+          className: '',
+          /**
+           * Type
+           * @type {string}
+           */
+          type: 'file',
+          accept: "image/png, image/jpeg"
+        },  
       
         /**
          * Submit button configuration

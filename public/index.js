@@ -10,10 +10,17 @@ import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
 import { Nav } from "./components/Nav/Nav.js";
 import { Feed } from "./components/Feed/Feed.js";
+import { Profile } from "./components/Profile/Profile.js";
+import { Search } from "./components/Search/Search.js";
+import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
+import { UserEventsPage } from "./components/UserEventsPage/UserEventsPage.js";
 import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
+import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
+import { handleCreateEventSubmit, loadCategories, handleCreateEventEdit } from './modules/handleEventsActions.js';
+import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
 
 /**
  * Get the root element
@@ -71,7 +78,9 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-
+let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+root.appendChild(header);
+initializeApp();
 /**
  * Update the links container
  */
@@ -90,29 +99,22 @@ function updateLinksContainer() {
     header = newHeaderElement;
 }
 
-/**
- * Create the initial header element
- */
-let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
-root.appendChild(header);
-
-/**
- * Create the navigation element
- */
-const nav = new Nav().renderNav();
-root.appendChild(nav);
-
-/**
- * Create the feed element
- */
 const newsFeed = document.createElement('main');
-root.appendChild(newsFeed);
 
-/**
- * Create the footer element
- */
-const footer = new Footer().renderFooter();
-root.appendChild(footer);
+async function initializeApp() {
+    // Добавление header
+    // let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    // root.appendChild(header);
+
+    // Добавление навигации
+    const nav = await new Nav().renderNav();
+    root.appendChild(nav);
+
+        root.appendChild(newsFeed);
+
+    const footer = new Footer().renderFooter();
+    root.appendChild(footer);
+}
 
 /**
  * Create the response element
@@ -158,8 +160,63 @@ const routes = {
      */
     '/events': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
-        let feed = await new Feed().renderFeed();
+        let feed = await new Feed().renderFeed('/events');
         newsFeed.appendChild(feed);
+    },
+    '/profile': () => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const profile = new Profile();
+        const profileElement = profile.renderProfile();
+        newsFeed.appendChild(profileElement);
+    },
+    '/events/:id': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        
+        let eventPage = await new EventContentPage('event').renderTemplate(id);
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/my': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
+        newsFeed.appendChild(UserEventPage);
+        let eventPage = await new Feed().renderFeed('/events/my');
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/categories/:id': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new Feed().renderFeed(`/events/categories/${id}`);
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/past': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new Feed().renderFeed('/events/past');
+        newsFeed.appendChild(eventPage);
+    },
+    '/search': async() => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let feed = await new Search().renderSearch('/search', window.location.search.substring(1));
+        newsFeed.appendChild(feed);
+    },
+    '/add_event': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        newsFeed.appendChild(formCreate);
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
+
+    },
+    '/edit_event': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        const categSelect = await loadCategories();
+        const formId = 'editEventForm';
+        const editEventForm = new EditEventForm(formId);
+        
+        const formCreate = editEventForm.renderTemplate(categSelect);
+        newsFeed.appendChild(formCreate);
+        await editEventForm.init(id);
+        const editBtn = document.getElementById('editSubmitBtn');        
+        editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
 };
 
@@ -178,10 +235,30 @@ const defaultRoute = () => {
 /**
  * URL bar listener
  */
+//This segment is enacted on URL change
 window.addEventListener('popstate', () => {
     const path = window.location.pathname;
     const route = routes[path];
-    if (route) {
+    if (/\/events\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[2];
+        if (path.split('/')[3] === "edit") {
+            routes['/edit_event'](id);
+        } else {
+            routes['/events/:id'](id);
+        }
+        //routes['/events/:id'](id);
+    }
+    else if (/\/events\/categories\/\d+/.test(path)) {
+        /**
+         * Call the events route function
+         */
+        const id = path.split('/')[3];
+        routes['/events/categories/:id'](id);
+    }
+    else if (route) {
         route();
     } else {
         defaultRoute(); // Call the default route if no matching route is found
@@ -192,11 +269,11 @@ window.addEventListener('popstate', () => {
  * Check the current path when the page is loaded
  */
 const currentPath = window.location.pathname;
-
 /**
  * Check if the current path is the login or signup page
  */
-if (currentPath === '/login' || currentPath === '/signup') {
+//This segment is enacted on refresh
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my') {
     /**
      * Get the route for the current path
      */
@@ -207,11 +284,33 @@ if (currentPath === '/login' || currentPath === '/signup') {
          */
         route();
     }
-} else if (currentPath === '/events' || currentPath === "/") {
+} else if (currentPath === '/events' || currentPath === '/') {
     /**
      * Call the events route function
      */
     routes['/events']();
+} else if (/\/events\/\d+/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[2];
+    if (currentPath.split('/')[3] === "edit") {
+        routes['/edit_event'](id);
+    } else {
+        routes['/events/:id'](id);
+    } // Вызываем обработчик с id
+}  else if (/\/events\/categories\/\d+/.test(currentPath)) {
+    /**
+     * Call the events route function
+     */
+    const id = currentPath.split('/')[3];
+    routes['/events/categories/:id'](id);
+} else if (currentPath === '/my_events') {
+    const num = 0;
+    /* somehow get current user id and check that user is logged in*/
+    routes['/events/my'](num);
+} else if (currentPath === '/add_event') {
+    routes['/add_event']();
 } else {
     /**
      * Call the default route function

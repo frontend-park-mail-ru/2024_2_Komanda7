@@ -17,7 +17,8 @@ import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from 
  * Import the endpoint configuration from the config.js file
  * @import {string} endpoint - The API endpoint URL
  */
-import { endpoint } from "../../config.js"
+
+import { api } from './FrontendAPI.js';
 /**
  * Error message for empty fields.
  * @constant {string}
@@ -53,70 +54,66 @@ const INCORRECT_EMAIL = 'Адрес email должен содержать нес
  * @param {function} setUserLoggedIn - A function to set the user's logged-in state.
  * @param {function} navigate - A function to navigate to a different page.
  */
-export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
+
+export async function loadCategories() {
+  const selectElement = document.createElement('select');
+  try {
+    const request = { headers: {} };
+      const response = await api.get('/categories', request);
+      const categories = await response.json();
+
+      // Заполнение выпадающего списка
+      categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id; // id категории
+          option.textContent = category.name; // название категории
+          selectElement.appendChild(option);
+      });
+      return selectElement;
+  } catch (error) {
+      console.error('Ошибка при загрузке категорий:', error);
+  }
+  return selectElement;
+}
+
+export async function handleCreateEventEdit(event, id, navigate) {
   event.preventDefault();
-
-  // Clear error messages
-  document.getElementById('registerUsernameError').innerText = '';
-  document.getElementById('registerPasswordError').innerText = '';
-  document.getElementById('registerEmailError').innerText = '';
-  document.getElementById('registerServerError').innerText = '';
-
-  // Get form data
-  const username = removeDangerous(document.getElementById('registerUsernameEntry').value);
-  const email = removeDangerous(document.getElementById('registerEmailEntry').value);
-  const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
-  const image = document.getElementById('imageInput').files[0];
-
-  // Initialize validation flag
-  let isValid = true;
-
-  // Validate form data
-  if (!username) {
-    document.getElementById('registerUsernameError').innerText = EMPTY_FIELD;
-    isValid = false;
-  }
-
-  if (!isValidUsername(username)) {
-    document.getElementById('registerUsernameError').innerText = INCORRECT_USERNAME;
-    isValid = false;
-  }
-
-  if (!isValidEmail(email)) {
-    document.getElementById('registerEmailError').innerText = INCORRECT_EMAIL;
-    isValid = false;
-  }
-
-  if (!isValidPassword(password)) {
-    document.getElementById('registerPasswordError').innerText = INCORRECT_PASSWORD;
-    isValid = false;
-  }
-
-  // If form data is invalid, exit function
-  if (!isValid) {
-    return;
-  }
+  loadCategories();
+   // Get form data
+   const title = removeDangerous(document.getElementById('eventNameEntry').value);
+   const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
+   const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
+   const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
+   const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
+   const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
+   
+   const image = document.getElementById('imageInput').files[0];
 
   try {
+    // Send request to backend
     const userData = {
-      username: username,
-      email: email,
-      password: password,
-    };
+      title: '',
+      description: description,
+      tag: tag,
+      event_start: dateStart,
+      event_end: dateEnd,
+      category_id: categoryId,
+      };
   
     const json = JSON.stringify(userData);
-    const formData = new FormData();    
+    const formData = new FormData();
     formData.append('json', json); 
     formData.append('image', image);
-    // Send request to backend
-    const response = await fetch(`${endpoint}/register`, {
-      method: 'POST',
-      headers: {
-  
-      },
-      credentials: 'include',
-      body: formData,
-    });
+    const body = formData;
+    const request = {
+        headers: {
+      
+        },
+        credentials: 'include',
+        body: body,
+      };
+    const path = `/events/${id}`;
+    const response = await api.put(path, request);
     // If response is not OK, throw error
     if (!response.ok) {
       throw new Error(data.message);
@@ -125,15 +122,71 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
     if (data.code) {
         throw new Error(data.message);
     }
-
-    // Set user as logged in and navigate to events page
-    setUserLoggedIn(true);
-    navigate("/events");
+    // Navigate to page
+    const pageToCome = `../${id}`;
+    navigate(pageToCome);
 
   } catch (error) {
     // Display error message if registration fails
-    document.getElementById('registerServerError').innerText = error;
-  }
+    document.getElementById('eventServerError').innerText = error;
+  } 
+    //navigate(pageToCome); //debug
+}
+
+export async function handleCreateEventSubmit(event, pageToCome, navigate) {
+  event.preventDefault();
+  loadCategories();
+   // Get form data
+   const title = removeDangerous(document.getElementById('eventNameEntry').value);
+   const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
+   const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
+   const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
+   const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
+
+   const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
+   
+   const image = document.getElementById('imageInput').files[0];
+
+  try {
+    // Send request to backend
+    const userData = {
+      title: title,
+      description: description,
+      tag: tag,
+      event_start: dateStart,
+      event_end: dateEnd,
+      category_id: categoryId,
+      };
+  
+    const json = JSON.stringify(userData);
+    const formData = new FormData();    
+    formData.append('json', json); 
+    formData.append('image', image);
+    const body = formData;
+    const request = {
+        headers: {
+      
+        },
+        credentials: 'include',
+        body: body,
+      };
+    const path = '/events';
+    const response = await api.post(path, request);
+    // If response is not OK, throw error
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+    const data = await response.json();
+    if (data.code) {
+        throw new Error(data.message);
+    }
+    // Navigate to page
+    navigate(pageToCome);
+
+  } catch (error) {
+    // Display error message if registration fails
+    document.getElementById('eventServerError').innerText = error;
+  } 
 }
 
 /**
@@ -144,7 +197,7 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
  * @function handleRegisterCheck
  * @param {Event} event - The input event.
  */
-export function handleRegisterCheck(event) {
+export function handleCreateEventCheck(event) {
   const target = event.target;
   const id = target.id;
 

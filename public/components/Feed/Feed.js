@@ -3,6 +3,7 @@
  * @import {string} endpoint - The API endpoint URL
  */
 import { endpoint } from "../../config.js"
+import { navigate } from "../../modules/router.js";
 /**
  * Import the FeedElement component from the FeedElement.js file
  * @import FeedElement - A component representing a feed element
@@ -33,7 +34,7 @@ export class Feed {
      * @method renderFeed
      * @returns {HTMLElement} The feed content element.
      */
-    async renderFeed() {
+    async renderFeed(apiPath) {
       /**
        * The feed content element.
        * 
@@ -53,7 +54,7 @@ export class Feed {
          * 
          * @type {Response}
          */
-        const response = await fetch(`${endpoint}/events`, {
+        const response = await fetch(`${endpoint}${apiPath}`, {
           /**
            * The HTTP method for the request.
            * 
@@ -68,6 +69,7 @@ export class Feed {
           headers: {
             //"Content-Type": "application/json",
           },
+          credentials: "include",
         });
   
         if (response.ok) {
@@ -86,9 +88,15 @@ export class Feed {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
-          Object.entries(feed).forEach(([key, { description, image }]) => {
-            const feedElement = new FeedElement(key, description, `${endpoint}${image}`).renderTemplate();
+          Object.entries(feed.events).forEach( (elem) => {
+            const {id, title, image} = elem[1];
+            const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
+            feedElement.addEventListener('click', (event) => {
+              event.preventDefault();
+              const path = `/events/${id}`;
+              navigate(path);
+            });
           });
   
         } else {

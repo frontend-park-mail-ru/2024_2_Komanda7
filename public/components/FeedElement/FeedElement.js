@@ -19,10 +19,10 @@ export class FeedElement {
      * 
      * @constructor
      * @param {string} elemId - The ID of the feed element.
-     * @param {string} description - The description of the feed element.
+     * @param {string} title - The title of the feed element.
      * @param {string} imagePath - The path to the image of the feed element.
      */
-    constructor(elemId, description, imagePath) {
+    constructor(elemId, title, imagePath) {
       /**
        * The feed element.
        * 
@@ -40,13 +40,13 @@ export class FeedElement {
       imageElement.src = imagePath;
   
       /**
-       * The description element configuration.
+       * The title element configuration.
        * 
        * @type {Object}
        */
-      const descriptionElement = this.config.description;
-      descriptionElement.text = description;
-      descriptionElement.className = 'description';
+      const titleElement = this.config.title;
+      titleElement.text = title;
+      titleElement.className = 'title';
     }
   
     /**
@@ -69,19 +69,19 @@ export class FeedElement {
         src: '',
       },
       /**
-       * The description configuration.
+       * The title configuration.
        * 
        * @type {Object}
        */
-      description: {
+      title: {
         /**
-         * The description class name.
+         * The title class name.
          * 
          * @type {string}
          */
         className: '',
         /**
-         * The description text.
+         * The title text.
          * 
          * @type {string}
          */
@@ -92,7 +92,7 @@ export class FeedElement {
     /**
      * Renders the feed element template.
      * 
-     * This method creates the feed element template and appends the image and description elements to it.
+     * This method creates the feed element template and appends the image and title elements to it.
      * 
      * @method renderTemplate
      * @returns {HTMLElement} The feed element.
@@ -114,14 +114,14 @@ export class FeedElement {
       this.feedElement.appendChild(imageElement);
   
       /**
-       * The description element.
+       * The title element.
        * 
        * @type {HTMLDivElement}
        */
-      const descriptionElement = document.createElement('div');
-      descriptionElement.className = this.config.description.className;
-      descriptionElement.textContent = this.config.description.text;
-      this.feedElement.appendChild(descriptionElement);
+      const titleElement = document.createElement('div');
+      titleElement.className = this.config.title.className;
+      titleElement.textContent = this.config.title.text;
+      this.feedElement.appendChild(titleElement);
   
       return this.feedElement;
     }

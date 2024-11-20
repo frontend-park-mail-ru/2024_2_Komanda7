@@ -211,8 +211,8 @@ export class LoginForm {
     renderTemplate() {
       const template = Handlebars.templates['Login.hbs'];
       const config = this.config;
-      let itemss = Object.entries(config);
-      let items = itemss.map(([key, {tag, text, className, type}], index) => {
+      let itemsArray = Object.entries(config);
+      let items = itemsArray.map(([key, {tag, text, className, type}], index) => {
         let needPlaceholder = (tag === 'input');
         return {key, tag, text, className, type, needPlaceholder};
       });
