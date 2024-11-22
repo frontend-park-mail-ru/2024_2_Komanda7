@@ -137,15 +137,17 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
   event.preventDefault();
   loadCategories();
    // Get form data
-   const title = removeDangerous(document.getElementById('eventNameEntry').value);
-   const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
-   const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
-   const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
-   const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
-
-   const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
-   
-   const image = document.getElementById('imageInput').files[0];
+    const title = removeDangerous(document.getElementById('eventNameEntry').value);
+    const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
+    const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
+    const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
+    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
+    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
+    const image = document.getElementById('imageInput').files[0];
+    
+    const latitude = removeDangerous(document.getElementById('latitude').value);
+    const longitude = removeDangerous(document.getElementById('longitude').value);
+    const zoom = removeDangerous(document.getElementById('zoom').value);
 
   try {
     // Send request to backend
@@ -156,6 +158,9 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
+      latitude: latitude || null,
+      longitude: longitude || null,
+      zoom: zoom || null,
       };
   
     const json = JSON.stringify(userData);

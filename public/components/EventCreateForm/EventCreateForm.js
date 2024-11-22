@@ -135,7 +135,22 @@ export class EventCreateForm {
       }));
     
       this.form.innerHTML = template({ items });
-    
+      //config? 
+      const hiddenLatitudeInput = document.createElement('input');
+      hiddenLatitudeInput.type = 'hidden';
+      hiddenLatitudeInput.id = 'latitude';
+      this.form.appendChild(hiddenLatitudeInput);
+
+      const hiddenLongitudeInput = document.createElement('input');
+      hiddenLongitudeInput.type = 'hidden';
+      hiddenLongitudeInput.id = 'longitude';
+      this.form.appendChild(hiddenLongitudeInput);
+
+      const zoom = document.createElement('input');
+      zoom.type = 'hidden';
+      zoom.id = 'zoom';
+      this.form.appendChild(zoom);
+      
       const categoriesSelect = selectElement;
       categoriesSelect.classList.add('event-create-form__categories');
       categoriesSelect.id = 'categoriesInput';
@@ -167,6 +182,10 @@ export class EventCreateForm {
               longitude: coords[1],
               zoom: zoom,
           };
+          // Обновление скрытых полей с координатами
+          document.getElementById('latitude').value = coords[0];
+          document.getElementById('longitude').value = coords[1];
+          document.getElementById('zoom').value = zoom;
           // Удаляем старую метку, если она существует
           if (this.currentPlacemark) {
               myMap.geoObjects.remove(this.currentPlacemark);
