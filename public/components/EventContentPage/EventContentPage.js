@@ -23,6 +23,9 @@ export class EventContentPage {
             iconImageSize: [32, 32],
             iconImageOffset: [-16, -32]
         });
+        myPlacemark.events.add('click', () => {
+            //navigate(mock_data.id);
+        });
         myMap.geoObjects.add(myPlacemark);
     };
     _formatDate(dateString) {
