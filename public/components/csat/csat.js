@@ -1,5 +1,5 @@
 
-
+import { api } from "../../modules/FrontendAPI.js";
 export class csat {
     constructor(event) {
         this.event = event; // Сохраняем событие, если нужно
@@ -16,10 +16,17 @@ export class csat {
 
         const rating = document.createElement("div");     
         for (let i = 1; i <= 10; i++) {
-            const point = document.createElement('div'); // Change span to div
+            const point = document.createElement('div'); // Изменяем span на div
             point.className = "circle-number";
             point.innerText = i;
+
+            // Обработчик события для клика
             point.addEventListener('click', () => this.submitRating(i));
+
+            // Обработчик события mouseover
+            point.addEventListener('mouseover', () => {
+                this.recolor(i);
+            });
             rating.appendChild(point);
         }
 
@@ -31,7 +38,6 @@ export class csat {
         messageDiv.id = 'message';
         messageDiv.style.marginTop = '10px';
 
-        console.log("message create");
         const message = document.createElement('div');
         message.id = 'receivedMessage';
         message.innerHTML = 'receivedMessage';
@@ -64,7 +70,14 @@ export class csat {
     }
 
     recolor(untill) {
-        
+        const circles = document.querySelectorAll('.circle-number');
+        circles.forEach((circle, index) => {
+            if (index < untill) {
+                circle.classList.add('hover'); // Добавляем класс для изменения стиля
+            } else {
+                circle.classList.remove('hover'); // Убираем класс, если индекс больше
+            }
+        });
     }
 
     submitRating(i) {
@@ -74,7 +87,7 @@ export class csat {
         if (rating >= 1 && rating <= 10) {
             messageDiv.innerText = `Спасибо за вашу оценку: ${rating}`;
             // Здесь можно добавить код для отправки оценки на сервер
-
+            
             setTimeout(() => {
                 document.getElementById('csatContainer').style.display = 'none';
              }, 1000);
