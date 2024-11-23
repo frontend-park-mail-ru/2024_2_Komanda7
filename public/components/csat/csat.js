@@ -123,7 +123,7 @@ export class csat {
             messageDiv.innerText = `Спасибо за вашу оценку: ${rating}`;
             // Здесь можно добавить код для отправки оценки на сервер
             const shit = {
-                "question_id": question,
+                "question_id": +question,
                 "value": i,
             };
             let arr = [shit];
