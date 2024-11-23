@@ -57,22 +57,22 @@ export class csat {
             const path = `/test?query=`;
             const request = { headers: {} };
             try {
-                // const response = await api.get(path, request);
-                // let question = await response.json();
-                const question = {
-                    "id": 1,
-                    "title": "test 1",
-                    "question": [
-                        {
-                            "id": 1,
-                            "text": "who?"
-                        },
-                        {
-                            "id": 2,
-                            "text": "why?"
-                        }
-                    ]
-                };
+                const response = await api.get(path, request);
+                const question = await response.json();
+                // const question = {
+                //     "id": 1,
+                //     "title": "test 1",
+                //     "question": [
+                //         {
+                //             "id": 1,
+                //             "text": "who?"
+                //         },
+                //         {
+                //             "id": 2,
+                //             "text": "why?"
+                //         }
+                //     ]
+                // };
                 console.log(question.question[0]);
                 document.getElementById('receivedMessage').innerText = `${question.question[0].text}`;
                 document.getElementById('secretId').innerText = question.question[0].id;
