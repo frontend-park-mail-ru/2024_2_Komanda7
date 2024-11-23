@@ -332,9 +332,9 @@ window.addEventListener('popstate', () => {
  */
 //This segment is enacted on refresh
 if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || 
-    currentPath == '/events/my' || currentPath == '/stats' ) {
+    currentPath == '/events/my' || currentPath == '/stats' || currentPath == '/csat') {
 loadQuestion();
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my' || currentPath == '/csat') {
+// if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my' || currentPath == '/csat') {
     /**
      * Get the route for the current path
      */
