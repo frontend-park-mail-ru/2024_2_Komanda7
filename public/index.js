@@ -21,12 +21,39 @@ import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
 import { handleCreateEventSubmit, loadCategories, handleCreateEventEdit } from './modules/handleEventsActions.js';
 import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
+import { csat } from "./components/csat/csat.js";
 
 /**
  * Get the root element
  * @type {HTMLElement}
  */
 const root = document.getElementById('root');
+const currentPath = window.location.pathname;
+const inIframe = window.self !== window.top;
+function loadQuestion() {
+    const currentFrame = document.getElementById("iframeQuestion");
+    if (currentFrame) {
+        currentFrame.remove();
+    }
+    const currentPath = window.location.pathname;
+if (!inIframe && currentPath != '/csat') {
+    // let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    // root.appendChild(header);
+    const iframe = document.createElement('iframe');
+    iframe.id = 'iframeQuestion';
+    iframe.scrolling = 'no';
+    iframe.src = "http://127.0.0.1/csat"; // Set the source URL for the iframe
+    iframe.className = "fixed-iframe";    // Append the iframe to the root content
+    root.appendChild(iframe);
+    
+    iframe.onload = function() {
+        // Добавляем задержку перед отправкой сообщения
+        setTimeout(() => {
+            iframe.contentWindow.postMessage(currentPath, '*');
+        }, 100); // Задержка 1000 мс (1 секунда)
+        };
+    };
+}
 
 /**
  * Check if the user is logged in
@@ -78,8 +105,9 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
-root.appendChild(header);
+
+const newsFeed = document.createElement('main');
+
 initializeApp();
 /**
  * Update the links container
@@ -99,21 +127,22 @@ function updateLinksContainer() {
     header = newHeaderElement;
 }
 
-const newsFeed = document.createElement('main');
-
 async function initializeApp() {
     // Добавление header
     // let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
     // root.appendChild(header);
 
     // Добавление навигации
-    const nav = await new Nav().renderNav();
-    root.appendChild(nav);
-
-        root.appendChild(newsFeed);
-
-    const footer = new Footer().renderFooter();
-    root.appendChild(footer);
+    if (!inIframe && currentPath != '/csat'){
+        let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+        root.appendChild(header);
+        const nav = await new Nav().renderNav();
+        root.appendChild(nav);
+        
+    }
+    root.appendChild(newsFeed);
+    // const footer = new Footer().renderFooter();
+    // root.appendChild(footer);
 }
 
 /**
@@ -218,6 +247,10 @@ const routes = {
         const editBtn = document.getElementById('editSubmitBtn');        
         editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
+    '/csat': async () => {
+        const csatForm = await new csat('event').renderTemplate(1);
+        newsFeed.appendChild(csatForm);
+    },
 };
 
 /**
@@ -237,6 +270,7 @@ const defaultRoute = () => {
  */
 //This segment is enacted on URL change
 window.addEventListener('popstate', () => {
+    loadQuestion();
     const path = window.location.pathname;
     const route = routes[path];
     if (/\/events\/\d+/.test(path)) {
@@ -268,12 +302,13 @@ window.addEventListener('popstate', () => {
 /**
  * Check the current path when the page is loaded
  */
-const currentPath = window.location.pathname;
+
 /**
  * Check if the current path is the login or signup page
  */
 //This segment is enacted on refresh
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my') {
+loadQuestion();
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my' || currentPath == '/csat') {
     /**
      * Get the route for the current path
      */
