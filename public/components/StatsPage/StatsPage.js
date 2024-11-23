@@ -23,9 +23,6 @@ export class StatsPage {
         // answer question
         questionAndValue['value'] = answer.value;
 
-
-        //answerDiv.innerHTML += template({ questionAndValue });
-        //return answerDiv;
         return template(questionAndValue );
     }
   
@@ -67,12 +64,9 @@ export class StatsPage {
         
 
         //for cicle for each answer got from back
-        // render title and value
-
-        console.log(stats);
+        // render title and valu
 
         for (const key in stats) {
-            console.log(stats[key]);
             const divAnswer = this._formAnswer(stats[key]);
             //statsDetails.appendChild(divAnswer);
             statsDetails.innerHTML += divAnswer;

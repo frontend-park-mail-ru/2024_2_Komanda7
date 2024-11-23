@@ -21,6 +21,7 @@ import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
 import { handleCreateEventSubmit, loadCategories, handleCreateEventEdit } from './modules/handleEventsActions.js';
 import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
+import { StatsPage } from "./components/StatsPage/StatsPage.js";
 
 /**
  * Get the root element
@@ -122,6 +123,7 @@ async function initializeApp() {
 const responseElement = document.createElement('div');
 responseElement.id = 'response';
 
+
 /**
  * Define the routes
  * @type {Object}
@@ -218,6 +220,19 @@ const routes = {
         const editBtn = document.getElementById('editSubmitBtn');        
         editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
+    /*** statistics routes */
+    '/stats': async() => {
+
+        console.log(userIsLoggedIn);
+        if (!userIsLoggedIn)
+        {
+            navigate('/login');
+        }
+            
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let statPage = await new StatsPage().renderTemplate();
+        newsFeed.appendChild(statPage);
+    },
 };
 
 /**
@@ -273,7 +288,8 @@ const currentPath = window.location.pathname;
  * Check if the current path is the login or signup page
  */
 //This segment is enacted on refresh
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my') {
+if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || 
+    currentPath == '/events/my' || currentPath == '/stats' ) {
     /**
      * Get the route for the current path
      */
