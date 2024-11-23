@@ -227,11 +227,19 @@ const routes = {
         if (!userIsLoggedIn)
         {
             navigate('/login');
+            const loginForm = new LoginForm();
+        const loginFormElement = loginForm.renderTemplate();
+        newsFeed.innerHTML = '';
+        newsFeed.appendChild(loginFormElement);
+        loginFormElement.addEventListener('keyup', (event) => handleLoginCheck(event));
+        loginFormElement.addEventListener('submit', (event) => handleLoginSubmit(event, setUserLoggedIn, navigate));
         }
-            
-        newsFeed.innerHTML = ''; // Clear the modal window content
-        let statPage = await new StatsPage().renderTemplate();
-        newsFeed.appendChild(statPage);
+        else
+        {
+            newsFeed.innerHTML = ''; // Clear the modal window content
+            let statPage = await new StatsPage().renderTemplate();
+            newsFeed.appendChild(statPage);
+        }
     },
 };
 
@@ -246,6 +254,7 @@ const defaultRoute = () => {
     newsFeed.appendChild(newsFeedText);
     newsFeed.appendChild(responseElement);
 };
+
 
 /**
  * URL bar listener
