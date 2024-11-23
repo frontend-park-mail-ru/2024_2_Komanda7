@@ -131,6 +131,7 @@ export class csat {
             //JSON.stringify(file)
             const request = {
                 headers: {
+                    'Content-Type': 'application/json',
                 },
                 credentials: 'include',
                 body: JSON.stringify(file),
