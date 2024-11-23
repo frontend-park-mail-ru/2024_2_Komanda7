@@ -38,6 +38,11 @@ export class csat {
         messageDiv.id = 'message';
         messageDiv.style.marginTop = '10px';
 
+        const secretId = document.createElement('div');
+        secretId.style.display = 'none';
+        secretId.id = 'secretId';
+        secretId.innerText = "4";
+
         const message = document.createElement('div');
         message.id = 'receivedMessage';
         message.innerHTML = 'Загрузка вопроса...';
@@ -49,13 +54,28 @@ export class csat {
             // Получаем данные
             const message = event.data
             console.log(message);
-            const path = `/test?q=`;
+            const path = `/test?query=`;
             const request = { headers: {} };
             try {
-                const response = await api.get(path, request);
-                const question = await response.json();
-                console.log(question);
-                document.getElementById('receivedMessage').innerText = `${question.events[0].title}`;
+                // const response = await api.get(path, request);
+                // let question = await response.json();
+                const question = {
+                    "id": 1,
+                    "title": "test 1",
+                    "question": [
+                        {
+                            "id": 1,
+                            "text": "who?"
+                        },
+                        {
+                            "id": 2,
+                            "text": "why?"
+                        }
+                    ]
+                };
+                console.log(question.question[0]);
+                document.getElementById('receivedMessage').innerText = `${question.question[0].text}`;
+                document.getElementById('secretId').innerText = question.question[0].id;
             } catch (error) {
                 console.log(error);
                 console.log("Ошибка при загрузке вопроса");
@@ -75,6 +95,7 @@ export class csat {
         container.appendChild(rating);  
         // container.appendChild(submitButton);
         container.appendChild(messageDiv);
+        container.appendChild(secretId);
 
         // Обработчик события для кнопки отправки
         // submitButton.addEventListener('click', () => this.submitRating(message, path));
@@ -96,7 +117,7 @@ export class csat {
     async submitRating(i) {
         const rating = i;
         const messageDiv = document.getElementById('message');
-        const question = document.getElementById('receivedMessage').innerText;
+        const question = document.getElementById('secretId').innerHTML;
         if (rating >= 1 && rating <= 10) {
             messageDiv.innerText = `Спасибо за вашу оценку: ${rating}`;
             // Здесь можно добавить код для отправки оценки на сервер
