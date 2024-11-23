@@ -7,6 +7,7 @@ export class StatsPage {
         this.contentBody = document.createElement('div');
         this.contentBody.className = 'eventPage';
         this.eventId = eventId;
+        //this.contentBody.className = 'event-edit-form';
 
         
     }
@@ -51,11 +52,11 @@ export class StatsPage {
     /** ststs - json object from backend with titles and values*/
     async _renderStats(stats) {
 
-        const statsDetails = document.createElement('div');
-        statsDetails.className = 'event__details';
+        const statsDetails = document.createElement('form');
+        statsDetails.className = 'statistics-get';
 
         const statsTitle = document.createElement('div');
-        statsTitle.className = 'event__title';
+        statsTitle.className = 'statistics-get__title';
         statsTitle.textContent = 'Статистика опросов';
 
         statsDetails.appendChild(statsTitle);
@@ -70,11 +71,11 @@ export class StatsPage {
             const divAnswer = this._formAnswer(stats[key]);
             //statsDetails.appendChild(divAnswer);
             statsDetails.innerHTML += divAnswer;
-            console.log(divAnswer);
         }
-        this.contentBody.appendChild(statsDetails);
+        //this.contentBody.appendChild(statsDetails);
+        this.contentBody = statsDetails;
     }
-
+ 
     async renderTemplate() {
         const path = `/stats`;
         const request = { headers: {} };
@@ -82,7 +83,9 @@ export class StatsPage {
         try {
             //const response = await api.get(path, request);
             //const stats = await response.json();
-            const stats = {ans1 : {title: ' titl1 1', value: '1'}};
+            const stats = {ans1 : {title: 'Статистика по старинцы мероприятия', value: '5.63'},
+            ans2 : {title: 'Статистика по старинцы мероприятия', value: '4.5'},
+            ans3 : {title: 'Статистика по старинцы мероприятия', value: '10'}};
             this._renderStats(stats);
 
         } catch (error) {

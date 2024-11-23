@@ -9,6 +9,8 @@
 @import "components/EventCreateForm/EventCreateForm.css";
 @import "components/EventEditForm/EventEditForm.css";
 @import "components/csat/csat.css";
+@import "components/StatsPage/StatsPage.css";
+
 UserEventsPage
 *{
     margin:0;
