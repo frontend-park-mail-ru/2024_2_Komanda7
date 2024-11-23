@@ -132,6 +132,7 @@ export class csat {
             const request = {
                 headers: {
                 },
+                credentials: 'include',
                 body: JSON.stringify(file),
             };
             const response = await api.post('/test', request);
