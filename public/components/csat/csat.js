@@ -5,7 +5,7 @@ export class csat {
         this.event = event; // Сохраняем событие, если нужно
     }
 
-    renderTemplate() {
+    async renderTemplate() {
         const container = document.createElement('div');
         container.id = "csatContainer";
         container.className = 'survey-container';
@@ -19,7 +19,7 @@ export class csat {
             const point = document.createElement('div'); // Изменяем span на div
             point.className = "circle-number";
             point.innerText = i;
-
+            const path = 'path';
             // Обработчик события для клика
             point.addEventListener('click', () => this.submitRating(i));
 
@@ -40,17 +40,30 @@ export class csat {
 
         const message = document.createElement('div');
         message.id = 'receivedMessage';
-        message.innerHTML = 'receivedMessage';
+        message.innerHTML = 'Загрузка вопроса...';
 
-        window.addEventListener('message', function(event) {
+        window.addEventListener('message', async function(event) {
             // Проверяем источник сообщения (опционально)
             // if (event.origin !== "http://example.com") return;
 
             // Получаем данные
-            const message = event.data;
+            const message = event.data
+            console.log(message);
+            const path = `/test?q=`;
+            const request = { headers: {} };
+            try {
+                const response = await api.get(path, request);
+                const question = await response.json();
+                console.log(question);
+                document.getElementById('receivedMessage').innerText = `${question.events[0].title}`;
+            } catch (error) {
+                console.log(error);
+                console.log("Ошибка при загрузке вопроса");
+                    document.getElementById('receivedMessage').innerText = `${error}`;
+            }
 
             // Обрабатываем полученное сообщение
-            document.getElementById('receivedMessage').innerText = `${message}`;
+            //document.getElementById('receivedMessage').innerText = `${question.text}`;
             document.getElementById('csatContainer').style.display = 'block';
         });
         
@@ -64,7 +77,7 @@ export class csat {
         container.appendChild(messageDiv);
 
         // Обработчик события для кнопки отправки
-        submitButton.addEventListener('click', () => this.submitRating());
+        // submitButton.addEventListener('click', () => this.submitRating(message, path));
         
         return container;
     }
@@ -80,14 +93,24 @@ export class csat {
         });
     }
 
-    submitRating(i) {
+    async submitRating(i) {
         const rating = i;
         const messageDiv = document.getElementById('message');
-
+        const question = document.getElementById('receivedMessage').innerText;
         if (rating >= 1 && rating <= 10) {
             messageDiv.innerText = `Спасибо за вашу оценку: ${rating}`;
             // Здесь можно добавить код для отправки оценки на сервер
-            
+            const questionResult = {
+                question: question,
+                mark: i,
+            }
+            const request = {
+                headers: {
+                },
+                body: JSON.stringify(questionResult),
+            };
+            //const response = await api.post('/result', request);
+            console.log(i, question);
             setTimeout(() => {
                 document.getElementById('csatContainer').style.display = 'none';
              }, 1000);
