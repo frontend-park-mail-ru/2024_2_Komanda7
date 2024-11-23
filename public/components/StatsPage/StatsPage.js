@@ -81,11 +81,11 @@ export class StatsPage {
         const request = { headers: {} };
 
         try {
-            //const response = await api.get(path, request);
-            //const stats = await response.json();
-            const stats = {ans1 : {title: 'Статистика по странице мероприятия', value: '5.63'},
+            const response = await api.get(path, request);
+            const stats = await response.json();
+           /* const stats = {ans1 : {title: 'Статистика по странице мероприятия', value: '5.63'},
             ans2 : {title: 'Статистика по странице мероприятия', value: '4.5'},
-            ans3 : {title: 'Статистика по странице мероприятия', value: '10'}};
+            ans3 : {title: 'Статистика по странице мероприятия', value: '10'}};*/
             this._renderStats(stats);
 
         } catch (error) {
