@@ -55,7 +55,8 @@ export class csat {
             const message = event.data
             console.log(message);
             const path = `/test?query=`;
-            const request = { headers: {} };
+            const request = { headers: {}, credentials: 'include',
+         };
             try {
                 const response = await api.get(path, request);
                 const question = await response.json();
