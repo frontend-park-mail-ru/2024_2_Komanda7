@@ -65,10 +65,12 @@ export class StatsPage {
         
 
         //for cicle for each answer got from back
-        // render title and valu
-
-        for (const key in stats) {
-            const divAnswer = this._formAnswer(stats[key]);
+        // render title and value
+ 
+        for (const key of stats) {
+            console.log(key);
+            let pars = {value: key['value'], title: key['title']};
+            const divAnswer = this._formAnswer(pars);
             //statsDetails.appendChild(divAnswer);
             statsDetails.innerHTML += divAnswer;
         }
@@ -83,6 +85,18 @@ export class StatsPage {
         try {
             const response = await api.get(path, request);
             const stats = await response.json();
+    
+            console.log(stats);
+            /*let stats         = {
+                "answers": [
+                  {
+                    "question_id": 1,
+                    "value": 42
+                  }
+                ]
+              };*/
+
+            stats = stats['answers'];
            /* const stats = {ans1 : {title: 'Статистика по странице мероприятия', value: '5.63'},
             ans2 : {title: 'Статистика по странице мероприятия', value: '4.5'},
             ans3 : {title: 'Статистика по странице мероприятия', value: '10'}};*/
