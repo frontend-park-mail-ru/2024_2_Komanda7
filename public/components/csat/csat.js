@@ -53,7 +53,7 @@ export class csat {
 
             // Получаем данные
             const message = event.data
-            console.log(message);
+            //console.log(message);
             const path = `/test?query=`;
             const request = { headers: {}, credentials: 'include',
          };
@@ -122,17 +122,21 @@ export class csat {
         if (rating >= 1 && rating <= 10) {
             messageDiv.innerText = `Спасибо за вашу оценку: ${rating}`;
             // Здесь можно добавить код для отправки оценки на сервер
-            const questionResult = {
-                question: question,
-                mark: i,
-            }
+            const shit = {
+                question_id: question,
+                value: i,
+            };
+            let arr = [shit];
+            const file = {answers: arr};
+            //JSON.stringify(file)
             const request = {
                 headers: {
                 },
-                body: JSON.stringify(questionResult),
+                body: JSON.stringify(file),
             };
-            //const response = await api.post('/result', request);
+            const response = await api.post('/test', request);
             console.log(i, question);
+            //console.log(answers);
             setTimeout(() => {
                 document.getElementById('csatContainer').style.display = 'none';
              }, 1000);
