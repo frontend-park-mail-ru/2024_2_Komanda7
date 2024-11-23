@@ -83,18 +83,18 @@ export class StatsPage {
         const request = { headers: {} };
 
         try {
-            const response = await api.get(path, request);
-            const stats = await response.json();
+            //const response = await api.get(path, request);
+            //const stats = await response.json();
     
             console.log(stats);
-            /*let stats         = {
+            let stats         = {
                 "answers": [
                   {
                     "question_id": 1,
                     "value": 42
                   }
                 ]
-              };*/
+              };
 
             stats = stats['answers'];
            /* const stats = {ans1 : {title: 'Статистика по странице мероприятия', value: '5.63'},
