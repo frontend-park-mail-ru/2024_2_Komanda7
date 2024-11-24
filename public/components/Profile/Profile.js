@@ -133,7 +133,6 @@ export class Profile {
                 throw new Error('Failed to fetch profile data');
             }
             const data = await response.json(); // Ожидаем завершения выполнения
-            console.log(data.user);
             return await data.user;
         } catch (error) {
             console.error('Error fetching profile data:', error);
