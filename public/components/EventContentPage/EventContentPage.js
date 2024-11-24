@@ -89,8 +89,7 @@ export class EventContentPage {
         try {
             const response = await api.post(path, request);    
         } catch (error) {
-            console.log(error);
-            console.log("Ошибка при загрузке события");
+            navigate('/login');
         }
     });
 
