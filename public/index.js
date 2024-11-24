@@ -5,6 +5,7 @@
 /**
  * Import components and modules
  */
+import { api } from "../../modules/FrontendAPI.js";
 import { LoginForm } from "./components/Login/Login.js";
 import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
@@ -78,7 +79,7 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+let header = new Header().renderHeader(userIsLoggedIn, navigate);
 root.appendChild(header);
 initializeApp();
 /**
@@ -88,7 +89,7 @@ function updateLinksContainer() {
     /**
      * Create a new header element
      */
-    const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    const newHeaderElement = new Header().renderHeader(userIsLoggedIn, navigate);
     /**
      * Replace the old header element with the new one
      */
@@ -166,7 +167,7 @@ const routes = {
     '/profile': () => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const profile = new Profile();
-        const profileElement = profile.renderProfile();
+        const profileElement = profile.renderProfile(logout);
         newsFeed.appendChild(profileElement);
     },
     '/events/:id': async(id) => {
@@ -179,7 +180,28 @@ const routes = {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
         newsFeed.appendChild(UserEventPage);
-        let eventPage = await new Feed().renderFeed('/events/my');
+        const request = {
+            headers: {
+            },
+            credentials: 'include',
+        };
+        const response = await api.get('/session', request);
+        const user = await response.json();
+        console.log(user.user.id);
+        const localPath = `/events/user/${user.user.id}`;
+        console.log(localPath);
+
+        let eventPage = await new Feed().renderFeed(localPath);
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/subscription': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new Feed().renderFeed('/events/subscription');
+        newsFeed.appendChild(eventPage);
+    },
+    '/events/favorites': async(id) => {
+        newsFeed.innerHTML = ''; // Clear the modal window content
+        let eventPage = await new Feed().renderFeed('/events/favorites');
         newsFeed.appendChild(eventPage);
     },
     '/events/categories/:id': async(id) => {
@@ -236,7 +258,9 @@ const defaultRoute = () => {
  * URL bar listener
  */
 //This segment is enacted on URL change
-window.addEventListener('popstate', () => {
+window.addEventListener('popstate', () => checkPath());
+
+function checkPath() {
     const path = window.location.pathname;
     const route = routes[path];
     if (/\/events\/\d+/.test(path)) {
@@ -263,61 +287,8 @@ window.addEventListener('popstate', () => {
     } else {
         defaultRoute(); // Call the default route if no matching route is found
     }
-});
-
-/**
- * Check the current path when the page is loaded
- */
-const currentPath = window.location.pathname;
-/**
- * Check if the current path is the login or signup page
- */
-//This segment is enacted on refresh
-if (currentPath === '/login' || currentPath === '/signup' || currentPath == '/profile' || currentPath == '/search' || currentPath == '/events/my') {
-    /**
-     * Get the route for the current path
-     */
-    const route = routes[currentPath];
-    if (route) {
-        /**
-         * Call the route function
-         */
-        route();
-    }
-} else if (currentPath === '/events' || currentPath === '/') {
-    /**
-     * Call the events route function
-     */
-    routes['/events']();
-} else if (/\/events\/\d+/.test(currentPath)) {
-    /**
-     * Call the events route function
-     */
-    const id = currentPath.split('/')[2];
-    if (currentPath.split('/')[3] === "edit") {
-        routes['/edit_event'](id);
-    } else {
-        routes['/events/:id'](id);
-    } // Вызываем обработчик с id
-}  else if (/\/events\/categories\/\d+/.test(currentPath)) {
-    /**
-     * Call the events route function
-     */
-    const id = currentPath.split('/')[3];
-    routes['/events/categories/:id'](id);
-} else if (currentPath === '/my_events') {
-    const num = 0;
-    /* somehow get current user id and check that user is logged in*/
-    routes['/events/my'](num);
-} else if (currentPath === '/add_event') {
-    routes['/add_event']();
-} else {
-    /**
-     * Call the default route function
-     */
-    defaultRoute()
 }
-
+checkPath();
 /**
  * Add an event listener to the links
  */

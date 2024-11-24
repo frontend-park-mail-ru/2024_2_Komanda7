@@ -73,6 +73,33 @@ export class EventContentPage {
     };
 
     async _renderEvent(event) {
+    const eventAuthor = document.createElement('div');
+    eventAuthor.className = 'event__author';
+
+    const subscribeButton = document.createElement('button');
+    subscribeButton.className = 'buttonSubscribe';
+    subscribeButton.textContent = 'Подписаться';
+    subscribeButton.addEventListener("click", async () => {
+        const request = {
+            headers: {
+            },
+            credentials: 'include',
+        };
+        const path = `/profile/subscribe/${event.author}`;
+        try {
+            const response = await api.post(path, request);    
+        } catch (error) {
+            console.log(error);
+            console.log("Ошибка при загрузке события");
+        }
+    });
+
+    eventAuthor.appendChild(subscribeButton);
+
+    const authorText = document.createElement('div');
+    authorText.textContent = `Автор: ${event.author}`;
+    authorText.className = 'authorText';
+    eventAuthor.appendChild(authorText);
 
         const eventDetails = document.createElement('div');
         eventDetails.className = 'event__details';
@@ -153,9 +180,52 @@ export class EventContentPage {
 
         const possession = await this.checkPossession();
         //array of post ids
-        if (possession.includes(event.id)) {
+        
+        const favoritesAddButton = document.createElement('button');
+        favoritesAddButton.className = 'buttonSubscribe';
+        favoritesAddButton.textContent = 'Добавить в избранные';
+        favoritesAddButton.addEventListener("click", async () => {
+            const request = {
+                headers: {
+                },
+                credentials: 'include',
+            };
+            const path = `/events/favorites/${event.id}`;
+            try {
+                const response = await api.post(path, request);    
+            } catch (error) {
+                console.log(error);
+                console.log("Ошибка при загрузке события");
+            }
+        });
+
+        const favoritesDeleteButton = document.createElement('button');
+        favoritesDeleteButton.className = 'buttonSubscribe';
+        favoritesDeleteButton.textContent = 'Удалить из избранного';
+        favoritesDeleteButton.addEventListener("click", async () => {
+            const request = {
+                headers: {
+                },
+                credentials: 'include',
+            };
+            const path = `/events/favorites/${event.id}`;
+            try {
+                const response = await api.delete(path, request);    
+            } catch (error) {
+                console.log(error);
+                console.log("Ошибка при загрузке события");
+            }
+        });
+
+        eventActions.appendChild(favoritesAddButton);
+        eventActions.appendChild(favoritesDeleteButton);
+
+        if (event.author == possession) {
             eventActions.appendChild(editButton);
             eventActions.appendChild(deleteButton);
+        }
+        else {
+            eventDetails.appendChild(eventAuthor);
         }
 
         this.contentBody.appendChild(eventDetails);
@@ -186,14 +256,16 @@ export class EventContentPage {
         return this.contentBody;
     }
     async checkPossession() {
-        const path = `/events/my`;
+        const path = `/session`;
         const request = { headers: {}, credentials: "include" };
 
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            const arr = Array.from(event.events, (ev) => ev.id);
-            return arr;
+            console.log(event.user.id);
+            //const arr = Array.from(event.events, (ev) => ev.id);
+            
+            return event.user.id;
 
         } catch (error) {
             console.log(error);

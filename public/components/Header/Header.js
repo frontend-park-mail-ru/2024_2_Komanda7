@@ -27,11 +27,10 @@ export class Header {
      * 
      * @method renderHeader
      * @param {boolean} userIsLoggedIn - Whether the user is logged in or not.
-     * @param {function} logout - The logout function to be called when the logout button is clicked.
      * @param {function} navigate - The navigate function to be used for navigation.
      * @returns {HTMLElement} The header element.
      */
-    renderHeader(userIsLoggedIn, logout, navigate) {
+    renderHeader(userIsLoggedIn, navigate) {
       /**
        * The header element.
        * 
@@ -141,30 +140,27 @@ export class Header {
           navigate(path);
         });
   
-        /**
-         * The logout button element.
-         * 
-         * @type {HTMLButtonElement}
-         */
-        const logoutButton = document.createElement('button');
-        logoutButton.textContent = 'Выйти';
-        logoutButton.onclick = async() => {
-          try {
-            const response = await fetch(`${endpoint}/logout`, {
-              method: "POST",
-              headers: { 'Content-Type': 'application/json' },
-              credentials: "include"
-            });
-            if (!response.ok) {
-              throw new Error(response.statusText);
-            }
-            logout();
-          } catch (error) {
-            console.error(error);
-          }
-        };
         buttons.appendChild(btnMyEvents);
-        buttons.appendChild(logoutButton);
+
+        const btnMySubs = document.createElement('button');
+        btnMySubs.textContent = 'Подписки';
+        btnMySubs.addEventListener('click', (event) => {
+          event.preventDefault();
+          const path = '/events/subscription';
+          navigate(path);
+        });
+
+        buttons.appendChild(btnMySubs);
+
+        const btnMyFavorites = document.createElement('button');
+        btnMyFavorites.textContent = 'Избранные';
+        btnMyFavorites.addEventListener('click', (event) => {
+          event.preventDefault();
+          const path = '/events/favorites';
+          navigate(path);
+        });
+  
+        buttons.appendChild(btnMyFavorites);
       }
   
       headerElement.appendChild(buttons);
@@ -178,13 +174,13 @@ export class Header {
               },
               credentials: 'include',
           };
-          const response = await api.get('/profile', request);
+          const response = await api.get('/session', request);
 
           if (!response.ok) {
               throw new Error('Failed to fetch profile data');
           }
-
-          return await response.json();
+          const data = await response.json()
+          return data.user;
       } catch (error) {
           console.error('Error fetching profile data:', error);
       }

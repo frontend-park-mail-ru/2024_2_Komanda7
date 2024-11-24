@@ -124,3 +124,27 @@
     width: 70%;
     height: 600px;
 }
+
+.buttonSubscribe {
+    background: #fff;
+    border: 2px solid #007bff;
+    color: #007bff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.buttonSubscribe:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.authorText {
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
