@@ -154,13 +154,13 @@ export class Header {
               },
               credentials: 'include',
           };
-          const response = await api.get('/profile', request);
+          const response = await api.get('/session', request);
 
           if (!response.ok) {
               throw new Error('Failed to fetch profile data');
           }
-
-          return await response.json();
+          const data = await response.json()
+          return data.user;
       } catch (error) {
           console.error('Error fetching profile data:', error);
       }

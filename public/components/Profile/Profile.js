@@ -127,19 +127,21 @@ export class Profile {
                 },
                 credentials: 'include',
             };
-            const response = await api.get('/profile', request);
+            const response = await api.get('/session', request);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch profile data');
             }
-            return await response.json();
+            const data = await response.json(); // Ожидаем завершения выполнения
+            console.log(data.user);
+            return await data.user;
         } catch (error) {
             console.error('Error fetching profile data:', error);
         }
     }
 
     async saveChanges() {
-        const profileData = await this.fetchProfileData();
+        const profileData = await this.fetchProfileData().user;
         let username = '';
         let email = '';
         if (document.getElementById('username').value !== profileData.username) {
