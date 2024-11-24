@@ -149,12 +149,10 @@ export class EventContentPage {
         eventDescription.className = 'event__description';
         eventDescription.textContent = event.description;
 
-        eventDetails.appendChild(eventAuthor);
         eventDetails.appendChild(eventTitle);
         eventDetails.appendChild(eventImage);
         eventDetails.appendChild(eventInfoRow);
         eventDetails.appendChild(eventDescription);
-        
 
         const eventActions = document.createElement('div');
         eventActions.className = 'event__actions';
@@ -182,9 +180,52 @@ export class EventContentPage {
 
         const possession = await this.checkPossession();
         //array of post ids
-        if (possession.includes(event.id)) {
+        
+        const favoritesAddButton = document.createElement('button');
+        favoritesAddButton.className = 'buttonSubscribe';
+        favoritesAddButton.textContent = 'Добавить в избранные';
+        favoritesAddButton.addEventListener("click", async () => {
+            const request = {
+                headers: {
+                },
+                credentials: 'include',
+            };
+            const path = `/events/favorites/${event.id}`;
+            try {
+                const response = await api.post(path, request);    
+            } catch (error) {
+                console.log(error);
+                console.log("Ошибка при загрузке события");
+            }
+        });
+
+        const favoritesDeleteButton = document.createElement('button');
+        favoritesDeleteButton.className = 'buttonSubscribe';
+        favoritesDeleteButton.textContent = 'Удалить из избранного';
+        favoritesDeleteButton.addEventListener("click", async () => {
+            const request = {
+                headers: {
+                },
+                credentials: 'include',
+            };
+            const path = `/events/favorites/${event.id}`;
+            try {
+                const response = await api.delete(path, request);    
+            } catch (error) {
+                console.log(error);
+                console.log("Ошибка при загрузке события");
+            }
+        });
+
+        eventActions.appendChild(favoritesAddButton);
+        eventActions.appendChild(favoritesDeleteButton);
+
+        if (event.author == possession) {
             eventActions.appendChild(editButton);
             eventActions.appendChild(deleteButton);
+        }
+        else {
+            eventDetails.appendChild(eventAuthor);
         }
 
         this.contentBody.appendChild(eventDetails);
@@ -215,14 +256,16 @@ export class EventContentPage {
         return this.contentBody;
     }
     async checkPossession() {
-        const path = `/events/my`;
+        const path = `/session`;
         const request = { headers: {}, credentials: "include" };
 
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            const arr = Array.from(event.events, (ev) => ev.id);
-            return arr;
+            console.log(event.user.id);
+            //const arr = Array.from(event.events, (ev) => ev.id);
+            
+            return event.user.id;
 
         } catch (error) {
             console.log(error);
