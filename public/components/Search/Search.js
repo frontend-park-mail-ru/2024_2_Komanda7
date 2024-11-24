@@ -92,7 +92,6 @@ export class Search {
         searchParameters.appendChild(tagsInput);
         searchParameters.appendChild(searchLabel);
         searchParameters.appendChild(searchInput);
-    
         // Append the searchParameters to the searchPage
         searchPage.appendChild(searchParameters);
       /**
@@ -174,8 +173,68 @@ export class Search {
     }
       };
       await fetchFeed(); // Calls the fetchFeed function
+      
+      const hiddenLatitudeInput = document.createElement('input');
+      hiddenLatitudeInput.type = 'hidden';
+      hiddenLatitudeInput.id = 'latitude';
+      searchParameters.appendChild(hiddenLatitudeInput);
+
+      const hiddenLongitudeInput = document.createElement('input');
+      hiddenLongitudeInput.type = 'hidden';
+      hiddenLongitudeInput.id = 'longitude';
+      searchParameters.appendChild(hiddenLongitudeInput);
+
+      const zoom = document.createElement('input');
+      zoom.type = 'hidden';
+      zoom.id = 'zoom';
+      searchParameters.appendChild(zoom);
+
+      const mapContainer = document.createElement('div');
+      mapContainer.id = 'map';
+      mapContainer.style.width = '100%'; // Ширина карты
+      mapContainer.style.height = '400px'; // Высота карты
+      searchParameters.appendChild(mapContainer);
+      const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17 };
+      ymaps.ready(() => this.initMap(mock_data));
     searchPage.appendChild(feedContent);
     return searchPage; // Returns the search page element
+    }
+
+    initMap(mock_data) {
+      const myMap = new ymaps.Map("map", {
+          center: [mock_data.latitude, mock_data.longitude],
+          zoom: mock_data.zoom,
+      });  
+      // Обработчик события клика на карту
+      myMap.events.add('mousedown', (e) => {
+          const coords = e.get('coords');
+          const zoom = myMap.getZoom();
+          var selectedPoint = {
+              latitude: coords[0],
+              longitude: coords[1],
+              zoom: zoom,
+          };
+          // Обновление скрытых полей с координатами
+          document.getElementById('latitude').value = coords[0];
+          document.getElementById('longitude').value = coords[1];
+          document.getElementById('zoom').value = zoom;
+          // Удаляем старую метку, если она существует
+          if (this.currentPlacemark) {
+              myMap.geoObjects.remove(this.currentPlacemark);
+          }
+          // Создаем новую метку
+          this.currentPlacemark = new ymaps.Placemark(coords, {
+              hintContent: 'Новая метка',
+          }, {
+              iconLayout: 'default#image',
+              iconImageHref: '/static/images/location.png',
+              iconImageSize: [32, 32],
+              iconImageOffset: [-16, -32]
+          });
+          // Добавляем новую метку на карту
+          myMap.geoObjects.add(this.currentPlacemark);
+          console.log(selectedPoint);
+      });
     }
   }
   
