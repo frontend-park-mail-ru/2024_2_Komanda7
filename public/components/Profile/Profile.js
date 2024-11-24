@@ -140,7 +140,7 @@ export class Profile {
     }
 
     async saveChanges() {
-        const profileData = await this.fetchProfileData().user;
+        const profileData = await this.fetchProfileData();
         let username = '';
         let email = '';
         if (document.getElementById('username').value !== profileData.username) {
