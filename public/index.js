@@ -187,9 +187,7 @@ const routes = {
         };
         const response = await api.get('/session', request);
         const user = await response.json();
-        console.log(user.user.id);
         const localPath = `/events/user/${user.user.id}`;
-        console.log(localPath);
 
         let eventPage = await new Feed().renderFeed(localPath);
         newsFeed.appendChild(eventPage);
