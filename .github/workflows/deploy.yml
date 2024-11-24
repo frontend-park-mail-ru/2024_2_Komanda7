@@ -20,6 +20,5 @@ jobs:
     - name: Execute script on VM
       run: |
         ssh ubuntu@37.139.40.252 'bash -s' <<EOF
-        cd front || exit 1
-        ./update_front || exit 2
+        ./update_front.sh || exit 2
         EOF
