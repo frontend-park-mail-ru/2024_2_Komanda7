@@ -233,8 +233,22 @@ export class Search {
           });
           // Добавляем новую метку на карту
           myMap.geoObjects.add(this.currentPlacemark);
+          // Smoothly move the map to the selected coordinates
+          myMap.setCenter(coords, zoom, {
+          checkZoomRange: true,
+          duration: 300 // duration in milliseconds
+      });
+          console.log(myMap.getCenter());
           console.log(selectedPoint);
       });
+      myMap.events.add('boundschange', (e) => {
+        // Получаем текущий центр карты
+        const currentCenter = myMap.getCenter();
+        const currentZoom = myMap.getZoom();
+        
+        console.log("Current Center after change:", currentCenter);
+        console.log("Current Zoom Level:", currentZoom);
+    });
     }
   }
   
