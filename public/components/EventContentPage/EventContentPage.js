@@ -73,6 +73,33 @@ export class EventContentPage {
     };
 
     async _renderEvent(event) {
+    const eventAuthor = document.createElement('div');
+    eventAuthor.className = 'event__author';
+
+    const subscribeButton = document.createElement('button');
+    subscribeButton.className = 'buttonSubscribe';
+    subscribeButton.textContent = 'Подписаться';
+    subscribeButton.addEventListener("click", async () => {
+        const request = {
+            headers: {
+            },
+            credentials: 'include',
+        };
+        // Логика подписки на мероприятие
+        // const response = await api.post(`/events/${event.id}/subscribe`, request);
+        // if (response.ok) {
+        //     alert('Вы подписались на мероприятие!');
+        // } else {
+        //     alert('Ошибка подписки. Попробуйте позже.');
+        // }
+    });
+
+    eventAuthor.appendChild(subscribeButton);
+
+    const authorText = document.createElement('div');
+    authorText.textContent = `Автор: ${event.author}`;
+    authorText.className = 'authorText';
+    eventAuthor.appendChild(authorText);
 
         const eventDetails = document.createElement('div');
         eventDetails.className = 'event__details';
@@ -122,10 +149,12 @@ export class EventContentPage {
         eventDescription.className = 'event__description';
         eventDescription.textContent = event.description;
 
+        eventDetails.appendChild(eventAuthor);
         eventDetails.appendChild(eventTitle);
         eventDetails.appendChild(eventImage);
         eventDetails.appendChild(eventInfoRow);
         eventDetails.appendChild(eventDescription);
+        
 
         const eventActions = document.createElement('div');
         eventActions.className = 'event__actions';
