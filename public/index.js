@@ -5,6 +5,7 @@
 /**
  * Import components and modules
  */
+import { api } from "../../modules/FrontendAPI.js";
 import { LoginForm } from "./components/Login/Login.js";
 import { RegisterForm } from "./components/Register/Register.js";
 import { Header } from "./components/Header/Header.js";
@@ -179,7 +180,18 @@ const routes = {
         newsFeed.innerHTML = ''; // Clear the modal window content
         let UserEventPage = await new UserEventsPage('userEvents').renderTemplate(id);
         newsFeed.appendChild(UserEventPage);
-        let eventPage = await new Feed().renderFeed('/events');
+        const request = {
+            headers: {
+            },
+            credentials: 'include',
+        };
+        const response = await api.get('/session', request);
+        const user = await response.json();
+        console.log(user.user.id);
+        const localPath = `/events/user/${user.user.id}`;
+        console.log(localPath);
+
+        let eventPage = await new Feed().renderFeed(localPath);
         newsFeed.appendChild(eventPage);
     },
     '/events/subscription': async(id) => {
