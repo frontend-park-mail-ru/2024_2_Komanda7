@@ -18,7 +18,7 @@ RUN node ./node_modules/handlebars/bin/handlebars public/components/EventCreateF
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Login/Login.hbs -f public/components/Login/Login.precompiled.js || echo "Handlebars command failed"
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Nav/Nav.hbs -f public/components/Nav/Nav.precompiled.js || echo "Handlebars command failed"
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Register/Register.hbs -f public/components/Register/Register.precompiled.js || echo "Handlebars command failed"
-
+RUN node ./node_modules/handlebars/bin/handlebars public/components/StatsPage/answerDiv.hbs -f public/components/StatsPage/answerDiv.precompiled.js || echo "Handlebars command failed"
 # Открываем порт 80
 EXPOSE 80
 

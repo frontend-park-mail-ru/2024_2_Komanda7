@@ -41,7 +41,15 @@ export class Feed {
        * @type {HTMLElement}
        */
       const feedContent = document.createElement('content');
-  
+      // const iframe = document.createElement('iframe');
+      // iframe.src = "http://127.0.0.1/login"; // Set the source URL for the iframe
+      // // iframe.src = "example.com";
+      // iframe.width = "90%"; // Set the width of the iframe
+      // iframe.height = "400"; // Set the height of the iframe
+      // iframe.style.border = "none"; // Optional: Remove border
+
+      // // Append the iframe to the feed content
+      // feedContent.appendChild(iframe);
       /**
        * Fetches the feed from the server.
        * 

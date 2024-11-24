@@ -1,0 +1,25 @@
+.answerStyle {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.statistics-get {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statistics-get__title {
+    font-size: 20px;
+    margin-bottom: 80px;
+    color: black;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }

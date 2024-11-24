@@ -8,6 +8,9 @@
 @import "components/Search/Search.css";
 @import "components/EventCreateForm/EventCreateForm.css";
 @import "components/EventEditForm/EventEditForm.css";
+@import "components/csat/csat.css";
+@import "components/StatsPage/StatsPage.css";
+
 UserEventsPage
 *{
     margin:0;
@@ -113,4 +116,14 @@ body {
     color: black;
     padding: 20px;
     text-align: center;
+}
+
+.fixed-iframe {
+    position: fixed; /* Зафиксированное позиционирование */
+    bottom: 0; /* Прикрепить к нижней части экрана */
+    left: 0; /* Прикрепить к левой части экрана */
+    width: 600px; /* Ширина iframe */
+    height: 200px; /* Высота iframe */
+    border: none; /* Убрать рамку */
+    z-index: 1000; /* Убедитесь, что iframe находится поверх других элементов */
 }

@@ -103,7 +103,16 @@ export class Profile {
             console.error('Error fetching profile data:', error);
         });
 
+        const statsButton = document.createElement('button');
+        statsButton.className = 'createEvent';
+        statsButton.textContent = 'Получить статистику';
+        statsButton.addEventListener("click", () => {
+
+            navigate( "/stats");
+        });
+
         profilePage.append(profileContent);
+        profilePage.append(statsButton);
         return profilePage;
     }
 
