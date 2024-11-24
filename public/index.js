@@ -78,7 +78,7 @@ const navigate = (path) => {
      */
     window.dispatchEvent(new PopStateEvent('popstate'));
 };
-let header = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+let header = new Header().renderHeader(userIsLoggedIn, navigate);
 root.appendChild(header);
 initializeApp();
 /**
@@ -88,7 +88,7 @@ function updateLinksContainer() {
     /**
      * Create a new header element
      */
-    const newHeaderElement = new Header().renderHeader(userIsLoggedIn, logout, navigate);
+    const newHeaderElement = new Header().renderHeader(userIsLoggedIn, navigate);
     /**
      * Replace the old header element with the new one
      */
@@ -166,7 +166,7 @@ const routes = {
     '/profile': () => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const profile = new Profile();
-        const profileElement = profile.renderProfile();
+        const profileElement = profile.renderProfile(logout);
         newsFeed.appendChild(profileElement);
     },
     '/events/:id': async(id) => {

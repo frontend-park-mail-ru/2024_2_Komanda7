@@ -3,7 +3,7 @@ import { api } from '../../modules/FrontendAPI.js';
 import { navigate } from "../../modules/router.js";
 
 export class Profile {
-    renderProfile() {
+    renderProfile(logout) {
         const profilePage = document.createElement('div');
         profilePage.id = 'profilePage';
         const profileContent = document.createElement('div');
@@ -68,6 +68,26 @@ export class Profile {
         saveButton.textContent = 'Сохранить изменения';
         saveButton.addEventListener('click', this.saveChanges.bind(this));
         formContainer.appendChild(saveButton);
+
+        const logoutButton = document.createElement('button');
+        logoutButton.textContent = 'Выйти из аккаунта';
+        logoutButton.onclick = async() => {
+            try {
+              const response = await fetch(`${endpoint}/logout`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include"
+              });
+              if (!response.ok) {
+                throw new Error(response.statusText);
+              }
+              logout();
+              navigate('events');
+            } catch (error) {
+              console.error(error);
+            }
+          };
+        formContainer.appendChild(logoutButton);
 
         profileContainer.appendChild(profilePictureContainer);
         profileContainer.appendChild(formContainer);
