@@ -276,7 +276,7 @@ function checkPath() {
         defaultRoute(); // Call the default route if no matching route is found
     }
 }
-
+checkPath();
 /**
  * Add an event listener to the links
  */
