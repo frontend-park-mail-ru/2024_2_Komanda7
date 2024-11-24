@@ -141,6 +141,26 @@ export class Header {
         });
   
         buttons.appendChild(btnMyEvents);
+
+        const btnMySubs = document.createElement('button');
+        btnMySubs.textContent = 'Подписки';
+        btnMySubs.addEventListener('click', (event) => {
+          event.preventDefault();
+          const path = '/events/subscription';
+          navigate(path);
+        });
+
+        buttons.appendChild(btnMySubs);
+
+        const btnMyFavorites = document.createElement('button');
+        btnMyFavorites.textContent = 'Избранные';
+        btnMyFavorites.addEventListener('click', (event) => {
+          event.preventDefault();
+          const path = '/events/favorites';
+          navigate(path);
+        });
+  
+        buttons.appendChild(btnMyFavorites);
       }
   
       headerElement.appendChild(buttons);
