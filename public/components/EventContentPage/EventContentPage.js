@@ -194,8 +194,7 @@ export class EventContentPage {
             try {
                 const response = await api.post(path, request);    
             } catch (error) {
-                console.log(error);
-                console.log("Ошибка при загрузке события");
+                navigate('/login');
             }
         });
 
@@ -212,8 +211,7 @@ export class EventContentPage {
             try {
                 const response = await api.delete(path, request);    
             } catch (error) {
-                console.log(error);
-                console.log("Ошибка при загрузке события");
+                navigate('/login');
             }
         });
 
@@ -262,14 +260,12 @@ export class EventContentPage {
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            console.log(event.user.id);
             //const arr = Array.from(event.events, (ev) => ev.id);
             
             return event.user.id;
 
         } catch (error) {
-            console.log(error);
-            console.log("Ошибка при загрузке событий");
+            return -1;
         }
 
         return [];
