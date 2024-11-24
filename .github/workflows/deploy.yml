@@ -1,0 +1,26 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "Host your-vm-ip
+                StrictHostKeyChecking no" > ~/.ssh/config
+
+      - name: Execute update script on VM
+        run: |
+          ssh ubuntu@37.139.40.252 'bash -s' <<EOF
+          cd /front || exit 1
+          ./update_front || exit 2
+          EOF
