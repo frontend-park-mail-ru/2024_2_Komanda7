@@ -85,13 +85,13 @@ export class EventContentPage {
             },
             credentials: 'include',
         };
-        // Логика подписки на мероприятие
-        // const response = await api.post(`/events/${event.id}/subscribe`, request);
-        // if (response.ok) {
-        //     alert('Вы подписались на мероприятие!');
-        // } else {
-        //     alert('Ошибка подписки. Попробуйте позже.');
-        // }
+        const path = `/profile/subscribe/${event.author}`;
+        try {
+            const response = await api.post(path, request);    
+        } catch (error) {
+            console.log(error);
+            console.log("Ошибка при загрузке события");
+        }
     });
 
     eventAuthor.appendChild(subscribeButton);
