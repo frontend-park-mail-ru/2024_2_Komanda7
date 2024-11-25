@@ -37,6 +37,8 @@ export class Search {
      */
     async renderSearch(apiPath, searchQuery) {
         // Create the main container for the search page
+        
+
         const searchPage = document.createElement('div');
         searchPage.id = 'searchPage';
     
@@ -50,16 +52,18 @@ export class Search {
         tagsLabel.textContent = 'Tags';
         tagsLabel.className = 'input-label'; // Add a class for styling
         const tagsInput = document.createElement('input');
+        tagsInput.id = 'searchTags';
         tagsInput.type = 'text';
         tagsInput.placeholder = 'Enter tags...'; // Placeholder text for Tags input
         tagsInput.className = 'tags-input'; // Add a class for styling
         // Add event listener to detect Enter key press
-        tagsInput.addEventListener('keydown', (event) => {
+        tagsInput.addEventListener('keydown', async (event) => {
             if (event.key === 'Enter') { // Check if the pressed key is Enter
                 event.preventDefault();
                 const newTags = tagsInput.value;
                 const newSearchTerm = searchInput.value;
-                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                await this.refetchFeed();
+                //navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         //Create the Search title and input field
@@ -67,15 +71,17 @@ export class Search {
         searchLabel.textContent = 'Поиск';
         searchLabel.className = 'input-label'; // Add a class for styling
         const searchInput = document.createElement('input');
+        searchInput.id = 'searchQuery';
         searchInput.type = 'text';
         searchInput.placeholder = 'Введите искомые слова...'; // Placeholder text for Search input
         searchInput.className = 'search-input'; // Add a class for styling
-        searchInput.addEventListener('keydown', (event) => {
+        searchInput.addEventListener('keydown', async (event) => {
             if (event.key === 'Enter') { // Check if the pressed key is Enter
                 event.preventDefault();
                 const newSearchTerm = searchInput.value;
                 const newTags = tagsInput.value;
-                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                await this.refetchFeed();
+                //navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         // Parse the searchQuery to extract tags and search term
@@ -108,6 +114,7 @@ export class Search {
        * @function fetchFeed
        */
       const fetchFeed = async () => {
+        feedContent.innerHTML = '';
         /**
          * The response from the server.
          * 
@@ -130,7 +137,6 @@ export class Search {
                 path += '&tags=' + tag;
               })
             }
-            //path += '&category_id=' + 7;
             const response = await api.get(path, request);
         
         if (response.ok) {
@@ -141,6 +147,7 @@ export class Search {
            */
           const feed = await response.json();
           feedContent.id = 'feedContent';
+          
   
           /**
            * Iterates over the feed data and creates a FeedElement for each event.
@@ -172,8 +179,9 @@ export class Search {
         console.error('Error searching:', error);
     }
       };
-      await fetchFeed(); // Calls the fetchFeed function
       
+      
+      //center point
       const hiddenLatitudeInput = document.createElement('input');
       hiddenLatitudeInput.type = 'hidden';
       hiddenLatitudeInput.id = 'latitude';
@@ -189,21 +197,123 @@ export class Search {
       zoom.id = 'zoom';
       searchParameters.appendChild(zoom);
 
+      // Создание скрытых полей для координат
+      const topLeftLatitude = document.createElement('input');
+      topLeftLatitude.type = 'hidden';
+      topLeftLatitude.id = 'topLeftLatitude';
+      searchParameters.appendChild(topLeftLatitude);
+
+      const topLeftLongitude = document.createElement('input');
+      topLeftLongitude.type = 'hidden';
+      topLeftLongitude.id = 'topLeftLongitude';
+      searchParameters.appendChild(topLeftLongitude);
+
+      const bottomRightLatitude = document.createElement('input');
+      bottomRightLatitude.type = 'hidden';
+      bottomRightLatitude.id = 'bottomRightLatitude';
+      searchParameters.appendChild(bottomRightLatitude);
+
+      const bottomRightLongitude = document.createElement('input');
+      bottomRightLongitude.type = 'hidden';
+      bottomRightLongitude.id = 'bottomRightLongitude';
+      searchParameters.appendChild(bottomRightLongitude);
+      await fetchFeed(); // Calls the fetchFeed function
+      //map
       const mapContainer = document.createElement('div');
       mapContainer.id = 'map';
-      mapContainer.style.width = '100%'; // Ширина карты
+      mapContainer.style.width = '90%'; // Ширина карты
       mapContainer.style.height = '400px'; // Высота карты
       searchParameters.appendChild(mapContainer);
       const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17 };
       ymaps.ready(() => this.initMap(mock_data));
     searchPage.appendChild(feedContent);
     return searchPage; // Returns the search page element
-    }
+    };
+    async refetchFeed() {
+      const feedContent = document.getElementById('feedContent');
+        feedContent.innerHTML = '';
+        /**
+         * The response from the server.
+         * 
+         * @type {Response}
+         */
+        
+        try {
+            const request = {
+                headers: {
+
+                },
+                credentials: 'include',
+            };
+            let path = '/events/search?';
+            const searchTerm = document.getElementById('searchQuery').value;
+            const searchTags = document.getElementById('searchTags').value;
+            const tags = searchTags ? searchTags.split(' ') : []; // Split tags by space
+            //Set the value of the input fields
+            document.getElementById('searchTags').value = tags.join(' ');
+            if (searchTerm) {
+              path += 'query=' + searchTerm;
+            }
+            if (tags.length) {
+              tags.forEach((tag) => {
+                path += '&tags=' + tag;
+              })
+            };
+            console.log("Левый верхний угол:", topLeftLatitude.value, topLeftLongitude.value);
+            console.log("Правый нижний угол:", bottomRightLatitude.value, bottomRightLongitude.value);
+
+            //path += '&category_id=' + 7;
+            const response = await api.get(path, request);
+        
+        if (response.ok) {
+          /**
+           * The feed data from the server.
+           * 
+           * @type {object}
+           */
+          const feed = await response.json();
+          feedContent.id = 'feedContent';
+          
+  
+          /**
+           * Iterates over the feed data and creates a FeedElement for each event.
+           * 
+           * @param {string} key - The key of the event.
+           * @param {string} description - The description of the event.
+           * @param {string} image - The image URL of the event.
+           */
+          Object.entries(feed.events).forEach( (elem) => {
+            const {id, title, image} = elem[1];
+            const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
+            feedContent.appendChild(feedElement);
+            feedElement.addEventListener('click', (event) => {
+              event.preventDefault();
+              const path = `/events/${id}`;
+              navigate(path);
+            });
+          });
+  
+        } else {
+          /**
+           * The error text from the server.
+           * 
+           * @type {object}
+           */
+          const errorText = await response.json();
+        }
+    } catch (error) {
+        console.error('Error searching:', error);
+    };
+    };
 
     initMap(mock_data) {
       const myMap = new ymaps.Map("map", {
           center: [mock_data.latitude, mock_data.longitude],
           zoom: mock_data.zoom,
+          controls: [
+            'zoomControl', // Элемент управления масштабом
+            'typeSelector', // Элемент управления типом карты
+          ]
       });  
       // Обработчик события клика на карту
       myMap.events.add('mousedown', (e) => {
@@ -238,17 +348,26 @@ export class Search {
           checkZoomRange: true,
           duration: 300 // duration in milliseconds
       });
-          console.log(myMap.getCenter());
-          console.log(selectedPoint);
       });
-      myMap.events.add('boundschange', (e) => {
-        // Получаем текущий центр карты
-        const currentCenter = myMap.getCenter();
-        const currentZoom = myMap.getZoom();
-        
-        console.log("Current Center after change:", currentCenter);
-        console.log("Current Zoom Level:", currentZoom);
+      myMap.events.add('boundschange', () => {
+        // Получаем границы видимой области карты
+        const bounds = myMap.getBounds();
+        const topLeft = bounds[0]; // Левый верхний угол
+        const bottomRight = bounds[1]; // Правый нижний угол
+
+        const topLeftLatitude = topLeft[0]; // Широта левого верхнего угла
+        const topLeftLongitude = topLeft[1]; // Долгота левого верхнего угла
+        const bottomRightLatitude = bottomRight[0]; // Широта правого нижнего угла
+        const bottomRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
+
+        document.getElementById("topLeftLatitude").value = topLeftLatitude;
+        document.getElementById("topLeftLongitude").value = topLeftLongitude;
+        document.getElementById("bottomRightLatitude").value = bottomRightLatitude;
+        document.getElementById("bottomRightLongitude").value = bottomRightLongitude;
+        this.refetchFeed();
+        console.log("Левый верхний угол:", topLeftLatitude.value, topLeftLongitude.value);
+        console.log("Правый нижний угол:", bottomRightLatitude.value, bottomRightLongitude.value);
     });
-    }
+    };
   }
   
