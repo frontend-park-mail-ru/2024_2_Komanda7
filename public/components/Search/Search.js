@@ -375,7 +375,8 @@ export class Search {
         const botRightLatitude = bottomRight[0]; // Широта правого нижнего угла
         const botRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
 
-        if (window.location.href == `http://37.139.40.252/search?q=`) {
+        if (window.location.pathname == `/search?q=`) {
+        // if (true) {
         document.getElementById("topLeftLatitude").value = topLeftLatitude;
         document.getElementById("topLeftLongitude").value = topLeftLongitude;
         document.getElementById("botRightLatitude").value = botRightLatitude;
