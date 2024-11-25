@@ -79,9 +79,9 @@ export class EventContentPage {
     console.log(event.id);
     const mySubsribtions = await this.checkSubscribe();
 
-    const inSub = event.id in mySubsribtions;
+    const inSub = mySubsribtions.includes(event.id);
 
-    const isFavorite = event.id in myFavorites;
+    const isFavorite = myFavorites.includes(event.id);
     console.log(isFavorite);
 
     const eventAuthor = document.createElement('div');
