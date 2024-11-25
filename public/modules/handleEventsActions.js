@@ -176,13 +176,15 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
         body: body,
       };
     const path = '/events';
+    console.log(request);
     const response = await api.post(path, request);
-    console.log(response);
+    
     // If response is not OK, throw error
     if (!response.ok) {
       throw new Error(data.message);
     }
     const data = await response.json();
+    console.log(data);
     if (data.code) {
         throw new Error(data.message);
     }
