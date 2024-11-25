@@ -88,6 +88,7 @@ export class Feed {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
+          
           Object.entries(feed.events).forEach( (elem) => {
             const {id, title, image} = elem[1];
             const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
@@ -98,6 +99,11 @@ export class Feed {
               navigate(path);
             });
           });
+          if (feed.events.length = 0) {
+            const emptyDummy = document.createElement('div');
+            emptyDummy.innerHTML = 'Тут пока нет постов.';
+            feedContent.appendChild(emptyDummy);
+          }
   
         } else {
           /**
