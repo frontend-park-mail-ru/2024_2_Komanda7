@@ -158,8 +158,8 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
-      Latitude: `${latitude}`,
-      Longitude: `${longitude}`,
+      Latitude: +latitude,
+      Longitude: +longitude,
       zoom: zoom,
       };
     console.log(userData);
