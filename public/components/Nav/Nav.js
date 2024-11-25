@@ -15,7 +15,7 @@ async renderNav() {
 
     const request = { headers: {} };
     const response = await api.get('/categories', request);
-    const dynamicCategories = await response.json();
+    const backAnswer = await response.json();
 
     const allEventsItem = {
       key: 'allEvents',
@@ -29,9 +29,9 @@ async renderNav() {
       text: 'Прошедшие'
     };
 
-    const dynamicItems = dynamicCategories.map(category => ({
-      key: category.id || category.name, 
-      href: `/events/categories/${category.id}`, 
+    const dynamicItems = backAnswer.categories.map(category => ({
+      key: category.ID || category.name, 
+      href: `/events/categories/${category.ID}`, 
       text: category.name 
     }));
 
