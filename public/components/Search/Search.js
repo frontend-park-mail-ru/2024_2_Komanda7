@@ -208,15 +208,15 @@ export class Search {
       topLeftLongitude.id = 'topLeftLongitude';
       searchParameters.appendChild(topLeftLongitude);
 
-      const bottomRightLatitude = document.createElement('input');
-      bottomRightLatitude.type = 'hidden';
-      bottomRightLatitude.id = 'bottomRightLatitude';
-      searchParameters.appendChild(bottomRightLatitude);
+      const botRightLatitude = document.createElement('input');
+      botRightLatitude.type = 'hidden';
+      botRightLatitude.id = 'botRightLatitude';
+      searchParameters.appendChild(botRightLatitude);
 
-      const bottomRightLongitude = document.createElement('input');
-      bottomRightLongitude.type = 'hidden';
-      bottomRightLongitude.id = 'bottomRightLongitude';
-      searchParameters.appendChild(bottomRightLongitude);
+      const botRightLongitude = document.createElement('input');
+      botRightLongitude.type = 'hidden';
+      botRightLongitude.id = 'botRightLongitude';
+      searchParameters.appendChild(botRightLongitude);
       await fetchFeed(); // Calls the fetchFeed function
       //map
       const mapContainer = document.createElement('div');
@@ -224,7 +224,7 @@ export class Search {
       mapContainer.style.width = '90%'; // Ширина карты
       mapContainer.style.height = '400px'; // Высота карты
       searchParameters.appendChild(mapContainer);
-      const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17 };
+      const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 10 };
       ymaps.ready(() => this.initMap(mock_data));
     searchPage.appendChild(feedContent);
     return searchPage; // Returns the search page element
@@ -259,10 +259,16 @@ export class Search {
                 path += '&tags=' + tag;
               })
             };
+            path += `&topLeftLatitude=${topLeftLatitude.value}`;
+            path += `&topLeftLongitude=${topLeftLongitude.value}`;
+            path += `&botRightLatitude=${botRightLatitude.value}`;
+            path += `&botRightLongitude=${botRightLongitude.value}`;
+
             console.log("Левый верхний угол:", topLeftLatitude.value, topLeftLongitude.value);
-            console.log("Правый нижний угол:", bottomRightLatitude.value, bottomRightLongitude.value);
+            console.log("Правый нижний угол:", botRightLatitude.value, botRightLongitude.value);
 
             //path += '&category_id=' + 7;
+            console.log(path);
             const response = await api.get(path, request);
         
         if (response.ok) {
@@ -283,9 +289,10 @@ export class Search {
            * @param {string} image - The image URL of the event.
            */
           Object.entries(feed.events).forEach( (elem) => {
-            const {id, title, image} = elem[1];
+            const {id, title, image, Latitude, Longitude} = elem[1];
             const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
+            // console.log(elem, Latitude, Longitude);
             feedElement.addEventListener('click', (event) => {
               event.preventDefault();
               const path = `/events/${id}`;
@@ -357,13 +364,13 @@ export class Search {
 
         const topLeftLatitude = topLeft[0]; // Широта левого верхнего угла
         const topLeftLongitude = topLeft[1]; // Долгота левого верхнего угла
-        const bottomRightLatitude = bottomRight[0]; // Широта правого нижнего угла
-        const bottomRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
+        const botRightLatitude = bottomRight[0]; // Широта правого нижнего угла
+        const botRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
 
         document.getElementById("topLeftLatitude").value = topLeftLatitude;
         document.getElementById("topLeftLongitude").value = topLeftLongitude;
-        document.getElementById("bottomRightLatitude").value = bottomRightLatitude;
-        document.getElementById("bottomRightLongitude").value = bottomRightLongitude;
+        document.getElementById("botRightLatitude").value = botRightLatitude;
+        document.getElementById("botRightLongitude").value = botRightLongitude;
         this.refetchFeed();
     });
     };
