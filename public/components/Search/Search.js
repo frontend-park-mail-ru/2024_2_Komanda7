@@ -287,12 +287,25 @@ export class Search {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
+          console.log("topLeftLatitude: ", document.getElementById("topLeftLatitude").value);
+          console.log("topLeftLongitude: ",document.getElementById("topLeftLongitude").value);
+          console.log("botRightLatitude: ",document.getElementById("botRightLatitude").value);
+          console.log("botRightLongitude: ",document.getElementById("botRightLongitude").value);
           Object.entries(feed.events).forEach( (elem) => {
             const {id, title, image, Latitude, Longitude} = elem[1];
             const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
-            feedContent.appendChild(feedElement);
+            
+            
+              
             // console.log(elem, Latitude, Longitude);
             const coordinates = [Latitude, Longitude]; // Создаем массив координат
+            if (
+              Latitude >= document.getElementById("topLeftLatitude").value && 
+              Latitude <= document.getElementById("botRightLatitude").value &&
+              Longitude >= document.getElementById("topLeftLongitude").value && 
+              Longitude <= document.getElementById("botRightLongitude").value) {
+              feedContent.appendChild(feedElement);
+            }
             const placemark = new ymaps.Placemark(coordinates, {
                 hintContent: title // Устанавливаем всплывающее содержимое
             }, {
