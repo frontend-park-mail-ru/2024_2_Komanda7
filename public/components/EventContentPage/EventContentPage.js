@@ -115,6 +115,12 @@ export class EventContentPage {
             }
         }
         inSub = inSub ^ 1;
+        if (inSub) {
+            subscribeButton.textContent = 'Отписаться';
+        }
+        else {
+            subscribeButton.textContent = 'Подписаться';
+        }
     });
 
     if (possession > 0){
@@ -238,6 +244,11 @@ export class EventContentPage {
                 }
             }
             isFavorite = isFavorite ^ 1;
+            if (isFavorite) {
+                favoritesAddButton.textContent = 'Удалить из избранных';
+            } else {
+                favoritesAddButton.textContent = 'Добавить в избранные';
+            };
         });
         if (possession > 0) {
             eventActions.appendChild(favoritesAddButton);
