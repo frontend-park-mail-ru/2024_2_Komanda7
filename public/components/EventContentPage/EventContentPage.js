@@ -75,17 +75,11 @@ export class EventContentPage {
     async _renderEvent(event) {
     const possession = await this.checkPossession();
     const myFavorites = await this.checkFavorites();
-    console.log(myFavorites);
-    console.log(event.id);
     const mySubsribtions = await this.checkSubscribe();
-    console.log(typeof event.id);
-    console.log(typeof myFavorites);
-    console.log(typeof mySubsribtions);
 
-    const inSub = mySubsribtions.includes(event.id);
+    let inSub = mySubsribtions.includes(event.id);
 
-    const isFavorite = myFavorites.includes(event.id);
-    console.log(isFavorite);
+    let isFavorite = myFavorites.includes(event.id);
 
     const eventAuthor = document.createElement('div');
     eventAuthor.className = 'event__author';
@@ -221,8 +215,6 @@ export class EventContentPage {
         } else {
             favoritesAddButton.textContent = 'Добавить в избранные';
         };
-
-        favoritesAddButton.textContent = 'Добавить в избранные';
         favoritesAddButton.addEventListener("click", async () => {
             const request = {
                 headers: {
