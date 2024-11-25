@@ -131,7 +131,7 @@ export class Search {
                 },
                 credentials: 'include',
             };
-            let path = '/events/search?';
+            let path = '/events?';
             if (searchTerm) {
               path += 'query=' + searchTerm;
             }
@@ -140,6 +140,7 @@ export class Search {
                 path += '&tags=' + tag;
               })
             }
+            path += 'topLeftLatitude=55.627815653778434&topLeftLongitude=36.634768827416046&botRightLatitude=55.93737159143388&botRightLongitude=38.48184524343166';
             const response = await api.get(path, request);
         
         if (response.ok) {
@@ -248,7 +249,7 @@ export class Search {
                 },
                 credentials: 'include',
             };
-            let path = '/events/search?';
+            let path = '/events?';
             const searchTerm = document.getElementById('searchQuery').value;
             const searchTags = document.getElementById('searchTags').value;
             const tags = searchTags ? searchTags.split(' ') : []; // Split tags by space
@@ -297,7 +298,8 @@ export class Search {
               Longitude >= document.getElementById("topLeftLongitude").value && 
               Longitude <= document.getElementById("botRightLongitude").value) {
               feedContent.appendChild(feedElement);
-            }
+            };
+            
             const placemark = new ymaps.Placemark(coordinates, {
                 hintContent: title // Устанавливаем всплывающее содержимое
             }, {
@@ -375,8 +377,7 @@ export class Search {
         const botRightLatitude = bottomRight[0]; // Широта правого нижнего угла
         const botRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
 
-        if (window.location.pathname == `/search?q=`) {
-        // if (true) {
+        if (window.location.pathname == `/search`) {
         document.getElementById("topLeftLatitude").value = topLeftLatitude;
         document.getElementById("topLeftLongitude").value = topLeftLongitude;
         document.getElementById("botRightLatitude").value = botRightLatitude;
