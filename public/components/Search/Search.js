@@ -27,7 +27,7 @@ import { FeedElement } from "../FeedElement/FeedElement.js"
  */
 export class Search {
       constructor() {
-        this.myMap = null; // Инициализируем myMap как null
+        this.myMap = null; // Инициализируем this.myMap как null
     }
     /**
      * Renders the feed of events.
@@ -267,11 +267,7 @@ export class Search {
             path += `&botRightLatitude=${botRightLatitude.value}`;
             path += `&botRightLongitude=${botRightLongitude.value}`;
 
-            console.log("Левый верхний угол:", topLeftLatitude.value, topLeftLongitude.value);
-            console.log("Правый нижний угол:", botRightLatitude.value, botRightLongitude.value);
-
             //path += '&category_id=' + 7;
-            console.log(path);
             const response = await api.get(path, request);
         
         if (response.ok) {
@@ -304,6 +300,12 @@ export class Search {
                 iconImageHref: '/static/images/location.png', // Путь к изображению метки
                 iconImageSize: [32, 32], // Размер изображения метки
                 iconImageOffset: [-16, -32] // Смещение изображения метки
+            });
+            // Добавляем обработчик события click на метку
+            placemark.events.add('click', (event) => {
+              event.preventDefault(); // Предотвращаем стандартное поведение
+              const path = `/events/${id}`; // Путь, на который нужно перейти
+              navigate(path); // Переход на нужный путь
             });
 
             // Добавляем метку на карту
@@ -340,7 +342,7 @@ export class Search {
       // Обработчик события клика на карту
       this.myMap.events.add('mousedown', (e) => {
           const coords = e.get('coords');
-          const zoom = myMap.getZoom();
+          const zoom = this.myMap.getZoom();
           var selectedPoint = {
               latitude: coords[0],
               longitude: coords[1],
@@ -350,21 +352,7 @@ export class Search {
           document.getElementById('latitude').value = coords[0];
           document.getElementById('longitude').value = coords[1];
           document.getElementById('zoom').value = zoom;
-          // Удаляем старую метку, если она существует
-          if (this.currentPlacemark) {
-              myMap.geoObjects.remove(this.currentPlacemark);
-          }
-          // Создаем новую метку
-          this.currentPlacemark = new ymaps.Placemark(coords, {
-              hintContent: 'Новая метка',
-          }, {
-              iconLayout: 'default#image',
-              iconImageHref: '/static/images/location.png',
-              iconImageSize: [32, 32],
-              iconImageOffset: [-16, -32]
-          });
-          // Добавляем новую метку на карту
-          this.myMap.geoObjects.add(this.currentPlacemark);
+
           // Smoothly move the map to the selected coordinates
           this.myMap.setCenter(coords, zoom, {
           checkZoomRange: true,
@@ -381,12 +369,14 @@ export class Search {
         const topLeftLongitude = topLeft[1]; // Долгота левого верхнего угла
         const botRightLatitude = bottomRight[0]; // Широта правого нижнего угла
         const botRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
-
+        
+        if (window.location.href == 'http://127.0.0.1/search?q=') {
         document.getElementById("topLeftLatitude").value = topLeftLatitude;
         document.getElementById("topLeftLongitude").value = topLeftLongitude;
         document.getElementById("botRightLatitude").value = botRightLatitude;
         document.getElementById("botRightLongitude").value = botRightLongitude;
         this.refetchFeed();
+        }
     });
     };
   }
