@@ -298,7 +298,7 @@ export class EventContentPage {
             return arr;
 
         } catch (error) {
-            return -1;
+            return [];
         }
     }
     async checkSubscribe() {
@@ -312,7 +312,7 @@ export class EventContentPage {
             return arr;
 
         } catch (error) {
-            return -1;
+            return [];
         }
     }
 }
