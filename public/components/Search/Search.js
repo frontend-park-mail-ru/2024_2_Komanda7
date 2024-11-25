@@ -26,6 +26,9 @@ import { FeedElement } from "../FeedElement/FeedElement.js"
  * @class Feed
  */
 export class Search {
+      constructor() {
+        this.myMap = null; // Инициализируем myMap как null
+    }
     /**
      * Renders the feed of events.
      * 
@@ -293,6 +296,18 @@ export class Search {
             const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
             feedContent.appendChild(feedElement);
             // console.log(elem, Latitude, Longitude);
+            const coordinates = [Latitude, Longitude]; // Создаем массив координат
+            const placemark = new ymaps.Placemark(coordinates, {
+                hintContent: title // Устанавливаем всплывающее содержимое
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: '/static/images/location.png', // Путь к изображению метки
+                iconImageSize: [32, 32], // Размер изображения метки
+                iconImageOffset: [-16, -32] // Смещение изображения метки
+            });
+
+            // Добавляем метку на карту
+            this.myMap.geoObjects.add(placemark);
             feedElement.addEventListener('click', (event) => {
               event.preventDefault();
               const path = `/events/${id}`;
@@ -314,7 +329,7 @@ export class Search {
     };
 
     initMap(mock_data) {
-      const myMap = new ymaps.Map("map", {
+      this.myMap = new ymaps.Map("map", {
           center: [mock_data.latitude, mock_data.longitude],
           zoom: mock_data.zoom,
           controls: [
@@ -323,7 +338,7 @@ export class Search {
           ]
       });  
       // Обработчик события клика на карту
-      myMap.events.add('mousedown', (e) => {
+      this.myMap.events.add('mousedown', (e) => {
           const coords = e.get('coords');
           const zoom = myMap.getZoom();
           var selectedPoint = {
@@ -349,16 +364,16 @@ export class Search {
               iconImageOffset: [-16, -32]
           });
           // Добавляем новую метку на карту
-          myMap.geoObjects.add(this.currentPlacemark);
+          this.myMap.geoObjects.add(this.currentPlacemark);
           // Smoothly move the map to the selected coordinates
-          myMap.setCenter(coords, zoom, {
+          this.myMap.setCenter(coords, zoom, {
           checkZoomRange: true,
           duration: 300 // duration in milliseconds
       });
       });
-      myMap.events.add('boundschange', () => {
+      this.myMap.events.add('boundschange', () => {
         // Получаем границы видимой области карты
-        const bounds = myMap.getBounds();
+        const bounds = this.myMap.getBounds();
         const topLeft = bounds[0]; // Левый верхний угол
         const bottomRight = bounds[1]; // Правый нижний угол
 
