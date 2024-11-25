@@ -75,11 +75,14 @@ export class EventContentPage {
     async _renderEvent(event) {
     const possession = await this.checkPossession();
     const myFavorites = await this.checkFavorites();
+    console.log(myFavorites);
+    console.log(event.id);
     const mySubsribtions = await this.checkSubscribe();
 
     const inSub = event.id in mySubsribtions;
 
     const isFavorite = event.id in myFavorites;
+    console.log(isFavorite);
 
     const eventAuthor = document.createElement('div');
     eventAuthor.className = 'event__author';
@@ -114,6 +117,7 @@ export class EventContentPage {
                 console.log(error);
             }
         }
+        inSub = inSub ^ 1;
     });
 
     if (possession > 0){
@@ -222,20 +226,23 @@ export class EventContentPage {
                 },
                 credentials: 'include',
             };
-            try {
-                if (isFavorite) {
-                    const path = `/events/favorites/${event.id}`;
-                    const response = await api.delete(path, request); 
-                    isFavorite = isFavorite^1;
-                } else {
-                    const path = `/events/favorites/${event.id}`;
-                    const response = await api.post(path, request);
-                    isFavorite = isFavorite^1; 
+            if (isFavorite) {
+                const path = `/events/favorites/${event.id}`;
+                try {
+                    const response = await api.delete(path, request);    
+                } catch (error) {
+                    console.log(error);
                 }
-                   
-            } catch (error) {
-                console.log(error);
             }
+            else {
+                const path = `/events/favorites/${event.id}`;
+                try {
+                    const response = await api.post(path, request);    
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            isFavorite = isFavorite ^ 1;
         });
         if (possession > 0) {
             eventActions.appendChild(favoritesAddButton);
