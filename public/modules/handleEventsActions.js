@@ -162,6 +162,7 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       Longitude: longitude,
       zoom: zoom,
       };
+    console.log(userData);
   
     const json = JSON.stringify(userData);
     const formData = new FormData();    
