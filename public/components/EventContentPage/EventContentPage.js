@@ -73,46 +73,53 @@ export class EventContentPage {
     };
 
     async _renderEvent(event) {
+    const possession = await this.checkPossession();
+    const myFavorites = await this.checkFavorites();
+    const mySubsribtions = await this.checkSubscribe();
+
+    const inSub = event.id in mySubsribtions;
+
+    const isFavorite = event.id in myFavorites;
+
     const eventAuthor = document.createElement('div');
     eventAuthor.className = 'event__author';
 
     const subscribeButton = document.createElement('button');
     subscribeButton.className = 'buttonSubscribe';
-    subscribeButton.textContent = 'Подписаться';
+    if (inSub) {
+        subscribeButton.textContent = 'Отписаться';
+    }
+    else {
+        subscribeButton.textContent = 'Подписаться';
+    }
     subscribeButton.addEventListener("click", async () => {
         const request = {
             headers: {
             },
             credentials: 'include',
         };
-        const path = `/profile/subscribe/${event.author}`;
-        try {
-            const response = await api.post(path, request);    
-        } catch (error) {
-            navigate('/login');
+        if (inSub) {
+            const path = `/profile/subscribe/${event.author}`;
+            try {
+                const response = await api.delete(path, request);    
+            } catch (error) {
+                navigate('/login');
+            }
+        }
+        else {
+            const path = `/profile/subscribe/${event.author}`;
+            try {
+                const response = await api.post(path, request);    
+            } catch (error) {
+                navigate('/login');
+            }
         }
     });
 
-    eventAuthor.appendChild(subscribeButton);
-
-    const unSubscribeButton = document.createElement('button');
-    unSubscribeButton.className = 'buttonSubscribe';
-    unSubscribeButton.textContent = 'Отписаться';
-    unSubscribeButton.addEventListener("click", async () => {
-        const request = {
-            headers: {
-            },
-            credentials: 'include',
-        };
-        const path = `/profile/subscribe/${event.author}`;
-        try {
-            const response = await api.delete(path, request);    
-        } catch (error) {
-            navigate('/login');
-        }
-    });
-
-    eventAuthor.appendChild(unSubscribeButton);
+    if (possession > 0){
+        eventAuthor.appendChild(subscribeButton);
+    };
+    
 
     const authorText = document.createElement('div');
     authorText.textContent = `Автор: ${event.author}`;
@@ -196,11 +203,18 @@ export class EventContentPage {
             navigate(currentPath + "/edit");
         });
 
-        const possession = await this.checkPossession();
         //array of post ids
+        
         
         const favoritesAddButton = document.createElement('button');
         favoritesAddButton.className = 'buttonSubscribe';
+
+        if (isFavorite) {
+            favoritesAddButton.textContent = 'Удалить из избранных';
+        } else {
+            favoritesAddButton.textContent = 'Добавить в избранные';
+        };
+
         favoritesAddButton.textContent = 'Добавить в избранные';
         favoritesAddButton.addEventListener("click", async () => {
             const request = {
@@ -210,31 +224,19 @@ export class EventContentPage {
             };
             const path = `/events/favorites/${event.id}`;
             try {
-                const response = await api.post(path, request);    
+                if (isFavorite) {
+                    const response = await api.delete(path, request); 
+                } else {
+                    const response = await api.post(path, request); 
+                }
+                   
             } catch (error) {
                 navigate('/login');
             }
         });
-
-        const favoritesDeleteButton = document.createElement('button');
-        favoritesDeleteButton.className = 'buttonSubscribe';
-        favoritesDeleteButton.textContent = 'Удалить из избранного';
-        favoritesDeleteButton.addEventListener("click", async () => {
-            const request = {
-                headers: {
-                },
-                credentials: 'include',
-            };
-            const path = `/events/favorites/${event.id}`;
-            try {
-                const response = await api.delete(path, request);    
-            } catch (error) {
-                navigate('/login');
-            }
-        });
-
-        eventActions.appendChild(favoritesAddButton);
-        eventActions.appendChild(favoritesDeleteButton);
+        if (possession > 0) {
+            eventActions.appendChild(favoritesAddButton);
+        }
 
         if (event.author == possession) {
             eventActions.appendChild(editButton);
@@ -278,14 +280,39 @@ export class EventContentPage {
         try {
             const response = await api.get(path, request);
             const event = await response.json();
-            //const arr = Array.from(event.events, (ev) => ev.id);
             
             return event.user.id;
 
         } catch (error) {
             return -1;
         }
+    }
+    async checkFavorites() {
+        const path = `/events/favorites`;
+        const request = { headers: {}, credentials: "include" };
 
-        return [];
+        try {
+            const response = await api.get(path, request);
+            const answer = await response.json();
+            const arr = Array.from(answer.events, (ev) => ev.id);
+            return arr;
+
+        } catch (error) {
+            return -1;
+        }
+    }
+    async checkSubscribe() {
+        const path = `/events/subscription`;
+        const request = { headers: {}, credentials: "include" };
+
+        try {
+            const response = await api.get(path, request);
+            const answer = await response.json();
+            const arr = Array.from(answer.events, (ev) => ev.id);
+            return arr;
+
+        } catch (error) {
+            return -1;
+        }
     }
 }
