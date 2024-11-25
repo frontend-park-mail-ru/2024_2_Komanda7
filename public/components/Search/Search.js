@@ -365,8 +365,6 @@ export class Search {
         document.getElementById("bottomRightLatitude").value = bottomRightLatitude;
         document.getElementById("bottomRightLongitude").value = bottomRightLongitude;
         this.refetchFeed();
-        console.log("Левый верхний угол:", topLeftLatitude.value, topLeftLongitude.value);
-        console.log("Правый нижний угол:", bottomRightLatitude.value, bottomRightLongitude.value);
     });
     };
   }
