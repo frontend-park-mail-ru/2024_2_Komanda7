@@ -287,17 +287,9 @@ export class Search {
            * @param {string} description - The description of the event.
            * @param {string} image - The image URL of the event.
            */
-          console.log("topLeftLatitude: ", document.getElementById("topLeftLatitude").value);
-          console.log("topLeftLongitude: ",document.getElementById("topLeftLongitude").value);
-          console.log("botRightLatitude: ",document.getElementById("botRightLatitude").value);
-          console.log("botRightLongitude: ",document.getElementById("botRightLongitude").value);
           Object.entries(feed.events).forEach( (elem) => {
             const {id, title, image, Latitude, Longitude} = elem[1];
             const feedElement = new FeedElement(id, title, `${endpoint}/${image}`).renderTemplate();
-            
-            
-              
-            // console.log(elem, Latitude, Longitude);
             const coordinates = [Latitude, Longitude]; // Создаем массив координат
             if (
               Latitude >= document.getElementById("topLeftLatitude").value && 
@@ -382,8 +374,8 @@ export class Search {
         const topLeftLongitude = topLeft[1]; // Долгота левого верхнего угла
         const botRightLatitude = bottomRight[0]; // Широта правого нижнего угла
         const botRightLongitude = bottomRight[1]; // Долгота правого нижнего угла
-        
-        if (window.location.href == `${endpoint}/search?q=`) {
+
+        if (window.location.href == `http://37.139.40.252/search?q=`) {
         document.getElementById("topLeftLatitude").value = topLeftLatitude;
         document.getElementById("topLeftLongitude").value = topLeftLongitude;
         document.getElementById("botRightLatitude").value = botRightLatitude;
