@@ -78,6 +78,9 @@ export class EventContentPage {
     console.log(myFavorites);
     console.log(event.id);
     const mySubsribtions = await this.checkSubscribe();
+    console.log(typeof event.id);
+    console.log(typeof myFavorites);
+    console.log(typeof mySubsribtions);
 
     const inSub = mySubsribtions.includes(event.id);
 
