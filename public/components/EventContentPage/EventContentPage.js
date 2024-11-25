@@ -95,6 +95,25 @@ export class EventContentPage {
 
     eventAuthor.appendChild(subscribeButton);
 
+    const unSubscribeButton = document.createElement('button');
+    unSubscribeButton.className = 'buttonSubscribe';
+    unSubscribeButton.textContent = 'Отписаться';
+    unSubscribeButton.addEventListener("click", async () => {
+        const request = {
+            headers: {
+            },
+            credentials: 'include',
+        };
+        const path = `/profile/subscribe/${event.author}`;
+        try {
+            const response = await api.delete(path, request);    
+        } catch (error) {
+            navigate('/login');
+        }
+    });
+
+    eventAuthor.appendChild(unSubscribeButton);
+
     const authorText = document.createElement('div');
     authorText.textContent = `Автор: ${event.author}`;
     authorText.className = 'authorText';
