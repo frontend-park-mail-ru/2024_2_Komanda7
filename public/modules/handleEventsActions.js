@@ -158,9 +158,9 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
-      latitude: latitude || null,
-      longitude: longitude || null,
-      zoom: zoom || null,
+      Latitude: latitude,
+      Longitude: longitude,
+      zoom: zoom,
       };
   
     const json = JSON.stringify(userData);
@@ -177,6 +177,7 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       };
     const path = '/events';
     const response = await api.post(path, request);
+    console.log(response);
     // If response is not OK, throw error
     if (!response.ok) {
       throw new Error(data.message);
