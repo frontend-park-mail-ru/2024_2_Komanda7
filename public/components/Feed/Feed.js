@@ -99,10 +99,10 @@ export class Feed {
               navigate(path);
             });
           });
-          if (feed.events.length = 0) {
-            const emptyDummy = document.createElement('div');
-            emptyDummy.innerHTML = 'Тут пока нет постов.';
-            feedContent.appendChild(emptyDummy);
+          if (feed.events.length === 0) {
+            const emptyPlaceholder = document.createElement('div');
+            emptyPlaceholder.innerHTML = 'Тут пока нет постов.';
+            feedContent.appendChild(emptyPlaceholder);
           }
   
         } else {
