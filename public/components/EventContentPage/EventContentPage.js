@@ -250,9 +250,10 @@ export class EventContentPage {
         const mapContainer = document.createElement('div');
         mapContainer.id = 'map';
         this.contentBody.appendChild(mapContainer);
-        const mock_data = {latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17};
+        console.log(event);
+        const eventLocation = {latitude: event.Latitude, longitude: event.Longitude, zoom: 10};
         // Initialize map after appending to DOM
-        ymaps.ready(() => this.init(mock_data));
+        ymaps.ready(() => this.init(eventLocation));
     }
 
     async renderTemplate(id) {
