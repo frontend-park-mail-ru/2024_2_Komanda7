@@ -250,7 +250,6 @@ export class EventContentPage {
         const mapContainer = document.createElement('div');
         mapContainer.id = 'map';
         this.contentBody.appendChild(mapContainer);
-        console.log(event);
         const eventLocation = {latitude: event.Latitude, longitude: event.Longitude, zoom: 10};
         // Initialize map after appending to DOM
         ymaps.ready(() => this.init(eventLocation));
