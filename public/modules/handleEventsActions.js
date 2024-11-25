@@ -63,9 +63,9 @@ export async function loadCategories() {
       const categories = await response.json();
 
       // Заполнение выпадающего списка
-      categories.forEach(category => {
+      categories.categories.forEach(category => {
           const option = document.createElement('option');
-          option.value = category.id; // id категории
+          option.value = category.ID; // id категории
           option.textContent = category.name; // название категории
           selectElement.appendChild(option);
       });
