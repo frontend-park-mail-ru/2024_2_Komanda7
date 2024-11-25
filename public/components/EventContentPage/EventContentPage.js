@@ -103,7 +103,7 @@ export class EventContentPage {
             try {
                 const response = await api.delete(path, request);    
             } catch (error) {
-                navigate('/login');
+                console.log(error);
             }
         }
         else {
@@ -111,7 +111,7 @@ export class EventContentPage {
             try {
                 const response = await api.post(path, request);    
             } catch (error) {
-                navigate('/login');
+                console.log(error);
             }
         }
     });
@@ -222,16 +222,19 @@ export class EventContentPage {
                 },
                 credentials: 'include',
             };
-            const path = `/events/favorites/${event.id}`;
             try {
                 if (isFavorite) {
+                    const path = `/events/favorites/${event.id}`;
                     const response = await api.delete(path, request); 
+                    isFavorite = isFavorite^1;
                 } else {
-                    const response = await api.post(path, request); 
+                    const path = `/events/favorites/${event.id}`;
+                    const response = await api.post(path, request);
+                    isFavorite = isFavorite^1; 
                 }
                    
             } catch (error) {
-                navigate('/login');
+                console.log(error);
             }
         });
         if (possession > 0) {
