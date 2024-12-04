@@ -281,10 +281,6 @@ export class EventContentPage {
             const response = await api.get(path, request);
             const event = await response.json();
             this._renderEvent(event);
-            document.querySelector("meta[property='og:title']").setAttribute("content", event.title);
-            document.querySelector("meta[property='og:description']").setAttribute("content", event.description);
-            document.querySelector("meta[property='og:image']").setAttribute("content", endpoint + '/' + event.image);
-            document.querySelector("meta[property='og:url']").setAttribute("content", `https://ваш-сайт.com/events/${event.id}`);
 
         } catch (error) {
             console.log(error);
