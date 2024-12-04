@@ -130,7 +130,7 @@ export class EventCreateForm {
         text,
         className,
         type,
-        needPlaceholder: tag === 'input',
+        needPlaceholder: tag === 'input' || tag === 'textarea',
         needMaxMinTime: type === 'time'
       }));
     
