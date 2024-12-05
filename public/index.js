@@ -20,8 +20,7 @@ import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
-import { handleCreateEventSubmit, loadCategories, handleCreateEventEdit } from './modules/handleEventsActions.js';
-import { EditEventForm } from "./components/EditEventForm/EditEventForm.js";
+import { handleCreateEventSubmit, loadCategories, loadEvent, handleCreateEventEdit } from './modules/handleEventsActions.js';
 
 /**
  * Get the root element
@@ -217,7 +216,7 @@ const routes = {
         let feed = await new Search().renderSearch('/search', window.location.search.substring(1));
         newsFeed.appendChild(feed);
     },
-    '/add_event': async(id) => {
+    '/add_event': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
@@ -229,14 +228,11 @@ const routes = {
     '/edit_event': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
-        const formId = 'editEventForm';
-        const editEventForm = new EditEventForm(formId);
-        
-        const formCreate = editEventForm.renderTemplate(categSelect);
+        const eventData = await loadEvent(id);
+        const formCreate = new EventCreateForm().renderTemplate(categSelect, eventData);
         newsFeed.appendChild(formCreate);
-        await editEventForm.init(id);
-        const editBtn = document.getElementById('editSubmitBtn');        
-        editBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
+        const createBtn = document.getElementById('eventSubmitBtn');        
+        createBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
 };
 

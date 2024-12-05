@@ -93,7 +93,7 @@ export class EventCreateForm {
       },
 
       imageInput: {
-        text: '',
+        text: 'Изображение',
         tag: 'input',
         className: 'event-create-form__input event-create-form__input--file',
         type: 'file',
@@ -119,7 +119,7 @@ export class EventCreateForm {
      * Renders the form template
      * @returns {HTMLFormElement} The rendered form
      */
-    renderTemplate(selectElement) {
+    renderTemplate(selectElement, eventData) {
       const template = Handlebars.templates['EventCreateForm.hbs'];
       
       const config = this.config;
@@ -162,8 +162,45 @@ export class EventCreateForm {
       mapContainer.style.height = '400px'; // Высота карты
       this.form.insertBefore(mapContainer, this.form.querySelector('.event-create-form__submit-btn'));
 
+      let mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17, needMark: false };
+      if (eventData) {
+        const submitButton = this.form.querySelector('.event-create-form__submit-btn');
+        submitButton.innerHTML = 'Сохранить';
+        const mapping = {
+          title: 'eventNameEntry',
+          image: 'imageInput',
+          description: 'eventDescriptionEntry',
+          category_id: 'categories',
+          tag: 'eventTagEntry',
+          category_id: "categoriesInput",
+      };
+      const time = {
+          event_start: 'eventBeginEntry',
+          event_end: 'eventEndEntry',
+      };
+      for (const key in mapping) {
+          const inputElement = this.form.querySelector(`[id="${mapping[key]}"]`);
+          if (inputElement) {
+              if (mapping[key] === 'imageInput') {
+                  inputElement.src = eventData[key];
+              } else
+              if (mapping[key] === 'eventTagEntry') {
+                inputElement.value = eventData[key].join(' ');
+              } else {
+              inputElement.value = eventData[key];
+              }
+          }
+      }
+      for (const key in time) {
+          const inputElement = this.form.querySelector(`[id="${time[key]}"]`);
+          if (inputElement) {
+              inputElement.value = formatDateTimeForInput(eventData[key]);
+          }
+      }
+      mock_data = { latitude: eventData.Latitude, longitude: eventData.Longitude, zoom: 17, needMark: true};
+      }
+
       // Инициализация карты
-      const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17 };
       ymaps.ready(() => this.initMap(mock_data));
 
       return this.form;
@@ -173,6 +210,19 @@ export class EventCreateForm {
           center: [mock_data.latitude, mock_data.longitude],
           zoom: mock_data.zoom,
       });  
+      if (mock_data.needMark) {
+        const coords = myMap.getCenter();
+        this.currentPlacemark = new ymaps.Placemark(coords, {
+              hintContent: 'Новая метка',
+          }, {
+              iconLayout: 'default#image',
+              iconImageHref: '/static/images/location.png',
+              iconImageSize: [32, 32],
+              iconImageOffset: [-16, -32]
+          });
+          // Добавляем новую метку на карту
+          myMap.geoObjects.add(this.currentPlacemark);
+      }
       // Обработчик события клика на карту
       myMap.events.add('mousedown', (e) => {
           const coords = e.get('coords');
@@ -201,8 +251,16 @@ export class EventCreateForm {
           });
           // Добавляем новую метку на карту
           myMap.geoObjects.add(this.currentPlacemark);
-          console.log(selectedPoint);
       });
   }
 }
 
+function formatDateTimeForInput(dateTime) {
+  const date = new Date(dateTime);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}

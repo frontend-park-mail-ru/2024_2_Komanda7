@@ -76,6 +76,18 @@ export async function loadCategories() {
   return selectElement;
 }
 
+export async function loadEvent(eventId) {
+  try {
+    const request = { headers: {} };
+      const response = await api.get(`/events/${eventId}`, request);
+      const eventData = await response.json();
+      return eventData;
+  } catch (error) {
+      console.error('Ошибка при загрузке мероприятия:', error);
+  }
+  return;
+}
+
 export async function handleCreateEventEdit(event, id, navigate) {
   event.preventDefault();
   loadCategories();
@@ -87,19 +99,21 @@ export async function handleCreateEventEdit(event, id, navigate) {
    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
    
+   const latitude = removeDangerous(document.getElementById('latitude').value);
+   const longitude = removeDangerous(document.getElementById('longitude').value);
    const image = document.getElementById('imageInput').files[0];
-
   try {
     // Send request to backend
     const userData = {
-      title: '',
+      title: title,
       description: description,
       tag: tag,
       event_start: dateStart,
       event_end: dateEnd,
       category_id: categoryId,
+      Latitude: +latitude,
+      Longitude: +longitude,
       };
-  
     const json = JSON.stringify(userData);
     const formData = new FormData();
     formData.append('json', json); 
@@ -147,7 +161,6 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
     
     const latitude = removeDangerous(document.getElementById('latitude').value);
     const longitude = removeDangerous(document.getElementById('longitude').value);
-    const zoom = removeDangerous(document.getElementById('zoom').value);
 
   try {
     // Send request to backend
@@ -160,9 +173,7 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       category_id: categoryId,
       Latitude: +latitude,
       Longitude: +longitude,
-      zoom: zoom,
       };
-    console.log(userData);
   
     const json = JSON.stringify(userData);
     const formData = new FormData();    
@@ -177,7 +188,6 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
         body: body,
       };
     const path = '/events';
-    console.log(request);
     const response = await api.post(path, request);
     
     // If response is not OK, throw error
@@ -185,7 +195,6 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
       throw new Error(data.message);
     }
     const data = await response.json();
-    console.log(data);
     if (data.code) {
         throw new Error(data.message);
     }

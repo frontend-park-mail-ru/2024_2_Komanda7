@@ -13,7 +13,6 @@ RUN npm install handlebars
 COPY . .
 
 # Запускаем команду Handlebars
-RUN node ./node_modules/handlebars/bin/handlebars public/components/EditEventForm/EditEventForm.hbs -f public/components/EditEventForm/EditEventForm.precompiled.js || echo "Handlebars command failed"
 RUN node ./node_modules/handlebars/bin/handlebars public/components/EventCreateForm/EventCreateForm.hbs -f public/components/EventCreateForm/EventCreateForm.precompiled.js || echo "Handlebars command failed"
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Login/Login.hbs -f public/components/Login/Login.precompiled.js || echo "Handlebars command failed"
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Nav/Nav.hbs -f public/components/Nav/Nav.precompiled.js || echo "Handlebars command failed"
