@@ -78,3 +78,11 @@
     margin-bottom: 20px;
     font-size: 16px;
   }
+  
+  .event-create-image {
+    width: 100%; /* Make the image width match the form width */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Add some margin to separate from the input */
+    border-radius: 5px; /* Add a slight border radius to match the input style */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to match the form's shadow */
+  }

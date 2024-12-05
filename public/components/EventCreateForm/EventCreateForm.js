@@ -1,3 +1,4 @@
+import { endpoint } from '../../config.js';
 import { api } from '../../modules/FrontendAPI.js';
 
 export class EventCreateForm {
@@ -163,7 +164,27 @@ export class EventCreateForm {
       this.form.insertBefore(mapContainer, this.form.querySelector('.event-create-form__submit-btn'));
 
       let mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17, needMark: false };
+
+      const img = document.createElement('img');
+      img.src = "/static/images/placeholder.png";
+      img.className = 'event-create-image';
+      const fileInput = this.form.querySelector('.event-create-form__input--file');
+      fileInput.parentNode.insertBefore(img, fileInput);
+      fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result; // Устанавливаем новое изображение
+            };
+            reader.readAsDataURL(file);
+        }
+    });
       if (eventData) {
+        img.src = `${endpoint}/${eventData.image}`;
+        img.width = fileInput.width;
+
         const submitButton = this.form.querySelector('.event-create-form__submit-btn');
         submitButton.innerHTML = 'Сохранить';
         const mapping = {
