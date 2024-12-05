@@ -230,6 +230,7 @@ export class EventCreateForm {
       const myMap = new ymaps.Map("map", {
           center: [mock_data.latitude, mock_data.longitude],
           zoom: mock_data.zoom,
+          controls: ['geolocationControl', 'typeSelector', 'fullscreenControl', 'zoomControl', 'rulerControl'],
       });  
       if (mock_data.needMark) {
         const coords = myMap.getCenter();

@@ -341,10 +341,7 @@ export class Search {
       this.myMap = new ymaps.Map("map", {
           center: [mock_data.latitude, mock_data.longitude],
           zoom: mock_data.zoom,
-          controls: [
-            'zoomControl', // Элемент управления масштабом
-            'typeSelector', // Элемент управления типом карты
-          ]
+          controls: ['geolocationControl', 'typeSelector', 'fullscreenControl', 'zoomControl', 'rulerControl'],
       });  
       // Обработчик события клика на карту
       this.myMap.events.add('mousedown', (e) => {

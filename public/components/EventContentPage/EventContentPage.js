@@ -12,6 +12,7 @@ export class EventContentPage {
         var myMap = new ymaps.Map("map", {
             center: [mock_data.latitude, mock_data.longitude], // Координаты центра карты
             zoom: mock_data.zoom,
+            controls: ['geolocationControl', 'typeSelector', 'fullscreenControl', 'zoomControl', 'rulerControl'],
         });
         // создать метку
         const myPlacemark = new ymaps.Placemark([mock_data.latitude, mock_data.longitude], {
@@ -281,13 +282,6 @@ export class EventContentPage {
             const response = await api.get(path, request);
             const event = await response.json();
             this._renderEvent(event);
-            console.log(event);
-            document.querySelector("meta[property='og:title']").setAttribute("content", event.title);
-            document.querySelector("meta[property='og:description']").setAttribute("content", event.description);
-            document.querySelector("meta[property='og:image']").setAttribute("content", `${endpoint}/${event.image}`);
-            document.querySelector("meta[property='og:url']").setAttribute("content", `${endpoint}/event/${event.id}`);
-            document.querySelector("meta[property='og:type']").setAttribute("content", 'article');
-
         } catch (error) {
             console.log(error);
             console.log("Ошибка при загрузке события");
