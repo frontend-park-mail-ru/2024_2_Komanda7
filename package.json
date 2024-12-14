@@ -4,8 +4,8 @@
   "description": "Репозиторий команды \"Команда 7\", проект KudaGo",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack serve --open --host 127.0.0.1",
+    "build": "webpack --mode production",
+    "start": "webpack serve --host 0.0.0.0",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint",
@@ -32,7 +32,6 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.11.1",
-    "@types/dompurify": "^3.2.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.1",
     "babel-loader": "^9.2.1",
@@ -54,7 +53,6 @@
     "cors": "^2.8.5",
     "dompurify": "^3.2.3",
     "express": "^4.21.1",
-    "minimist": "^1.2.8",
-    "node": "^22.9.0"
+    "minimist": "^1.2.8"
   }
 }

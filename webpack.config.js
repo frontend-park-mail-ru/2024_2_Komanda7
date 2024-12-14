@@ -64,6 +64,7 @@ module.exports = {
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
+      publicPath: '/'
     },
     proxy: [{
       context: ['/api'],
@@ -76,7 +77,10 @@ module.exports = {
     port: 80,
     host: '0.0.0.0',
     allowedHosts: 'all',
-    historyApiFallback: true
+    historyApiFallback: {
+      index: '/index.html'
+    },
+    hot: true,
   },
   plugins: [
     new webpack.ProvidePlugin({
