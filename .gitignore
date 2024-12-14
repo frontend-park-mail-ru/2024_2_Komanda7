@@ -1,4 +1,4 @@
 /node_modules
 /public/src/components/*/*.precompiled.js
 /public/src/config.js
-/public/dist
+/public/dist/*

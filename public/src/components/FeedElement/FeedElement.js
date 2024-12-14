@@ -13,6 +13,8 @@
  * 
  * @class FeedElement
  */
+import placeholderImage from '../../assets/images/placeholder.png';
+
 export class FeedElement {
     /**
      * Creates a new FeedElement instance.
@@ -108,7 +110,7 @@ export class FeedElement {
       const imageElement = document.createElement('img');
       imageElement.src = this.config.image.src;
       imageElement.onerror = function() {
-        this.src = "/static/images/placeholder.png";
+        this.src = placeholderImage;
         this.style.objectFit = 'fill';
       };
       this.feedElement.appendChild(imageElement);
