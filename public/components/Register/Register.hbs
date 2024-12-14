@@ -1,7 +1,0 @@
-{{#each items}}
-    {{#if this.needPlaceholder}}
-        <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" placeholder = "{{this.text}}" type="{{this.type}}" data-section="{{this.key}}"></{{this.tag}}>
-    {{else}}
-        <{{this.tag}} class="{{this.className}}" id = "{{this.key}}" data-section="{{this.key}}">{{this.text}}</{{this.tag}}>
-    {{/if}}
-{{/each}}

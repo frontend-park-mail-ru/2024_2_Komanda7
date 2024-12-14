@@ -4,10 +4,14 @@
   "description": "Репозиторий команды \"Команда 7\", проект KudaGo",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
+    "start": "webpack serve --open --host 127.0.0.1",
+    "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint",
     "prepare": "husky && husky install",
-    "compile:templates": "handlebars public/components/EventCreateForm/EventCreateForm.hbs -f public/components/EventCreateForm/EventCreateForm.precompiled.js"
+    "compile:templates": "handlebars public/components/EventCreateForm/EventCreateForm.hbs -f public/components/EventCreateForm/EventCreateForm.precompiled.js",
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js, jsx}": [
@@ -24,17 +28,32 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2024_2_Komanda7#readme",
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.11.1",
+    "@types/dompurify": "^3.2.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
     "eslint": "^9.11.1",
     "globals": "^15.9.0",
+    "handlebars": "^4.7.8",
+    "handlebars-loader": "^1.7.3",
     "husky": "^8.0.0",
-    "lint-staged": "^15.2.10"
+    "lint-staged": "^15.2.10",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dompurify": "^3.1.7",
+    "dompurify": "^3.2.3",
     "express": "^4.21.1",
-    "handlebars": "^4.7.8",
     "minimist": "^1.2.8",
     "node": "^22.9.0"
   }
