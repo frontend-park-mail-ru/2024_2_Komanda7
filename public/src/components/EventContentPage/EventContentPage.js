@@ -2,6 +2,7 @@ import { api } from "../../modules/FrontendAPI.js";
 import { endpoint } from "../../config.js";
 import { navigate } from "../../modules/router.js";
 import locationIcon from '../../assets/images/location.png';
+import placeholderImage from '../../assets/images/placeholder.png';
 
 export class EventContentPage {
     constructor(eventId) {
@@ -145,7 +146,7 @@ export class EventContentPage {
         eventImage.className = 'event__image';
         eventImage.src = endpoint + '/' + event.image;
         eventImage.onerror = function () {
-            this.src = "/static/images/placeholder.png";
+            this.src = placeholderImage;
             this.style.objectFit = 'fill';
         };
 

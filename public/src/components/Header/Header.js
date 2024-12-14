@@ -4,6 +4,7 @@
  */
 import { endpoint } from "../../config.js"
 import { api } from '../../modules/FrontendAPI.js';
+import defaultAvatar from '../../assets/images/default_avatar.png';
 /**
  * Header module.
  * 
@@ -124,7 +125,7 @@ export class Header {
         })
 
         avatarImage.onerror = function() {
-          this.src = "/static/images/default_avatar.png";
+          this.src = defaultAvatar;
           this.style.objectFit = 'fill';
         };
         avatarImage.alt = 'Avatar';

@@ -1,6 +1,7 @@
 import { endpoint } from "../../config.js";
 import { api } from '../../modules/FrontendAPI.js';
 import { navigate } from "../../modules/router.js";
+import defaultAvatar from '../../assets/images/default_avatar.png';
 
 export class Profile {
     renderProfile(logout) {
@@ -18,7 +19,7 @@ export class Profile {
         const profilePicture = document.createElement('img');
         profilePicture.id = 'profileImage';
         profilePicture.onerror = function() {
-            this.src = "/static/images/default_avatar.png";
+            this.src = defaultAvatar;
             this.style.objectFit = 'fill';
         };
         profilePicture.alt = 'Profile Picture';
@@ -114,7 +115,7 @@ export class Profile {
                         emailInput.value = profileData.email;
                         profileImage.src = profileData.image ? 
                             endpoint + '/' + profileData.image : 
-                            '/static/images/default_avatar.png';
+                            defaultAvatar;
                     }
                 };
 
