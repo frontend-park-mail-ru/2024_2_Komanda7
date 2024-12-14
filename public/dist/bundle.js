@@ -148,7 +148,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   endpoint: () => (/* binding */ endpoint)\n/* harmony export */ });\n// export const endpoint = \"http://37.139.40.252:8080\";\n\nvar endpoint = \"http://127.0.0.1:8080\";\n\n//# sourceURL=webpack://2024_2_komanda7/./public/src/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   endpoint: () => (/* binding */ endpoint)\n/* harmony export */ });\nvar endpoint = \"http://37.139.40.252:8080\";\n\n// export const endpoint = \"http://127.0.0.1:8080\";\n\n//# sourceURL=webpack://2024_2_komanda7/./public/src/config.js?");
 
 /***/ }),
 
