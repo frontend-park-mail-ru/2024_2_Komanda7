@@ -1,0 +1,31 @@
+nav {
+    background-color: #009951;
+    text-align: center;
+    height: 70px;
+    letter-spacing: 1px;
+    font-size: 18px;
+    padding: 0 100px 0 90px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+nav ul li {
+    display: flex;
+    align-items: center; 
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 10px;
+}
