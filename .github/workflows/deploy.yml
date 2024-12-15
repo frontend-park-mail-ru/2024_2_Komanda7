@@ -1,24 +1,24 @@
-name: Deploy Frontend
+# name: Deploy Frontend
 
-on:
-  push:
-    branches:
-      - testingWebpack
+# on:
+#   push:
+#     branches:
+#       - testingWebpack
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        echo "Host 37.139.40.252
-              StrictHostKeyChecking no" > ~/.ssh/config
-    - name: Execute script on VM
-      run: |
-        ssh ubuntu@37.139.40.252 'bash -s' <<EOF
-        ./update_front.sh || exit 2
-        EOF
+#     steps:
+#     - name: Set up SSH
+#       run: |
+#         mkdir -p ~/.ssh
+#         echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_ed25519
+#         chmod 600 ~/.ssh/id_ed25519
+#         echo "Host 37.139.40.252
+#               StrictHostKeyChecking no" > ~/.ssh/config
+#     - name: Execute script on VM
+#       run: |
+#         ssh ubuntu@37.139.40.252 'bash -s' <<EOF
+#         ./update_front.sh || exit 2
+#         EOF
