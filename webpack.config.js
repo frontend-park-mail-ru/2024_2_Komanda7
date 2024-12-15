@@ -66,22 +66,16 @@ module.exports = {
       directory: path.join(__dirname, 'public'),
       publicPath: '/'
     },
-    proxy: [{
-      context: ['/api'],
-      target: 'http://127.0.0.1:8080',
-      //target: 'http://37.139.40.252',
-      pathRewrite: { '^/api': '' },
-      changeOrigin: true
-    }],
+    // Удаляем секцию proxy полностью
     compress: true,
-    port: 80,
-    host: '0.0.0.0',
+    port: 8000, // Меняем порт на 8000
+    host: 'localhost', // Меняем на localhost
     allowedHosts: 'all',
     historyApiFallback: {
       index: '/index.html'
     },
     hot: true,
-  },
+},
   plugins: [
     new webpack.ProvidePlugin({
       Handlebars: 'handlebars'
