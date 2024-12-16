@@ -218,14 +218,12 @@ export class Header {
                 throw new Error('Ошибка загрузки уведомлений');
             }
             
-            const notifications = await response.json();
-            console.log(notifications);
-            console.log(notifications.length);
+            const data = await response.json();
             
             const message = 'Вас пригласили на мероприятие.'
             container.innerHTML = ''; // Очищаем контейнер
             
-            if (notifications.length == 0) {
+            if (data.notifications.length == 0) {
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'notification-item';
                 emptyMessage.textContent = 'Нет уведомлений';
@@ -233,7 +231,7 @@ export class Header {
                 return;
             }
             
-            notifications.forEach(notification => {
+            data.notifications.forEach(notification => {
                 const notificationItem = document.createElement('div');
                 notificationItem.className = 'notification-item';
                 notificationItem.textContent = message;
