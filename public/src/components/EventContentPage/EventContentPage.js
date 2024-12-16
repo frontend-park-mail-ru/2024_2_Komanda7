@@ -314,7 +314,7 @@ export class EventContentPage {
             const invitations = [
                 {
                     user_id: 4,
-                    avatar: "static/images/zz4i9cz_RuifhJ3v_1732521149440.jpg",
+                    avatar: "api/static/images/zz4i9cz_RuifhJ3v_1732521149440.jpg",
                     username: 'wer'
                 }
             ];
