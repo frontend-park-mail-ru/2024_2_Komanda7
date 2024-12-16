@@ -210,9 +210,6 @@ export class EventContentPage {
         });
         eventShare.appendChild(vkShareButton);
 
-        const eventShareTelegram = document.createElement('div');
-        eventShareTelegram.className = 'event__actions';
-
         // Кнопка "Поделиться в Телеграм"
         const telegramShareButton = document.createElement('button');
         telegramShareButton.className = 'buttonIcon';
@@ -226,8 +223,7 @@ export class EventContentPage {
             const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
             window.open(telegramUrl, '_blank');
         });
-        eventShareTelegram.appendChild(telegramShareButton);
-        eventShare.appendChild(eventShareTelegram);
+        eventShare.appendChild(telegramShareButton);
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'buttonDelete';
