@@ -279,6 +279,16 @@ export class EventContentPage {
         });
         eventActions.appendChild(inviteButton);
 
+        // Добавляем кнопку "Поделиться ВКонтакте"
+        const shareButton = document.createElement('button');
+        shareButton.className = 'buttonShare';
+        shareButton.textContent = 'Поделиться ВКонтакте';
+        shareButton.addEventListener("click", () => {
+            const shareUrl = `https://vk.com/share.php?url=${encodeURIComponent(window.location.href)}`;
+            window.open(shareUrl, '_blank');
+        });
+        eventActions.appendChild(shareButton);
+
         if (event.author == possession) {
             eventActions.appendChild(editButton);
             eventActions.appendChild(deleteButton);
