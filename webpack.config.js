@@ -69,7 +69,7 @@ module.exports = {
     // Удаляем секцию proxy полностью
     compress: true,
     port: 80, // Меняем порт на 8000
-    host: 'localhost', // Меняем на localhost
+    host: '0.0.0.0', // Меняем на localhost
     allowedHosts: 'all',
     historyApiFallback: {
       index: '/index.html'
