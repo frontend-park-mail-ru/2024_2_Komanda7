@@ -17,7 +17,7 @@ import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from 
  * Import the endpoint configuration from the config.js file
  * @import {string} endpoint - The API endpoint URL
  */
-import '../config.js'
+import { endpoint } from "../config.js";
 /**
  * Error message for empty fields.
  * @constant {string}
