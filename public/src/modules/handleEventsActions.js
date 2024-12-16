@@ -65,7 +65,7 @@ export async function loadCategories() {
       // Заполнение выпадающего списка
       categories.categories.forEach(category => {
           const option = document.createElement('option');
-          option.value = category.ID; // id категории
+          option.value = category.id; // id категории
           option.textContent = category.name; // название категории
           selectElement.appendChild(option);
       });
