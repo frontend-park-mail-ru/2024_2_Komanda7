@@ -137,7 +137,6 @@ export class EventCreateForm {
       });
     
       this.form.innerHTML = html;
-      //config? 
       const hiddenLatitudeInput = document.createElement('input');
       hiddenLatitudeInput.type = 'hidden';
       hiddenLatitudeInput.id = 'latitude';
@@ -164,7 +163,6 @@ export class EventCreateForm {
       mapContainer.style.height = '400px'; // Высота карты
       this.form.insertBefore(mapContainer, this.form.querySelector('.event-create-form__submit-btn'));
 
-      let mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 17, needMark: false };
 
       const img = document.createElement('img');
       img.src = placeholderImage;
