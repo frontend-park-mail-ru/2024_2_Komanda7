@@ -219,11 +219,13 @@ export class Header {
             }
             
             const notifications = await response.json();
+            console.log(notifications);
+            console.log(notifications.length);
             
             const message = 'Вас пригласили на мероприятие.'
             container.innerHTML = ''; // Очищаем контейнер
             
-            if (notifications.length === 0) {
+            if (notifications.length == 0) {
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'notification-item';
                 emptyMessage.textContent = 'Нет уведомлений';
