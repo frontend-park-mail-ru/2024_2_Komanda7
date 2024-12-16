@@ -4,6 +4,9 @@ import { navigate } from "../../modules/router.js";
 import locationIcon from '../../assets/images/location.png';
 import placeholderImage from '../../assets/images/placeholder.png';
 
+import vkIcon from '../../assets/icons/vklogo.png';
+import tgIcon from '../../assets/icons/tglogo.png';
+
 export class EventContentPage {
     constructor(eventId) {
         this.contentBody = document.createElement('div');
@@ -190,6 +193,41 @@ export class EventContentPage {
         const eventActions = document.createElement('div');
         eventActions.className = 'event__actions';
 
+        const eventShare = document.createElement('div');
+        eventShare.className = 'event__actions';
+
+        // Кнопка "Поделиться ВКонтакте"
+        const vkShareButton = document.createElement('button');
+        vkShareButton.className = 'buttonIcon'; // Используем общий класс для кнопок с иконками
+        const vkShare = document.createElement('img');
+        vkShare.src = vkIcon; // Укажите путь к иконке ВКонтакте
+        vkShare.alt = 'Поделиться ВКонтакте';
+        vkShare.className = 'icon'; // Применяем стили для иконки
+        vkShareButton.appendChild(vkIcon);
+        vkShareButton.addEventListener("click", () => {
+            const shareUrl = `https://vk.com/share.php?url=${encodeURIComponent(window.location.href)}`;
+            window.open(shareUrl, '_blank');
+        });
+        eventShare.appendChild(vkShareButton);
+
+        const eventShareTelegram = document.createElement('div');
+        eventShareTelegram.className = 'event__actions';
+
+        // Кнопка "Поделиться в Телеграм"
+        const telegramShareButton = document.createElement('button');
+        telegramShareButton.className = 'buttonIcon'; // Используем общий класс для кнопок с иконками
+        const telegramIcon = document.createElement('img');
+        telegramIcon.src = tgIcon; // Укажите путь к иконке Телеграма
+        telegramIcon.alt = 'Поделиться в Телеграм';
+        telegramIcon.className = 'icon'; // Применяем стили для иконки
+        telegramShareButton.appendChild(telegramIcon);
+        telegramShareButton.addEventListener("click", () => {
+            const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
+            window.open(telegramUrl, '_blank');
+        });
+        eventShareTelegram.appendChild(telegramShareButton);
+        eventShare.appendChild(eventShareTelegram);
+
         const deleteButton = document.createElement('button');
         deleteButton.className = 'buttonDelete';
         deleteButton.textContent = 'Удалить мероприятие';
@@ -279,16 +317,6 @@ export class EventContentPage {
         });
         eventActions.appendChild(inviteButton);
 
-        // Добавляем кнопку "Поделиться ВКонтакте"
-        const shareButton = document.createElement('button');
-        shareButton.className = 'buttonShare';
-        shareButton.textContent = 'Поделиться ВКонтакте';
-        shareButton.addEventListener("click", () => {
-            const shareUrl = `https://vk.com/share.php?url=${encodeURIComponent(window.location.href)}`;
-            window.open(shareUrl, '_blank');
-        });
-        eventActions.appendChild(shareButton);
-
         if (event.author == possession) {
             eventActions.appendChild(editButton);
             eventActions.appendChild(deleteButton);
@@ -299,6 +327,7 @@ export class EventContentPage {
 
         this.contentBody.appendChild(eventDetails);
         this.contentBody.appendChild(eventActions);
+        this.contentBody.appendChild(eventShare);
         // Create map container
         const mapContainer = document.createElement('div');
         mapContainer.id = 'map';
