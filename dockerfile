@@ -19,7 +19,7 @@ RUN node ./node_modules/handlebars/bin/handlebars public/components/Nav/Nav.hbs 
 RUN node ./node_modules/handlebars/bin/handlebars public/components/Register/Register.hbs -f public/components/Register/Register.precompiled.js || echo "Handlebars command failed"
 
 # Открываем порт 80
-EXPOSE 800
+EXPOSE 80
 
 # Команда для запуска приложения
 CMD ["node", "server/server.js"]
