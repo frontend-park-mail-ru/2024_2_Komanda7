@@ -97,7 +97,6 @@ export async function handleCreateEventEdit(event, id, navigate) {
    const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
    const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
-  console.log(document.getElementById('categoriesInput');
    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
    
    const latitude = removeDangerous(document.getElementById('latitude').value);
@@ -152,6 +151,7 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
   event.preventDefault();
   loadCategories();
    // Get form data
+    console.log(document.getElementById('categoriesInput'));
     const title = removeDangerous(document.getElementById('eventNameEntry').value);
     const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
     const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
