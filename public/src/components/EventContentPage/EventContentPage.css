@@ -192,3 +192,27 @@
     object-fit: cover; /* Обеспечивает правильное обрезание изображения */
     margin-right: 10px; /* Отступ справа для разделения с текстом */
 }
+
+/* Общие стили для кнопок с иконками */
+.buttonIcon {
+    display: flex;
+    align-items: center;
+    border: 2px solid #007bff; /* Цвет рамки */
+    color: #007bff; /* Цвет текста */
+    padding: 10px 20px; /* Отступы */
+    border-radius: 20px; /* Скругление углов */
+    background-color: #f0f0f0; /* Цвет фона */
+    border-radius: 5px; /* Закругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s; /* Плавный переход цвета фона */
+}
+
+.buttonIcon:hover {
+    background-color: #e0e0e0; /* Цвет фона при наведении */
+}
+
+.buttonIcon img {
+    margin-right: 5px; /* Отступ между иконкой и текстом */
+    width: 20px; /* Ширина иконки */
+    height: 20px; /* Высота иконки */
+}

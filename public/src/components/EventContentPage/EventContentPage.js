@@ -197,15 +197,12 @@ export class EventContentPage {
         eventShare.className = 'event__actions';
 
         // Кнопка "Поделиться ВКонтакте"
-        const vkShareButton = document.createElement('div');
+        const vkShareButton = document.createElement('button');
         vkShareButton.className = 'buttonIcon'; // Используем общий класс для кнопок с иконками
         const vkShare = document.createElement('img');
-        console.log(vkIcon);
-        console.log(vkShare);
-        vkShare.src = vkIcon; // Укажите путь к иконке ВКонтакте
-        // vkShare.alt = 'Поделиться ВКонтакте';   
-        vkShare.className = 'icon'; // Применяем стили для иконки
-        vkShareButton.appendChild(vkShare); // Добавляем иконку ВКонтакте в кнопку
+        vkShare.src = vkIcon;
+        vkShare.className = 'icon';
+        vkShareButton.appendChild(vkShare);
         vkShareButton.appendChild(document.createTextNode(' Поделиться ВКонтакте')); // Добавляем текст к кнопке
         vkShareButton.addEventListener("click", () => {
             const shareUrl = `https://vk.com/share.php?url=${encodeURIComponent(window.location.href)}`;
@@ -217,19 +214,20 @@ export class EventContentPage {
         eventShareTelegram.className = 'event__actions';
 
         // Кнопка "Поделиться в Телеграм"
-        // const telegramShareButton = document.createElement('div');
-        // telegramShareButton.className = 'buttonIcon'; // Используем общий класс для кнопок с иконками
-        // const telegramIcon = document.createElement('img');
-        // telegramIcon.src = tgIcon;
-        // telegramIcon.alt = 'Поделиться в Телеграм';
-        // telegramIcon.className = 'icon'; // Применяем стили для иконки
-        // telegramShareButton.appendChild(telegramIcon);
-        // telegramShareButton.addEventListener("click", () => {
-        //     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
-        //     window.open(telegramUrl, '_blank');
-        // });
-        // eventShareTelegram.appendChild(telegramShareButton);
-        // eventShare.appendChild(eventShareTelegram);
+        const telegramShareButton = document.createElement('button');
+        telegramShareButton.className = 'buttonIcon';
+        const telegramIcon = document.createElement('img');
+        telegramIcon.src = tgIcon;
+        telegramIcon.alt = 'Поделиться в Телеграм';
+        telegramIcon.className = 'icon';
+        telegramShareButton.appendChild(telegramIcon);
+        telegramShareButton.appendChild(document.createTextNode(' Поделиться в Телеграм'));
+        telegramShareButton.addEventListener("click", () => {
+            const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}`;
+            window.open(telegramUrl, '_blank');
+        });
+        eventShareTelegram.appendChild(telegramShareButton);
+        eventShare.appendChild(eventShareTelegram);
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'buttonDelete';
