@@ -20,18 +20,15 @@ export class EventContentPage {
             zoom: mock_data.zoom,
             controls: ['geolocationControl', 'typeSelector', 'fullscreenControl', 'zoomControl', 'rulerControl'],
         });
-        // создать метку
         const myPlacemark = new ymaps.Placemark([mock_data.latitude, mock_data.longitude], {
             hintContent: 'Место',
         }, {
             iconLayout: 'default#image',
-            // Своё изображение иконки метки.
             iconImageHref: locationIcon,
             iconImageSize: [32, 32],
             iconImageOffset: [-16, -32]
         });
         myPlacemark.events.add('click', () => {
-            //navigate(mock_data.id);
         });
         myMap.geoObjects.add(myPlacemark);
     };
@@ -247,7 +244,7 @@ export class EventContentPage {
             navigate(currentPath + "/edit");
         });
 
-        //array of post ids
+        //array of post 
         
         const favoritesAddButton = document.createElement('button');
         favoritesAddButton.className = 'buttonSubscribe';
