@@ -97,6 +97,7 @@ export async function handleCreateEventEdit(event, id, navigate) {
    const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
    const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
    const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
+  console.log(document.getElementById('categoriesInput');
    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
    
    const latitude = removeDangerous(document.getElementById('latitude').value);
