@@ -349,7 +349,7 @@ export class EventContentPage {
 
             container.innerHTML = ''; // Очищаем контейнер
 
-            if (data.users.length === 0) {
+            if (data.users.length == 0) {
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'notification-item';
                 emptyMessage.textContent = 'Нет подписчиков';
@@ -357,7 +357,7 @@ export class EventContentPage {
                 return;
             }
 
-            data.forEach(invitation => {
+            data.users.forEach(invitation => {
                 const invitationItem = document.createElement('div');
                 invitationItem.className = 'notification-item';
         
