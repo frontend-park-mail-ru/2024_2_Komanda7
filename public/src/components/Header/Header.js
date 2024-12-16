@@ -210,7 +210,7 @@ export class Header {
     }
     async loadNotifications(container) {
       try {
-            const response = await api.get('/notifications', {
+            const response = await api.get('/notification', {
                 credentials: 'include'
             });
             
