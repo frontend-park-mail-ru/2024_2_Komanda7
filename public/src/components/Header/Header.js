@@ -182,7 +182,7 @@ export class Header {
           }
       });
 
-      buttons.appendChild(btnNotifications);
+      //buttons.appendChild(btnNotifications);
       headerElement.appendChild(notificationsContainer);
       }
       headerElement.appendChild(buttons);
