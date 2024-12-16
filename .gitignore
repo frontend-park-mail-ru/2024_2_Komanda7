@@ -1,3 +1,4 @@
 /node_modules
-/public/components/*/*.precompiled.js
-/public/config.js
+/public/src/components/*/*.precompiled.js
+/public/src/config.js
+/public/dist/*

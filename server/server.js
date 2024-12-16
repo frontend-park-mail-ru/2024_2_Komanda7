@@ -6,7 +6,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 80;
+const PORT = 8000;
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(express.static(path.resolve(__dirname, '..', 'node_modules')));
@@ -16,9 +16,10 @@ app.use(express.static(path.resolve(__dirname, '..', '.')));
 app.use(express.json());
 //app.use(cors());
 app.use(cors({
-  origin: 'http://localhost',
+  origin: ['http://127.0.0.1', 'http://37.139.40.252'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 

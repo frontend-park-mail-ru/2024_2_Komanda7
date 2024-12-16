@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Выходной</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel="stylesheet" href="/index.css"></link>
-  <script src="/modules/dompurify.js"></script> 
+    <base href="/">
+    <script src="dist/bundle.js" defer></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
-  <div id="root">
-  </div>
-  <script src="/handlebars/dist/handlebars.runtime.js"></script>
-  <script src="/components/Register/Register.precompiled.js"></script>
-  <script src="/components/Login/Login.precompiled.js"></script>
-  <script src="/components/Nav/Nav.precompiled.js"></script>
-  <script src="/components/EventCreateForm/EventCreateForm.precompiled.js"></script>
-  <script src="/components/EditEventForm/EditEventForm.precompiled.js"></script>
-  <script type="module" src="/index.js"></script>
+    <div id="root"></div>
 </body>
 </html>
