@@ -162,7 +162,6 @@ export class Header {
         });
   
         buttons.appendChild(btnMyFavorites);
-      }
   
       const notificationsContainer = document.createElement('div');
       notificationsContainer.className = 'notifications-container';
@@ -183,9 +182,10 @@ export class Header {
       });
 
       buttons.appendChild(btnNotifications);
-  
-      headerElement.appendChild(buttons);
       headerElement.appendChild(notificationsContainer);
+      }
+      headerElement.appendChild(buttons);
+      
       return headerElement;
     }
     async fetchProfilePic() {
