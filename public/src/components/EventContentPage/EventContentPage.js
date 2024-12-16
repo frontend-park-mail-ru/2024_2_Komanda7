@@ -3,6 +3,7 @@ import { endpoint } from "../../config.js";
 import { navigate } from "../../modules/router.js";
 import locationIcon from '../../assets/images/location.png';
 import placeholderImage from '../../assets/images/placeholder.png';
+import defaultAvatar from '../../assets/images/defaultAvatar.png';
 
 import vkIcon from '../../assets/images/vklogo.png';
 import tgIcon from '../../assets/images/tglogo.png';
@@ -364,7 +365,7 @@ export class EventContentPage {
                 // Создаем элемент для аватарки
                 const avatarImage = document.createElement('img');
                 avatarImage.src = invitation.avatar;
-                avatarImage.alt = `${invitation.username}`;
+                avatarImage.alt = defaultAvatar;
                 avatarImage.className = 'avatar-image';
                 invitationItem.appendChild(avatarImage);
         
@@ -373,9 +374,8 @@ export class EventContentPage {
                 invitationItem.appendChild(usernameText);
         
                 invitationItem.addEventListener('click', async () => {
-                    const inviterId = await this.checkPossession(); // Получаем текущий user_id
                     const eventId = window.location.pathname.split('/').pop(); // Получаем ID события из URL
-                    const userId = invitation.user_id;
+                    const userId = invitation.id;
 
                     const requestBody = {
                         event_id: +eventId,
