@@ -310,24 +310,17 @@ export class EventContentPage {
 
     async loadInvitations(container) {
         try {
-            // const response = await api.get('/profile/subscribe', {
-            //     credentials: 'include'
-            // });
+            const response = await api.get('/profile/subscribe', {
+                credentials: 'include'
+            });
 
-            // if (!response.ok) {
-            //     throw new Error('Ошибка загрузки подписчиков');
-            // }
+            if (!response.ok) {
+                throw new Error('Ошибка загрузки подписчиков');
+            }
             
 
-            // const invitations = await response.json();
+            const invitations = await response.json();
 
-            const invitations = [
-                {
-                    user_id: 4,
-                    avatar: "api/static/images/zz4i9cz_RuifhJ3v_1732521149440.jpg",
-                    username: 'wer'
-                }
-            ];
             container.innerHTML = ''; // Очищаем контейнер
 
             if (invitations.length === 0) {
