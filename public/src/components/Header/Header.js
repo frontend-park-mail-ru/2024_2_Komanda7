@@ -210,15 +210,21 @@ export class Header {
     }
     async loadNotifications(container) {
       try {
-            const response = await api.get('/notification', {
-                credentials: 'include'
-            });
+            // const response = await api.get('/notification', {
+            //     credentials: 'include'
+            // });
             
-            if (!response.ok) {
-                throw new Error('Ошибка загрузки уведомлений');
-            }
+            // if (!response.ok) {
+            //     throw new Error('Ошибка загрузки уведомлений');
+            // }
             
-            const notifications = await response.json();
+            // const notifications = await response.json();
+
+            const notifications = [
+                {
+                  event_id: 1
+                }
+            ];
             
             const message = 'Вас пригласили на мероприятие.'
             container.innerHTML = ''; // Очищаем контейнер
