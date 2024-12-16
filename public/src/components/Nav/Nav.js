@@ -32,9 +32,10 @@ async renderNav() {
       text: 'Прошедшие'
     };
 
+    console.log(backAnswer);
     const dynamicItems = backAnswer.categories.map(category => ({
-      key: category.ID || category.name, 
-      href: `/events/categories/${category.ID}`, 
+      key: category.id || category.name, 
+      href: `/events/categories/${category.id}`, 
       text: category.name 
     }));
 
@@ -46,6 +47,7 @@ async renderNav() {
     this.navElement.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', (event) => {
         event.preventDefault(); 
+        console.log(link);
         const path = link.getAttribute('href');
         this.navigate(path); 
       });
