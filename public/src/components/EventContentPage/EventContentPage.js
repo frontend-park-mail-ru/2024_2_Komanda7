@@ -254,6 +254,31 @@ export class EventContentPage {
             eventActions.appendChild(favoritesAddButton);
         }
 
+        const inviteButton = document.createElement('button');
+        inviteButton.className = 'buttonInvite';
+        inviteButton.textContent = 'Пригласить';
+        inviteButton.addEventListener("click", async () => {
+            // Создаем затемняющий фон
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay';
+            document.body.appendChild(overlay);
+
+            // Создаем контейнер для приглашений
+            const inviteContainer = document.createElement('div');
+            inviteContainer.className = 'invite-container';
+            inviteContainer.style.display = 'block';
+            await this.loadInvitations(inviteContainer); // Загружаем список приглашений
+
+            // Добавляем inviteContainer в overlay
+            overlay.appendChild(inviteContainer);
+
+            // Закрытие модального окна при клике на overlay
+            overlay.addEventListener('click', () => {
+                document.body.removeChild(overlay);
+            });
+        });
+        eventActions.appendChild(inviteButton);
+
         if (event.author == possession) {
             eventActions.appendChild(editButton);
             eventActions.appendChild(deleteButton);
@@ -271,6 +296,80 @@ export class EventContentPage {
         const eventLocation = {latitude: event.Latitude, longitude: event.Longitude, zoom: 10};
         // Initialize map after appending to DOM
         ymaps.ready(() => this.init(eventLocation));
+    }
+
+    async loadInvitations(container) {
+        try {
+            const response = await api.get('/profile/subscribe', {
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Ошибка загрузки подписчиков');
+            }
+
+            const invitations = await response.json();
+            container.innerHTML = ''; // Очищаем контейнер
+
+            if (invitations.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'notification-item';
+                emptyMessage.textContent = 'Нет подписчиков';
+                container.appendChild(emptyMessage);
+                return;
+            }
+
+            invitations.forEach(invitation => {
+                const invitationItem = document.createElement('div');
+                invitationItem.className = 'notification-item';
+        
+                // Создаем элемент для аватарки
+                const avatarImage = document.createElement('img');
+                avatarImage.src = invitation.avatar;
+                avatarImage.alt = `${invitation.username}`;
+                avatarImage.className = 'avatar-image';
+                invitationItem.appendChild(avatarImage);
+        
+                const usernameText = document.createElement('span');
+                usernameText.textContent = `Пригласить ${invitation.username}`;
+                invitationItem.appendChild(usernameText);
+        
+                invitationItem.addEventListener('click', async () => {
+                    const inviterId = await this.checkPossession(); // Получаем текущий user_id
+                    const eventId = window.location.pathname.split('/').pop(); // Получаем ID события из URL
+                    const userId = invitation.user_id;
+
+                    const requestBody = {
+                        event_id: eventId,
+                        user_id: userId,
+                        inviter_id: inviterId
+                    };
+
+                    const request = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(requestBody),
+                    };
+                    console.log(requestBody);
+                    try {
+                        const response = await api.post('/invite', request);
+                        if (response.ok) {
+                            console.log('Приглашение отправлено');
+                        } else {
+                            console.error('Ошибка при отправке приглашения');
+                        }
+                    } catch (error) {
+                        console.error('Ошибка при отправке запроса:', error);
+                    }
+                });
+        
+                container.appendChild(invitationItem);
+            });
+        } catch (error) {
+            console.error('Ошибка при загрузке приглашений:', error);
+        }
     }
 
     async renderTemplate(id) {
