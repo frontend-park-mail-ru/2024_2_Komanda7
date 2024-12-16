@@ -376,7 +376,6 @@ export class EventContentPage {
                 invitationItem.addEventListener('click', async () => {
                     const eventId = window.location.pathname.split('/').pop(); // Получаем ID события из URL
                     const userId = invitation.id;
-                    console.log(userId);
 
                     const requestBody = {
                         event_id: +eventId,
@@ -390,7 +389,6 @@ export class EventContentPage {
                         credentials: 'include',
                         body: JSON.stringify(requestBody),
                     };
-                    console.log(requestBody);
                     try {
                         const response = await api.post('/notification', request);
                         if (response.ok) {
