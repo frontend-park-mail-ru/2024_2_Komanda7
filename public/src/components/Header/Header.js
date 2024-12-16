@@ -239,7 +239,7 @@ export class Header {
 
                 // Добавляем обработчик события для навигации
                 notificationItem.addEventListener('click', () => {
-                    navigate(`/events/${+notification.event_id}`);
+                    navigate(`/events/${+notification.event.id}`);
                 });
 
                 container.appendChild(notificationItem);
