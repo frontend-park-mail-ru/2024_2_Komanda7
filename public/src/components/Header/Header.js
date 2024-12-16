@@ -4,7 +4,7 @@
  */
 import { endpoint } from "../../config.js"
 import { api } from '../../modules/FrontendAPI.js';
-import defaultAvatar from '../../assets/images/default_avatar.png';
+import { navigate } from '../../modules/router.js';
 /**
  * Header module.
  * 
@@ -125,7 +125,7 @@ export class Header {
         })
 
         avatarImage.onerror = function() {
-          this.src = defaultAvatar;
+          this.src = "/static/images/default_avatar.png";
           this.style.objectFit = 'fill';
         };
         avatarImage.alt = 'Avatar';
@@ -162,19 +162,30 @@ export class Header {
         });
   
         buttons.appendChild(btnMyFavorites);
-
-        const btnNotifications = document.createElement('button');
-        btnNotifications.textContent = 'Уведомления';
-        btnNotifications.addEventListener('click', (event) => {
-          // event.preventDefault();
-          // const path = '/notifications';
-          // navigate(path);
-        });
-  
-        buttons.appendChild(btnNotifications);
       }
   
+      const notificationsContainer = document.createElement('div');
+      notificationsContainer.className = 'notifications-container';
+      notificationsContainer.style.display = 'none';
+      buttons.appendChild(notificationsContainer);
+
+      const btnNotifications = document.createElement('button');
+      btnNotifications.textContent = 'Уведомления';
+      btnNotifications.addEventListener('click', (event) => {
+          event.preventDefault();
+          // Переключаем видимость контейнера
+          if (notificationsContainer.style.display === 'none') {
+              notificationsContainer.style.display = 'block';
+              this.loadNotifications(notificationsContainer); // Убедитесь, что функция вызывается
+          } else {
+              notificationsContainer.style.display = 'none';
+          }
+      });
+
+      buttons.appendChild(btnNotifications);
+  
       headerElement.appendChild(buttons);
+      headerElement.appendChild(notificationsContainer);
       return headerElement;
     }
     async fetchProfilePic() {
@@ -195,6 +206,45 @@ export class Header {
       } catch (error) {
           console.error('Error fetching profile data:', error);
       }
+    }
+    async loadNotifications(container) {
+      try {
+            const response = await api.get('/notifications', {
+                credentials: 'include'
+            });
+            
+            if (!response.ok) {
+                throw new Error('Ошибка загрузки уведомлений');
+            }
+            
+            const notifications = await response.json();
+            
+            const message = 'Вас пригласили на мероприятие.'
+            container.innerHTML = ''; // Очищаем контейнер
+            
+            if (notifications.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'notification-item';
+                emptyMessage.textContent = 'Нет уведомлений';
+                container.appendChild(emptyMessage);
+                return;
+            }
+            
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+                notificationItem.textContent = message;
+
+                // Добавляем обработчик события для навигации
+                notificationItem.addEventListener('click', () => {
+                    navigate(`/events/${notification.event_id}`);
+                });
+
+                container.appendChild(notificationItem);
+            });
+        } catch (error) {
+            console.error('Ошибка при загрузке уведомлений:', error);
+        }
     }
   }
   
