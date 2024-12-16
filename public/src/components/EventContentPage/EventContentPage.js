@@ -309,7 +309,6 @@ export class EventContentPage {
                 document.body.removeChild(overlay);
             });
         });
-        eventActions.appendChild(inviteButton);
 
         if (possession > 0) {
             eventActions.appendChild(favoritesAddButton);
