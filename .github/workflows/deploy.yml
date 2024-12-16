@@ -20,6 +20,7 @@ jobs:
       run: |
         ssh ubuntu@37.139.40.252 'bash -s' <<EOF
         cd front 
+        sudo git pull origin testingWebpack
         docker compose build
         docker compose up -d
         EOF
