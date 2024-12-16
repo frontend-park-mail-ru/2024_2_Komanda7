@@ -232,6 +232,7 @@ export class Header {
             }
             
             data.notifications.forEach(notification => {
+                console.log(notification);
                 const notificationItem = document.createElement('div');
                 notificationItem.className = 'notification-item';
                 notificationItem.textContent = message;
