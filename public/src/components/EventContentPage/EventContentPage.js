@@ -319,11 +319,11 @@ export class EventContentPage {
             }
             
 
-            const invitations = await response.json();
+            const data = await response.json();
 
             container.innerHTML = ''; // Очищаем контейнер
 
-            if (invitations.length === 0) {
+            if (data.users.length === 0) {
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'notification-item';
                 emptyMessage.textContent = 'Нет подписчиков';
@@ -331,7 +331,7 @@ export class EventContentPage {
                 return;
             }
 
-            invitations.forEach(invitation => {
+            data.forEach(invitation => {
                 const invitationItem = document.createElement('div');
                 invitationItem.className = 'notification-item';
         
