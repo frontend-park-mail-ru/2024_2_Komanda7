@@ -3,7 +3,7 @@ import { endpoint } from "../../config.js";
 import { navigate } from "../../modules/router.js";
 import locationIcon from '../../assets/images/location.png';
 import placeholderImage from '../../assets/images/placeholder.png';
-import defaultAvatar from '../../assets/images/defaultAvatar.png';
+import defaultAvatar from '../../assets/images/default_avatar.png';
 
 import vkIcon from '../../assets/images/vklogo.png';
 import tgIcon from '../../assets/images/tglogo.png';
@@ -286,10 +286,6 @@ export class EventContentPage {
                 favoritesAddButton.textContent = 'Добавить в избранные';
             };
         });
-        if (possession > 0) {
-            eventActions.appendChild(favoritesAddButton);
-        }
-
         const inviteButton = document.createElement('button');
         inviteButton.className = 'buttonInvite';
         inviteButton.textContent = 'Пригласить';
@@ -314,6 +310,11 @@ export class EventContentPage {
             });
         });
         eventActions.appendChild(inviteButton);
+
+        if (possession > 0) {
+            eventActions.appendChild(favoritesAddButton);
+            eventActions.appendChild(inviteButton);
+        }
 
         if (event.author == possession) {
             eventActions.appendChild(editButton);
@@ -376,6 +377,7 @@ export class EventContentPage {
                 invitationItem.addEventListener('click', async () => {
                     const eventId = window.location.pathname.split('/').pop(); // Получаем ID события из URL
                     const userId = invitation.id;
+                    console.log(userId);
 
                     const requestBody = {
                         event_id: +eventId,
