@@ -349,7 +349,7 @@ export class EventContentPage {
                     const userId = invitation.user_id;
 
                     const requestBody = {
-                        event_id: eventId,
+                        event_id: +eventId,
                         user_id: userId
                     };
 
