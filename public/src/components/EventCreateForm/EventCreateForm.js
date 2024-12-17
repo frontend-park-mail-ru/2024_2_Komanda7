@@ -189,7 +189,8 @@ export class EventCreateForm {
         img.width = fileInput.width;
 
         const submitButton = this.form.querySelector('.event-create-form__submit-btn');
-        submitButton.innerHTML = 'Сохранить';
+        submitButton.innerHTML = 'Сохранить';       
+        submitButton.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
         const mapping = {
           title: 'eventNameEntry',
           image: 'imageInput',
@@ -226,8 +227,6 @@ export class EventCreateForm {
 
       // Инициализация карты
       ymaps.ready(() => this.initMap(mock_data));
-      const createBtn = document.getElementById('eventSubmitBtn');        
-      createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
 
       return this.form;
     }
