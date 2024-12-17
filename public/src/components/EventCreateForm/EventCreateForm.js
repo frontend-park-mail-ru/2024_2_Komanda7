@@ -184,14 +184,12 @@ export class EventCreateForm {
             reader.readAsDataURL(file);
         }
     });
-    console.log(eventData);
       if (eventData != null) {
-        console.log('editevent');
         img.src = `${endpoint}/${eventData.image}`;
         img.width = fileInput.width;
         const submitButton = this.form.querySelector('.event-create-form__submit-btn'); 
         submitButton.innerHTML = 'Сохранить';
-        submitButton.addEventListener('click', (event) => handleCreateEventEdit(event, '/events/my', navigate));
+        submitButton.addEventListener('click', (event) => handleCreateEventEdit(event, `events/${eventData.id}`));
         const mapping = {
           title: 'eventNameEntry',
           image: 'imageInput',
@@ -226,9 +224,8 @@ export class EventCreateForm {
       mock_data = { latitude: eventData.Latitude, longitude: eventData.Longitude, zoom: 17, needMark: true};
       }
       else {
-        console.log('edeitdevent');
         const submitButton = this.form.querySelector('.event-create-form__submit-btn');  
-        submitButton.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
+        submitButton.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my'));
       }
 
       // Инициализация карты

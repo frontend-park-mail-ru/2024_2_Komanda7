@@ -13,6 +13,7 @@
  * @import {function} removeDangerous - Removes dangerous characters from a string
  */
 import { isValidUsername, isValidPassword, isValidEmail, removeDangerous } from './FormValidation.js';
+import { navigate } from './router.js';
 /**
  * Import the endpoint configuration from the config.js file
  * @import {string} endpoint - The API endpoint URL
@@ -88,7 +89,7 @@ export async function loadEvent(eventId) {
   return;
 }
 
-export async function handleCreateEventEdit(event, id, navigate) {
+export async function handleCreateEventEdit(event, id) {
   event.preventDefault();
   loadCategories();
    // Get form data
@@ -147,7 +148,7 @@ export async function handleCreateEventEdit(event, id, navigate) {
     //navigate(pageToCome); //debug
 }
 
-export async function handleCreateEventSubmit(event, pageToCome, navigate) {
+export async function handleCreateEventSubmit(event, pageToCome) {
   event.preventDefault();
   loadCategories();
    // Get form data
