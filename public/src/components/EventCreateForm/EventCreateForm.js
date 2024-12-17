@@ -184,6 +184,7 @@ export class EventCreateForm {
             reader.readAsDataURL(file);
         }
     });
+    console.log(eventData);
       if (eventData) {
         console.log('createtefevtnt');
         img.src = `${endpoint}/${eventData.image}`;

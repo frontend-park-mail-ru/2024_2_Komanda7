@@ -230,10 +230,8 @@ const routes = {
     '/add_event': async() => {
         newsFeed.innerHTML = ''; // Clear the modal window content
         const categSelect = await loadCategories();
-        const formCreate = new EventCreateForm().renderTemplate(categSelect);
+        const formCreate = new EventCreateForm().renderTemplate(categSelect, null);
         newsFeed.appendChild(formCreate);
-        //const createBtn = document.getElementById('eventSubmitBtn');        
-        //createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
 
     },
     '/edit_event': async(id) => {
@@ -242,8 +240,6 @@ const routes = {
         const eventData = await loadEvent(id);
         const formCreate = new EventCreateForm().renderTemplate(categSelect, eventData);
         newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');        
-        createBtn.addEventListener('click', (event) => handleCreateEventEdit(event, id, navigate));
     },
     '/notifications': async(id) => {
         newsFeed.innerHTML = ''; // Clear the modal window content
