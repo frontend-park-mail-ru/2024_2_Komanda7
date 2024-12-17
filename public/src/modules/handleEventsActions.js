@@ -138,7 +138,7 @@ export async function handleCreateEventEdit(event, id) {
         throw new Error(data.message);
     }
     // Navigate to page
-    const pageToCome = `../${id}`;
+    const pageToCome = `events/${id}`;
     navigate(pageToCome);
 
   } catch (error) {

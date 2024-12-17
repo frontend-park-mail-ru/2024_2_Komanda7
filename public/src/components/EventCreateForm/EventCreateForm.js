@@ -189,7 +189,7 @@ export class EventCreateForm {
         img.width = fileInput.width;
         const submitButton = this.form.querySelector('.event-create-form__submit-btn'); 
         submitButton.innerHTML = 'Сохранить';
-        submitButton.addEventListener('click', (event) => handleCreateEventEdit(event, `events/${eventData.id}`));
+        submitButton.addEventListener('click', (event) => handleCreateEventEdit(event, `${eventData.id}`));
         const mapping = {
           title: 'eventNameEntry',
           image: 'imageInput',
