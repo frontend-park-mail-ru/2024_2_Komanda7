@@ -3,6 +3,8 @@ import template from './EventCreateForm.hbs';
 import locationIcon from '../../assets/images/location.png';
 import placeholderImage from '../../assets/images/placeholder.png';
 import { endpoint } from '../../config.js';
+import { handleCreateEventSubmit } from '../../modules/handleEventsActions.js';
+import { navigate } from '../../index.js';
 
 export class EventCreateForm {
     constructor(formId) {
@@ -224,6 +226,8 @@ export class EventCreateForm {
 
       // Инициализация карты
       ymaps.ready(() => this.initMap(mock_data));
+      const createBtn = document.getElementById('eventSubmitBtn');        
+      createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
 
       return this.form;
     }

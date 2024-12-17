@@ -232,8 +232,8 @@ const routes = {
         const categSelect = await loadCategories();
         const formCreate = new EventCreateForm().renderTemplate(categSelect);
         newsFeed.appendChild(formCreate);
-        const createBtn = document.getElementById('eventSubmitBtn');        
-        createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
+        //const createBtn = document.getElementById('eventSubmitBtn');        
+        //createBtn.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
 
     },
     '/edit_event': async(id) => {
