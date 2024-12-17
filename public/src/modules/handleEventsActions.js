@@ -156,7 +156,13 @@ export async function handleCreateEventSubmit(event, pageToCome, navigate) {
     const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
     const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
     const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
-    const categoryId = Number(removeDangerous(document.getElementById('categoriesInput').id));
+    console.log(document.getElementById('categoriesInput'));
+    console.log(document.getElementById('categoriesInput').id);
+    console.log(document.getElementById('categoriesInput').value);
+
+    let categoryId = Number(removeDangerous(document.getElementById('categoriesInput').id));
+    console.log(categoryId);
+    categoryId = 1;
     const image = document.getElementById('imageInput').files[0];
     
     const latitude = removeDangerous(document.getElementById('latitude').value);
