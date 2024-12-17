@@ -126,7 +126,7 @@ export class EventCreateForm {
      * @returns {HTMLFormElement} The rendered form
      */
     renderTemplate(selectElement, eventData) {
-      let mock_data = { latitude: 55.797153, longitude: 37.537878, zoom: 17, needMark: true};
+      let mock_data = { latitude: 55.797153, longitude: 37.537878, zoom: 17, needMark: false};
 
       const html = template({
         items: Object.entries(this.config).map(([key, { tag, text, className, type }]) => ({
