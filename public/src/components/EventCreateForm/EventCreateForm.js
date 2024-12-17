@@ -185,7 +185,7 @@ export class EventCreateForm {
         }
     });
     console.log(eventData);
-      if (eventData) {
+      if (eventData != null) {
         console.log('editevent');
         img.src = `${endpoint}/${eventData.image}`;
         img.width = fileInput.width;
