@@ -3,7 +3,7 @@ import template from './EventCreateForm.hbs';
 import locationIcon from '../../assets/images/location.png';
 import placeholderImage from '../../assets/images/placeholder.png';
 import { endpoint } from '../../config.js';
-import { handleCreateEventSubmit } from '../../modules/handleEventsActions.js';
+import { handleCreateEventSubmit, handleCreateEventEdit } from '../../modules/handleEventsActions.js';
 import { navigate } from '../../index.js';
 
 export class EventCreateForm {
@@ -186,11 +186,11 @@ export class EventCreateForm {
     });
     console.log(eventData);
       if (eventData) {
-        console.log('createtefevtnt');
+        console.log('editevent');
         img.src = `${endpoint}/${eventData.image}`;
         img.width = fileInput.width;
         const submitButton = this.form.querySelector('.event-create-form__submit-btn');  
-        submitButton.addEventListener('click', (event) => handleCreateEventSubmit(event, '/events/my', navigate));
+        submitButton.addEventListener('click', (event) => handleCreateEventEdit(event, '/events/my', navigate));
         const mapping = {
           title: 'eventNameEntry',
           image: 'imageInput',
