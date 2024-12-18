@@ -141,7 +141,7 @@ export class Search {
                 path += '&tags=' + tag;
               })
             }
-            path += 'topLeftLatitude=55.627815653778434&topLeftLongitude=36.634768827416046&botRightLatitude=55.93737159143388&botRightLongitude=38.48184524343166';
+            path += '&topLeftLatitude=55.627815653778434&topLeftLongitude=36.634768827416046&botRightLatitude=55.93737159143388&botRightLongitude=38.48184524343166';
             const response = await api.get(path, request);
         
         if (response.ok) {
