@@ -132,7 +132,7 @@ export class Search {
                 },
                 credentials: 'include',
             };
-            let path = '/events?';
+            let path = '/events/search?';
             if (searchTerm) {
               path += 'query=' + searchTerm;
             }
