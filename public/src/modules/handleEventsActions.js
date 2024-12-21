@@ -151,21 +151,71 @@ export async function handleCreateEventEdit(event, id) {
 export async function handleCreateEventSubmit(event, pageToCome) {
   event.preventDefault();
   loadCategories();
-   // Get form data
+  
+  // Выделение пустых полей
+  const emptyFields = highlightEmptyFields();
+
+  // Get form data
     const title = removeDangerous(document.getElementById('eventNameEntry').value);
     const description = removeDangerous(document.getElementById('eventDescriptionEntry').value);
     const tag = Array.from(document.getElementById('eventTagEntry').value.split(' '), (tag) => removeDangerous(tag));
     const dateStart = removeDangerous(document.getElementById('eventBeginEntry').value) + ':00Z';       
     const dateEnd = removeDangerous(document.getElementById('eventEndEntry').value) + ':00Z';
     let categoryId = Number(removeDangerous(document.getElementById('categoriesInput').value));
-    console.log(categoryId);
-    categoryId = 1;
     const image = document.getElementById('imageInput').files[0];
+    let isErrror = false;
+    document.getElementById('eventServerError').innerText = '';
+  try {
+    if (emptyFields) {
+      document.getElementById('eventServerError').innerText += 'Заполните, пожалуйста, все поля'; 
+      isErrror = true;
+      throw new Error('Заполните, пожалуйста, все поля');
+    }
+    if (title.length < 3) {
+      document.getElementById('eventNameEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Слишком короткое название' + '\n';
+      isErrror = true;
+    };
+    if (description.length < 3) {
+      document.getElementById('eventDescriptionEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Слишком короткое описание' + '\n';
+      isErrror = true;
+    };
+    console.log(tag);
+    console.log(tag.length);
+    if (tag.length == 1 && tag[0] == '') {
+      document.getElementById('eventTagEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Слишком мало тегов' + '\n';
+      isErrror = true;
+    };
+    if (tag.length > 3) {
+      document.getElementById('eventTagEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Слишком много тегов' + '\n';
+      isErrror = true;
+    };
+    if (dateStart > dateEnd) {
+      document.getElementById('eventBeginEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Дата начала не может быть позже даты окончания' + '\n';
+      isErrror = true;
+    };
+    if (dateStart < new Date().toISOString()) {
+      document.getElementById('eventBeginEntry').style.borderColor = 'red';
+      document.getElementById('eventServerError').innerText += 'Дата начала не может быть в прошлом' + '\n';
+      isErrror = true;
+    };
+  
+    if (isErrror) {
+      throw new Error('Заполните, пожалуйста, все поля');
+    };
     
     const latitude = removeDangerous(document.getElementById('latitude').value);
     const longitude = removeDangerous(document.getElementById('longitude').value);
-
-  try {
+    if (longitude == 0 || longitude == 0) {
+      document.getElementById('eventServerError').innerText += 'Выберите место на карте' + '\n';
+      isErrror = true;
+      throw new Error('Выберите место на карте');
+    };
+  
     // Send request to backend
     const userData = {
       title: title,
@@ -205,9 +255,32 @@ export async function handleCreateEventSubmit(event, pageToCome) {
     navigate(pageToCome);
 
   } catch (error) {
-    // Display error message if registration fails
-    document.getElementById('eventServerError').innerText = error;
-  } 
+    console.log(error);
+  }
+}
+
+// Новая функция для выделения пустых полей
+function highlightEmptyFields() {
+  const fields = [
+    'eventNameEntry',
+    'eventDescriptionEntry',
+    'eventTagEntry',
+    'eventBeginEntry',
+    'eventEndEntry',
+    'categoriesInput'
+  ];
+  let emptyFields = false;
+
+  fields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field && !field.value) {
+      field.style.borderColor = 'red';
+      emptyFields = true;
+    } else if (field) {
+      field.style.borderColor = '';
+    }
+  });
+  return emptyFields;
 }
 
 /**
