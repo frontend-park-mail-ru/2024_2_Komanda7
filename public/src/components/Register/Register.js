@@ -274,7 +274,6 @@ export class RegisterForm {
             return {key, tag, text, className, type, needPlaceholder};
         });
 
-
         const avatarImg = document.createElement('img');
         avatarImg.id = 'avatarImage';
         avatarImg.className = 'avatarImage';
