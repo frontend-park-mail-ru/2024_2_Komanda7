@@ -67,7 +67,7 @@ export class Search {
                 const newTags = tagsInput.value;
                 const newSearchTerm = searchInput.value;
                 await this.refetchFeed();
-                //navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         //Create the Search title and input field
@@ -85,7 +85,7 @@ export class Search {
                 const newSearchTerm = searchInput.value;
                 const newTags = tagsInput.value;
                 await this.refetchFeed();
-                //navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
+                navigate(`${apiPath}?q=${encodeURIComponent(newSearchTerm)}&tags=${encodeURIComponent(newTags)}`);
             }
         });
         // Parse the searchQuery to extract tags and search term
