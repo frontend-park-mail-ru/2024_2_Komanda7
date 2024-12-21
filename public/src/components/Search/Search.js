@@ -53,12 +53,12 @@ export class Search {
     
         // Create the Tags title and input field
         const tagsLabel = document.createElement('label');
-        tagsLabel.textContent = 'Tags';
+        tagsLabel.textContent = 'Теги';
         tagsLabel.className = 'input-label'; // Add a class for styling
         const tagsInput = document.createElement('input');
         tagsInput.id = 'searchTags';
         tagsInput.type = 'text';
-        tagsInput.placeholder = 'Enter tags...'; // Placeholder text for Tags input
+        tagsInput.placeholder = 'Введите теги...'; // Placeholder text for Tags input
         tagsInput.className = 'tags-input'; // Add a class for styling
         // Add event listener to detect Enter key press
         tagsInput.addEventListener('keydown', async (event) => {
