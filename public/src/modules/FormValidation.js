@@ -25,14 +25,14 @@ export function isValidUsername(username) {
   /**
    * Checks if a password is valid.
    * 
-   * A valid password consists of alphanumeric characters.
+   * A valid password consists of alphanumeric characters and special characters.
    * 
    * @function isValidPassword
    * @param {string} password - The password to validate.
    * @returns {boolean} True if the password is valid, false otherwise.
    */
   export function isValidPassword(password) {
-    const pattern = /^[a-zA-Z0-9]+$/;
+    const pattern = /^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"'<>,.?\/`~\-]+$/;
     return pattern.test(password);
   }
   
