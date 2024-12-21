@@ -15,12 +15,11 @@ import { Profile } from "./components/Profile/Profile.js";
 import { Search } from "./components/Search/Search.js";
 import { EventContentPage } from "./components/EventContentPage/EventContentPage.js";
 import { UserEventsPage } from "./components/UserEventsPage/UserEventsPage.js";
-import { Footer } from "./components/Footer/Footer.js";
 import { checkSession } from './modules/session.js';
 import { handleRegisterSubmit, handleRegisterCheck } from './modules/registerForm.js';
 import { handleLoginSubmit, handleLoginCheck } from './modules/loginForm.js';
 import { EventCreateForm } from "./components/EventCreateForm/EventCreateForm.js";
-import { handleCreateEventSubmit, loadCategories, loadEvent, handleCreateEventEdit } from './modules/handleEventsActions.js';
+import { loadCategories, loadEvent } from './modules/handleEventsActions.js';
 import './index.css';
 
 /**
