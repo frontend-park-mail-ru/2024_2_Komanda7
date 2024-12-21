@@ -122,8 +122,6 @@ async function initializeApp() {
     const nav = await new Nav().renderNav();
     root.appendChild(nav);
     root.appendChild(newsFeed);
-    const footer = new Footer().renderFooter();
-    root.appendChild(footer);
 }
 
 /**
