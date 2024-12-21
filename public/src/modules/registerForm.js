@@ -67,6 +67,7 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
   const email = removeDangerous(document.getElementById('registerEmailEntry').value);
   const password = removeDangerous(document.getElementById('registerPasswordEntry').value);
   const image = document.getElementById('imageInput').files[0];
+  const passwordRepeat = removeDangerous(document.getElementById('registerPasswordRepeatEntry').value);
 
   // Initialize validation flag
   let isValid = true;
@@ -89,6 +90,12 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
 
   if (!isValidPassword(password)) {
     document.getElementById('registerPasswordError').innerText = INCORRECT_PASSWORD;
+    isValid = false;
+  }
+
+  // Validate password match
+  if (password !== passwordRepeat) {
+    document.getElementById('registerPasswordError').innerText = 'Пароли не совпадают';
     isValid = false;
   }
 

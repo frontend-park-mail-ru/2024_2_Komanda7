@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars';
 import template from './Register.hbs';
+import defaultAvatar from '../../assets/images/default_avatar.png';
 
 /**
  * Represents a register form.
@@ -197,29 +198,41 @@ export class RegisterForm {
            */
           type: '', 
         },
-        imageInput: {
+        registerPasswordRepeatEntry: {
           /**
-           * Error text
-           * @type {string}
+           * Input placeholder text
            */
-          text: '',
+          text: 'Повторите пароль',
           /**
-           * Tag type
-           * @type {string}
+           * HTML tag for input element
            */
           tag: 'input',
           /**
-           * Class name
-           * @type {string}
+           * Type of input element
+           */
+          type: 'password', 
+          /**
+           * CSS class for input element
            */
           className: '',
+        },
+        /**
+         * Avatar upload label
+         */
+        avatarUploadLabel: {
           /**
-           * Type
-           * @type {string}
+           * Label text
            */
-          type: 'file',
-          accept: "image/png, image/jpeg"
-        },  
+          text: 'Загрузить аватар',
+          /**
+           * HTML tag for label element
+           */
+          tag: 'label',
+          /**
+           * CSS class for label element
+           */
+          className: 'avatar_upload_label',
+        },   
       
         /**
          * Submit button configuration
@@ -246,7 +259,6 @@ export class RegisterForm {
            */
           type: '', 
         },
-              
       }
   
     /**
@@ -258,13 +270,48 @@ export class RegisterForm {
         const config = this.config;
         const fields = Object.entries(config);
         const items = fields.map(([key, {tag, text, className, type}], index) => {
-            
             let needPlaceholder = tag === 'input';
             return {key, tag, text, className, type, needPlaceholder};
         });
 
+
+        const avatarImg = document.createElement('img');
+        avatarImg.id = 'avatarImage';
+        avatarImg.className = 'avatarImage';
+        avatarImg.src = defaultAvatar;
+        avatarImg.alt = 'Avatar';
+        avatarImg.style.borderRadius = '50%';
+        avatarImg.style.objectFit = 'cover';
+
         this.form.innerHTML += template({items});
-        
+        this.form.insertBefore(avatarImg, this.form.querySelector('#registerSubmitBtn'));
+
+        const imageInputElement = document.createElement('input');
+        imageInputElement.id = 'imageInput';
+        imageInputElement.type = 'file';
+        imageInputElement.accept = 'image/png, image/jpeg';
+        imageInputElement.className = '';
+        imageInputElement.addEventListener('change', this.updateAvatarImage.bind(this));
+        this.form.insertBefore(imageInputElement, this.form.querySelector('#registerSubmitBtn'));
         return this.form;
+    }
+
+    /**
+     * Обновляет изображение аватара при изменении входного изображения.
+     * 
+     * @param {Event} event - Событие изменения входного изображения.
+     */
+    updateAvatarImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const avatarImg = document.getElementById('avatarImage');
+                if (avatarImg) {
+                    avatarImg.src = e.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     }
 }
