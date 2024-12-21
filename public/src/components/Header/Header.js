@@ -247,7 +247,7 @@ export class Header {
             
             const data = await response.json();
             
-            const message = 'Вас пригласили на мероприятие.'
+            const message = 'Вас пригласили на '
             container.innerHTML = ''; // Очищаем контейнер
             
             if (data.notifications.length == 0) {
@@ -261,7 +261,8 @@ export class Header {
             data.notifications.forEach(notification => {
                 const notificationItem = document.createElement('div');
                 notificationItem.className = 'notification-item';
-                notificationItem.textContent = message;
+                console.log(notification);
+                notificationItem.textContent = message + notification.event.title;
 
                 // Добавляем обработчик события для навигации
                 notificationItem.addEventListener('click', () => {
