@@ -126,11 +126,12 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
     });
     // If response is not OK, throw error
     if (!response.ok) {
-      throw new Error(data.message);
+      const errorData = await response.json(); // Получаем данные об ошибке
+      throw new Error(errorData.message || 'Ошибка регистрации'); // Генерируем ошибку с сообщением
     }
     const data = await response.json();
     if (data.code) {
-        throw new Error(data.message);
+        throw new Error(data);
     }
 
     // Set user as logged in and navigate to events page
@@ -139,7 +140,12 @@ export async function handleRegisterSubmit(event, setUserLoggedIn, navigate) {
 
   } catch (error) {
     // Display error message if registration fails
-    document.getElementById('registerServerError').innerText = error;
+    console.log(error);
+    if (error.message === 'Username is already taken') {  
+        document.getElementById('registerServerError').innerText = 'Пользователь с таким email или логином уже зарегистрирован';
+    } else {
+        document.getElementById('registerServerError').innerText = error;
+    }
   }
 }
 
