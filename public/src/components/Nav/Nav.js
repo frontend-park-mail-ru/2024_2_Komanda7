@@ -7,6 +7,8 @@ export class Nav {
 
   constructor() {
     this.navElement = document.createElement('nav');
+    this.navElement.style.overflowX = 'auto';
+    this.navElement.style.overflowY = 'hidden';
     this.navigate = navigate; 
   }
   /**
@@ -32,7 +34,6 @@ async renderNav() {
       text: 'Прошедшие'
     };
 
-    console.log(backAnswer);
     const dynamicItems = backAnswer.categories.map(category => ({
       key: category.id || category.name, 
       href: `/events/categories/${category.id}`, 

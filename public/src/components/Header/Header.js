@@ -184,6 +184,33 @@ export class Header {
 
       buttons.appendChild(btnNotifications);
       headerElement.appendChild(notificationsContainer);
+
+      // Создаем кнопку для выпадающего меню
+      const btnMore = document.createElement('button');
+      btnMore.textContent = 'Ещё';
+      btnMore.className = 'btnMore';
+      buttons.appendChild(btnMore);
+
+      // Создаем контейнер для выпадающего меню
+      const dropdownMenu = document.createElement('div');
+      dropdownMenu.className = 'dropdown-menu';
+      dropdownMenu.style.display = 'none'; // Скрываем по умолчанию
+      buttons.appendChild(dropdownMenu);
+
+      // Добавляем обработчик события для кнопки "Ещё"
+      btnMore.addEventListener('click', () => {
+          dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Добавляем кнопки в выпадающее меню
+      if (!userIsLoggedIn) {
+        dropdownMenu.appendChild(btnLogin);
+        dropdownMenu.appendChild(btnRegister);
+      } else {
+        dropdownMenu.appendChild(btnMyEvents);
+        dropdownMenu.appendChild(btnMySubs);
+        dropdownMenu.appendChild(btnMyFavorites);
+      }
       }
       headerElement.appendChild(buttons);
       
