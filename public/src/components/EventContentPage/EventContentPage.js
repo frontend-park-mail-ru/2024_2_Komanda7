@@ -132,7 +132,25 @@ export class EventContentPage {
     };
     
     const authorText = document.createElement('div');
-    authorText.textContent = `Автор: ${event.author}`;
+
+    const authorResponse = await api.get(`/profile/${event.author}`, {
+        credentials: 'include'
+    });
+    const authorData = await authorResponse.json();
+    const avatarDiv = document.createElement('div');
+    avatarDiv.style.display = 'flex';
+    avatarDiv.style.justifyContent = 'center';
+    const authorAvatar = document.createElement('img');
+    authorAvatar.src = authorData.image ? `${endpoint}/${authorData.image}` : defaultAvatar;
+    authorAvatar.alt = 'Аватар автора';
+    authorAvatar.className = 'author-avatar';
+    authorAvatar.style.width = '50px';
+    authorAvatar.style.height = '50px';
+    authorAvatar.style.borderRadius = '50%';
+    avatarDiv.appendChild(authorAvatar);
+    eventAuthor.appendChild(avatarDiv);
+
+    authorText.textContent = `Автор: ${authorData.username}`;
     authorText.className = 'authorText';
     eventAuthor.appendChild(authorText);
 
@@ -145,7 +163,7 @@ export class EventContentPage {
 
         const eventImage = document.createElement('img');
         eventImage.className = 'event__image';
-        eventImage.src = endpoint + '/' + event.image;
+        eventImage.src = `${endpoint}/${event.image}`;  
         eventImage.onerror = function () {
             this.src = placeholderImage;
             this.style.objectFit = 'fill';
@@ -360,8 +378,10 @@ export class EventContentPage {
         
                 // Создаем элемент для аватарки
                 const avatarImage = document.createElement('img');
-                avatarImage.src = invitation.avatar;
-                avatarImage.alt = defaultAvatar;
+                avatarImage.src = `${endpoint}/${invitation.image}`;
+                avatarImage.onerror = () => { 
+                    avatarImage.src = defaultAvatar;
+                };
                 avatarImage.className = 'avatar-image';
                 invitationItem.appendChild(avatarImage);
         
