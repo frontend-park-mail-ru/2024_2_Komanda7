@@ -228,7 +228,20 @@ export class Search {
       mapContainer.style.height = '400px'; // Высота карты
       searchParameters.appendChild(mapContainer);
       const mock_data = { latitude: 55.79720450649618, longitude: 37.53777629133753, zoom: 10 };
-      ymaps.ready(() => this.initMap(mock_data));
+      window.onload = function() {
+          ymaps.ready(() => {
+              const mapContainer = document.getElementById("map");
+              if (mapContainer && mapContainer.offsetWidth > 0 && mapContainer.offsetHeight > 0) {
+                  this.myMap = new ymaps.Map("map", {
+                      center: [mock_data.latitude, mock_data.longitude],
+                      zoom: mock_data.zoom,
+                      controls: ['geolocationControl', 'typeSelector', 'fullscreenControl', 'zoomControl', 'rulerControl'],
+                  });
+              } else {
+                  console.error('Элемент карты не найден или не имеет размеров');
+              }
+          });
+      };
     searchPage.appendChild(feedContent);
     return searchPage; // Returns the search page element
     };
@@ -345,11 +358,7 @@ export class Search {
       this.myMap.events.add('mousedown', (e) => {
           const coords = e.get('coords');
           const zoom = this.myMap.getZoom();
-          var selectedPoint = {
-              latitude: coords[0],
-              longitude: coords[1],
-              zoom: zoom,
-          };
+          
           // Обновление скрытых полей с координатами
           document.getElementById('latitude').value = coords[0];
           document.getElementById('longitude').value = coords[1];
