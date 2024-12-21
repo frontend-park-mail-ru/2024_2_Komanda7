@@ -167,7 +167,6 @@ export class EventCreateForm {
       mapContainer.style.height = '400px'; // Высота карты
       this.form.insertBefore(mapContainer, this.form.querySelector('.event-create-form__submit-btn'));
 
-
       const img = document.createElement('img');
       img.src = placeholderImage;
       img.className = 'event-create-image';

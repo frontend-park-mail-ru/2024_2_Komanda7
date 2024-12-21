@@ -342,7 +342,6 @@ export class EventContentPage {
                 throw new Error('Ошибка загрузки подписчиков');
             }
             
-
             const data = await response.json();
 
             container.innerHTML = ''; // Очищаем контейнер
